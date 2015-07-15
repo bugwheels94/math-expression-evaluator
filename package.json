@@ -1,8 +1,8 @@
 {
   "name": "math-expression-evaluator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A flexible math expression evaluator",
-  "main": "src/postfix_evaluator.js",
+  "main": "src/formula_evaluator.js",
   "scripts": {
     "test": "mocha"
   },

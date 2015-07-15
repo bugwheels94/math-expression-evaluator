@@ -1,7 +1,50 @@
-/** math-expression-evaluator version 1.0.2
+/** math-expression-evaluator version 1.0.3
  Dated:2015-07-16 */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mexp = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+    
+    var Mexp=require('./postfix_evaluator.js');
+	Mexp.prototype.formulaEval = function () {
+		"use strict";
+		var stack=[],pop1,pop2,pop3;
+		var disp=[];
+		var temp='';
+		var arr=this.value;
+		for(var i=0;i<arr.length;i++){
+			if(arr[i].type===1||arr[i].type===3){
+				disp.push({value:arr[i].type===3?arr[i].show:arr[i].value,type:1});
+			}
+			else if(arr[i].type===23){
+				disp.push({value:arr[i].show,type:1});
+			}
+			else if(arr[i].type===0){
+				disp[disp.length-1]={value:arr[i].show+disp[disp.length-1].value+(arr[i].show!="-"?")":""),type:0};
+			}
+			else if(arr[i].type===7){
+				disp[disp.length-1]={value:(disp[disp.length-1].type!=1?"(":"")+disp[disp.length-1].value+(disp[disp.length-1].type!=1?")":"")+arr[i].show,type:7};
+			}
+			else if(arr[i].type===11){
+				pop1=disp.pop();
+				pop2=disp.pop();
+				if(arr[i].show==='P'||arr[i].show==='C')disp.push({value:"<sup>"+pop2+"</sup>"+arr[i].show+"<sub>"+pop1+"</sub>",type:11});
+				else disp.push({value:(pop2.type!=1?"(":"")+pop2.value+(pop2.type!=1?")":"")+"<sup>"+pop1.value+"</sup>",type:1});
+			}
+			else if(arr[i].type===2||arr[i].type===9){
+				pop1=disp.pop();
+				pop2=disp.pop();
+				disp.push({value:(pop2.type!=1?"(":"")+pop2.value+(pop2.type!=1?")":"")+arr[i].show+(pop1.type!=1?"(":"")+pop1.value+(pop1.type!=1?")":""),type:arr[i].type});
+			}
+			else if(arr[i].type===22){
+				pop1=disp.pop();
+				pop2=disp.pop();
+				pop3=disp.pop();
+				disp.push({value:arr[i].show+"("+pop3.value+","+pop2.value+","+pop1.value+")",type:22});
+			}
+		}
+		return disp[0].value;
+	};
+    module.exports=Mexp;
+},{"./postfix_evaluator.js":5}],2:[function(require,module,exports){
     
     var Mexp=require('./math_function.js');
 
@@ -287,7 +330,7 @@
 		return new Mexp(str);
 	};
     module.exports=Mexp;
-},{"./math_function.js":2}],2:[function(require,module,exports){
+},{"./math_function.js":3}],3:[function(require,module,exports){
 	var Mexp=function(parsed){
 		"use strict";
 		this.value=parsed;
@@ -405,7 +448,7 @@
 		}
 	};
     module.exports=Mexp;
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
     
     var Mexp=require('./lexer.js');
 	if(!Array.indexOf)
@@ -464,7 +507,7 @@
 		return new Mexp(post);
 	};
     module.exports=Mexp;
-},{"./lexer.js":1}],4:[function(require,module,exports){
+},{"./lexer.js":2}],5:[function(require,module,exports){
     
     var Mexp=require('./postfix.js');
 	Mexp.prototype.postfixEval = function (UserDefined) {
@@ -540,5 +583,5 @@
 		return stack[0].value>1000000000000000?"Infinity":Number(stack[0].value.toFixed(15)).toPrecision();
 	};
     module.exports=Mexp;
-},{"./postfix.js":3}]},{},[4])(4)
+},{"./postfix.js":4}]},{},[1])(1)
 });

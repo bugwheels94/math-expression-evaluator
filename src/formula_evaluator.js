@@ -1,11 +1,11 @@
     
-    var Mexp=require('./postfix.js');
+    var Mexp=require('./postfix_evaluator.js');
 	Mexp.prototype.formulaEval = function () {
 		"use strict";
 		var stack=[],pop1,pop2,pop3;
 		var disp=[];
 		var temp='';
-		var arr=-this.value;
+		var arr=this.value;
 		for(var i=0;i<arr.length;i++){
 			if(arr[i].type===1||arr[i].type===3){
 				disp.push({value:arr[i].type===3?arr[i].show:arr[i].value,type:1});

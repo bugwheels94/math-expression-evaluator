@@ -8,7 +8,7 @@ module.exports = function(grunt) {
 	},
 	browserify: {
       standalone: {
-        src: [ 'src/postfix_evaluator.js' ],
+        src: [ 'src/formula_evaluator.js' ],
         dest: 'dist/browser/<%= pkg.name %>.js',
         options: {
           browserifyOptions: {
