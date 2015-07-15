@@ -35,14 +35,14 @@
 <pre><code>var lexed = a.lex(exp);
 </code></pre>
 
-<p>which returns a Mexp object which will further processed by toPostFix and postFixEval</p>
+<p>which returns a mexp object which will further processed by toPostFix and postFixEval</p>
 
 <p>Now, that object is needed to be converted to postfix notation using</p>
 
 <pre><code>var postfix = lexed.toPostfix();
 </code></pre>
 
-<p>which converts the Mexp object to Postfix notation and return new Mexp object</p>
+<p>which converts the mexp object to Postfix notation and return new mexp object</p>
 
 <p>Now to get the value of expression use postfixEval</p>
 
