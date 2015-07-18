@@ -1,5 +1,5 @@
-/** math-expression-evaluator version 1.0.3
- Dated:2015-07-16 */
+/** math-expression-evaluator version 1.0.4
+ Dated:2015-07-18 */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mexp = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
     
@@ -170,17 +170,6 @@
 			var cPre=preced[index];
 			var	cShow=show[index];
 			var pre=str[str.length-1];
-			if(allowed[cType]!==true){
-				console.error(key+" is not allowed after "+prevKey);
-				return;
-			}
-			if(asterick[cType]===true){
-				cType=2;
-				cEv=Mexp.math.mul;
-				cShow="&times;";
-				cPre=3;
-				i=i-key.length;
-		 	}
 			for(j=0;j<ptc.length;j++){	//loop over ptc
 				if(ptc[j]===0){
 					if([0,2,3,5,9,21,22,23].indexOf(cType)!==-1){
@@ -192,6 +181,17 @@
 					}
 				}
 			}
+			if(allowed[cType]!==true){
+				console.error(key+" is not allowed after "+prevKey);
+				return;
+			}
+			if(asterick[cType]===true){
+				cType=2;
+				cEv=Mexp.math.mul;
+				cShow="&times;";
+				cPre=3;
+				i=i-key.length;
+		 	}
 			obj={value:cEv,type:cType,pre:cPre,show:cShow};
 			if(cType===0){
 				allowed=type0;
@@ -223,19 +223,17 @@
 				asterick=type_3;
 			}
 			else if(cType===4){
-				if(ptc.indexOf(1)!=-1&&pre.type===4){
-					ptc.splice(ptc.indexOf(1),1);
-					bracToClose++;
-					continue;
-				}
-				else inc(ptc,2);
+				inc(ptc,2);
 				bracToClose++;
 				allowed=type0;
 				asterick=empty;
 				str.push(obj);
 			}
 			else if(cType===5){
-				if(!bracToClose)return;
+				if(!bracToClose){
+					console.error("Closing parenthesis are more than opening one, wait What!!!");
+					return;
+				}
 				bracToClose--;
 				allowed=type1;
 				asterick=type_3;
@@ -246,12 +244,12 @@
 					console.error("Two decimals are not allowed in one number");
 					return;
 				}
-				if(pre.type!=1){
+				if(pre.type!==1){
 					str.push({value:0,type:1,pre:0});
 					inc(ptc,-1);
 				}
 				allowed=type6;
-				inc(ptc,2);
+				inc(ptc,1);
 				asterick=empty;
 				pre.value+=cEv;
 				pre.hasDec=true;
@@ -321,11 +319,14 @@
 		}
 		for(var j=0;j<ptc.length;j++){	//loop over ptc
 			if(ptc[j]===0){
-				str.push({value:")",type:5,pre:3});
+				str.push({value:")",show:")",type:5,pre:3});
 				inc(ptc,-1).pop(j);
 				j--;
 			}
 		}
+		while(bracToClose--)
+			str.push({value:")",show:")",type:5,pre:3});
+		
 		str.push({type:5,value:")",show:")",pre:0});
 		return new Mexp(str);
 	};
