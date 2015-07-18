@@ -45,4 +45,12 @@ describe('Testing Unit', function () {
   it('check for constant inside Sigma', function () {
     assert.equal(a.lex("Sigma1,3,x",[{type:3,preced:0,ev:"x",show:"x",token:"x"}]).toPostfix().postfixEval({x:2}),6);
   });
+  it('check when arithmetic and n are present inside sigma', function () {
+    assert.equal(a.lex("Sigma1,2,(1+n!)").toPostfix().postfixEval(),5);
+  });
+  var temp="";
+  var str=a.lex("Sigma1,2,(1+n!)").toPostfix().value;
+  for(var i=0;i<str.length;i++)
+	temp+=str[i].show;
+console.log(temp);
 });

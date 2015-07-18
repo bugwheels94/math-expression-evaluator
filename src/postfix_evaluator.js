@@ -37,10 +37,15 @@
 			else if(arr[i].type===11){
 				pop1=stack.pop();
 				pop2=stack.pop();
-				if(typeof pop1.type==="undefined"||typeof pop2.type==="undefined"){
+				if(typeof pop2.type==="undefined"){
 					pop2=pop2.concat(pop1);
 					pop2.push(arr[i]);
 					stack.push(pop2);
+				}
+				else if (typeof pop1.type==="undefined") {
+					pop1.unshift(pop2);
+					pop1.push(arr[i]);
+					stack.push(pop1)
 				}
 				else
 				stack.push({type:1,value:arr[i].value(pop2.value,pop1.value)});
@@ -48,10 +53,15 @@
 			else if(arr[i].type===2||arr[i].type===9){
 				pop1=stack.pop();
 				pop2=stack.pop();
-				if(typeof pop1.type==="undefined"||typeof pop2.type==="undefined"){
+				if(typeof pop2.type==="undefined"){
 					pop2=pop2.concat(pop1);
 					pop2.push(arr[i]);
 					stack.push(pop2);
+				}
+				else if (typeof pop1.type==="undefined") {
+					pop1.unshift(pop2);
+					pop1.push(arr[i]);
+					stack.push(pop1)
 				}
 				else{
 					stack.push({type:1,value:arr[i].value(pop2.value,pop1.value)});
