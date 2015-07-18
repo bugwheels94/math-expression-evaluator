@@ -36,17 +36,13 @@ describe('Testing Unit', function () {
   it('test to check the bug when number contains decimal', function () {
     assert.equal(a.lex("int2.3").toPostfix().postfixEval(),"2");
   });
-  var str="";
-	var x=a.lex("sin4!").value;
-	for(i=0;i<x.length;i++)
-  str+=x[i].show;
-  console.log(str);
-  var str="";
-	var x=a.lex("sin(4)!").value;
-	for(i=0;i<x.length;i++)
-  str+=x[i].show;
-  console.log(str);
   it('test to check auto correct of parenthesis mismatch if opening>closing', function () {
     assert.equal(a.lex("(2+(3-4").toPostfix().postfixEval(),"1");
+  });
+  it('check for negative of a constant', function () {
+    assert.equal(a.lex("-e").toPostfix().postfixEval(),-Math.E);
+  });
+  it('check for constant inside Sigma', function () {
+    assert.equal(a.lex("Sigma1,3,x",[{type:3,preced:0,ev:"x",show:"x",token:"x"}]).toPostfix().postfixEval({x:2}),6);
   });
 });

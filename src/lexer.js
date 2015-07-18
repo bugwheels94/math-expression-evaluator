@@ -234,7 +234,7 @@
 					}
 				}
 				else if(pre.type!==5&&pre.type!==7&&pre.type!==1&&pre.type!==3&&pre.type!==23){
-					str.push({value:Mexp.changeSigna,type:0,pre:21,show:"-"});
+					str.push({value:Mexp.math.changeSign,type:0,pre:21,show:"-"});
 					inc(ptc,1);
 				}
 				else{

@@ -61,6 +61,9 @@
 				pop1=stack.pop();
 				pop2=stack.pop();
 				pop3=stack.pop();
+				if (pop1.constructor!==Array) {	//pop1 needs to be constructor
+					pop1=[pop1];
+				}
 				stack.push({type:1,value:arr[i].value(pop3.value,pop2.value,new Mexp(pop1))});
 			}
 			else if(arr[i].type===23){

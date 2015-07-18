@@ -1,5 +1,5 @@
 /** math-expression-evaluator version 1.0.4
- Dated:2015-07-18 */
+ Dated:2015-07-19 */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mexp = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
     
@@ -173,7 +173,7 @@
 			for(j=0;j<ptc.length;j++){	//loop over ptc
 				if(ptc[j]===0){
 					if([0,2,3,5,9,21,22,23].indexOf(cType)!==-1){
-						str.push({value:")",type:5,pre:3});
+						str.push({value:")",type:5,pre:3,show:")"});
 						allowed=type1;
 						asterick=type_3;
 						inc(ptc,-1).splice(j,1);
@@ -281,7 +281,7 @@
 					}
 				}
 				else if(pre.type!==5&&pre.type!==7&&pre.type!==1&&pre.type!==3&&pre.type!==23){
-					str.push({value:Mexp.changeSigna,type:0,pre:21,show:"-"});
+					str.push({value:Mexp.math.changeSign,type:0,pre:21,show:"-"});
 					inc(ptc,1);
 				}
 				else{
@@ -572,6 +572,9 @@
 				pop1=stack.pop();
 				pop2=stack.pop();
 				pop3=stack.pop();
+				if (pop1.constructor!==Array) {	//pop1 needs to be constructor
+					pop1=[pop1];
+				}
 				stack.push({type:1,value:arr[i].value(pop3.value,pop2.value,new Mexp(pop1))});
 			}
 			else if(arr[i].type===23){
