@@ -123,14 +123,13 @@
 			var cPre=preced[index];
 			var	cShow=show[index];
 			var pre=str[str.length-1];
-			for(j=0;j<ptc.length;j++){	//loop over ptc
+			for(j=ptc.length;j--;){	//loop over ptc
 				if(ptc[j]===0){
 					if([0,2,3,5,9,21,22,23].indexOf(cType)!==-1){
 						str.push({value:")",type:5,pre:3,show:")"});
 						allowed=type1;
 						asterick=type_3;
-						inc(ptc,-1).splice(j,1);
-						j=-1;
+						inc(ptc,-1).pop();
 					}
 				}
 			}
@@ -270,11 +269,10 @@
 			inc(ptc,-1);
 			prevKey=key;
 		}
-		for(var j=0;j<ptc.length;j++){	//loop over ptc
+		for(var j=ptc.length;j--;){	//loop over ptc
 			if(ptc[j]===0){
 				str.push({value:")",show:")",type:5,pre:3});
-				inc(ptc,-1).pop(j);
-				j--;
+				inc(ptc,-1).pop();
 			}
 		}
 		while(bracToClose--)

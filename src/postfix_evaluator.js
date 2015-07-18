@@ -45,7 +45,7 @@
 				else if (typeof pop1.type==="undefined") {
 					pop1.unshift(pop2);
 					pop1.push(arr[i]);
-					stack.push(pop1)
+					stack.push(pop1);
 				}
 				else
 				stack.push({type:1,value:arr[i].value(pop2.value,pop1.value)});
@@ -61,7 +61,7 @@
 				else if (typeof pop1.type==="undefined") {
 					pop1.unshift(pop2);
 					pop1.push(arr[i]);
-					stack.push(pop1)
+					stack.push(pop1);
 				}
 				else{
 					stack.push({type:1,value:arr[i].value(pop2.value,pop1.value)});

@@ -1,6 +1,6 @@
 {
   "name": "math-expression-evaluator",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "A flexible math expression evaluator",
   "main": "src/formula_evaluator.js",
   "scripts": {
