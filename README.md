@@ -15,8 +15,4 @@ A simple but efficient evaluator for Math expression using Javascript
 
     npm test
 
-#[Documentation](http://ankit2038.github.io/math-expression-evaluator/)
-
-##Release History
-
-*1.0.0
+#[Documentation](http://ankit31894.github.io/math-expression-evaluator/)
