@@ -68,22 +68,33 @@
 		return true;
 	}
 	Mexp.addToken=function(tokens){
-		se:for(i=0;i<tokens.length;i++){
+		for(i=0;i<tokens.length;i++){
 			x=tokens[i].token.length;
+			var temp=-1;
 			if (x<newAr.length)
 				for(y=0;y<newAr[x].length;y++){
 					if (tokens[i].token===newAr[x][y]){
-					continue se;
+						temp=token.indexOf(newAr[x][y]);
+						break;
 					}
 				}
-			token.push(tokens[i].token);
-			type.push(tokens[i].type);
-			if(newAr.length<=tokens[i].token.length)
-				newAr[tokens[i].token.length]=[];
-			newAr[tokens[i].token.length].push(tokens[i].token);
-			eva.push(tokens[i].ev);
-			preced.push(tokens[i].preced);
-			show.push(tokens[i].show);
+			if (temp===-1) {
+				token.push(tokens[i].token);
+				type.push(tokens[i].type);
+				if(newAr.length<=tokens[i].token.length)
+					newAr[tokens[i].token.length]=[];
+				newAr[tokens[i].token.length].push(tokens[i].token);
+				eva.push(tokens[i].ev);
+				preced.push(tokens[i].preced);
+				show.push(tokens[i].show);
+			}
+			else {
+				token[temp]=tokens[i].token;
+				type[temp]=tokens[i].type;
+				eva[temp]=tokens[i].ev;
+				preced[temp]=tokens[i].preced;
+				show[temp]=tokens[i].show;
+			}
 		}
 	};
 	Mexp.lex=function(inp,tokens){

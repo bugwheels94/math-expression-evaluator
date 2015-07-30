@@ -1,49 +1,48 @@
-/** math-expression-evaluator version 1.0.6
- Dated:2015-07-19 */
+/** math-expression-evaluator version 1.1
+ Dated:2015-07-30 */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mexp = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-    
-    var Mexp=require('./postfix_evaluator.js');
-	Mexp.prototype.formulaEval = function () {
-		"use strict";
-		var stack=[],pop1,pop2,pop3;
-		var disp=[];
-		var temp='';
-		var arr=this.value;
-		for(var i=0;i<arr.length;i++){
-			if(arr[i].type===1||arr[i].type===3){
-				disp.push({value:arr[i].type===3?arr[i].show:arr[i].value,type:1});
-			}
-			else if(arr[i].type===23){
-				disp.push({value:arr[i].show,type:1});
-			}
-			else if(arr[i].type===0){
-				disp[disp.length-1]={value:arr[i].show+disp[disp.length-1].value+(arr[i].show!="-"?")":""),type:0};
-			}
-			else if(arr[i].type===7){
-				disp[disp.length-1]={value:(disp[disp.length-1].type!=1?"(":"")+disp[disp.length-1].value+(disp[disp.length-1].type!=1?")":"")+arr[i].show,type:7};
-			}
-			else if(arr[i].type===11){
-				pop1=disp.pop();
-				pop2=disp.pop();
-				if(arr[i].show==='P'||arr[i].show==='C')disp.push({value:"<sup>"+pop2+"</sup>"+arr[i].show+"<sub>"+pop1+"</sub>",type:11});
-				else disp.push({value:(pop2.type!=1?"(":"")+pop2.value+(pop2.type!=1?")":"")+"<sup>"+pop1.value+"</sup>",type:1});
-			}
-			else if(arr[i].type===2||arr[i].type===9){
-				pop1=disp.pop();
-				pop2=disp.pop();
-				disp.push({value:(pop2.type!=1?"(":"")+pop2.value+(pop2.type!=1?")":"")+arr[i].show+(pop1.type!=1?"(":"")+pop1.value+(pop1.type!=1?")":""),type:arr[i].type});
-			}
-			else if(arr[i].type===22){
-				pop1=disp.pop();
-				pop2=disp.pop();
-				pop3=disp.pop();
-				disp.push({value:arr[i].show+"("+pop3.value+","+pop2.value+","+pop1.value+")",type:22});
-			}
+var Mexp=require('./postfix_evaluator.js');
+Mexp.prototype.formulaEval = function () {
+	"use strict";
+	var stack=[],pop1,pop2,pop3;
+	var disp=[];
+	var temp='';
+	var arr=this.value;
+	for(var i=0;i<arr.length;i++){
+		if(arr[i].type===1||arr[i].type===3){
+			disp.push({value:arr[i].type===3?arr[i].show:arr[i].value,type:1});
 		}
-		return disp[0].value;
-	};
-    module.exports=Mexp;
+		else if(arr[i].type===23){
+			disp.push({value:arr[i].show,type:1});
+		}
+		else if(arr[i].type===0){
+			disp[disp.length-1]={value:arr[i].show+disp[disp.length-1].value+(arr[i].show!="-"?")":""),type:0};
+		}
+		else if(arr[i].type===7){
+			disp[disp.length-1]={value:(disp[disp.length-1].type!=1?"(":"")+disp[disp.length-1].value+(disp[disp.length-1].type!=1?")":"")+arr[i].show,type:7};
+		}
+		else if(arr[i].type===11){
+			pop1=disp.pop();
+			pop2=disp.pop();
+			if(arr[i].show==='P'||arr[i].show==='C')disp.push({value:"<sup>"+pop2+"</sup>"+arr[i].show+"<sub>"+pop1+"</sub>",type:11});
+			else disp.push({value:(pop2.type!=1?"(":"")+pop2.value+(pop2.type!=1?")":"")+"<sup>"+pop1.value+"</sup>",type:1});
+		}
+		else if(arr[i].type===2||arr[i].type===9){
+			pop1=disp.pop();
+			pop2=disp.pop();
+			disp.push({value:(pop2.type!=1?"(":"")+pop2.value+(pop2.type!=1?")":"")+arr[i].show+(pop1.type!=1?"(":"")+pop1.value+(pop1.type!=1?")":""),type:arr[i].type});
+		}
+		else if(arr[i].type===22){
+			pop1=disp.pop();
+			pop2=disp.pop();
+			pop3=disp.pop();
+			disp.push({value:arr[i].show+"("+pop3.value+","+pop2.value+","+pop1.value+")",type:22});
+		}
+	}
+	return disp[0].value;
+};
+module.exports=Mexp;
 },{"./postfix_evaluator.js":5}],2:[function(require,module,exports){
     
     var Mexp=require('./math_function.js');
@@ -115,22 +114,33 @@
 		return true;
 	}
 	Mexp.addToken=function(tokens){
-		se:for(i=0;i<tokens.length;i++){
+		for(i=0;i<tokens.length;i++){
 			x=tokens[i].token.length;
+			var temp=-1;
 			if (x<newAr.length)
 				for(y=0;y<newAr[x].length;y++){
 					if (tokens[i].token===newAr[x][y]){
-					continue se;
+						temp=token.indexOf(newAr[x][y]);
+						break;
 					}
 				}
-			token.push(tokens[i].token);
-			type.push(tokens[i].type);
-			if(newAr.length<=tokens[i].token.length)
-				newAr[tokens[i].token.length]=[];
-			newAr[tokens[i].token.length].push(tokens[i].token);
-			eva.push(tokens[i].ev);
-			preced.push(tokens[i].preced);
-			show.push(tokens[i].show);
+			if (temp===-1) {
+				token.push(tokens[i].token);
+				type.push(tokens[i].type);
+				if(newAr.length<=tokens[i].token.length)
+					newAr[tokens[i].token.length]=[];
+				newAr[tokens[i].token.length].push(tokens[i].token);
+				eva.push(tokens[i].ev);
+				preced.push(tokens[i].preced);
+				show.push(tokens[i].show);
+			}
+			else {
+				token[temp]=tokens[i].token;
+				type[temp]=tokens[i].type;
+				eva[temp]=tokens[i].ev;
+				preced[temp]=tokens[i].preced;
+				show[temp]=tokens[i].show;
+			}
 		}
 	};
 	Mexp.lex=function(inp,tokens){
@@ -507,93 +517,105 @@
 	};
     module.exports=Mexp;
 },{"./lexer.js":2}],5:[function(require,module,exports){
-    
-    var Mexp=require('./postfix.js');
-	Mexp.prototype.postfixEval = function (UserDefined) {
-		'use strict';
-		UserDefined=UserDefined||{};
-		UserDefined.PI=Math.PI;
-		UserDefined.E=Math.E;
-		var stack=[],pop1,pop2,pop3;
-		var disp=[];
-		var temp='';
-		var arr=this.value;
-		var bool=(typeof UserDefined.n!=="undefined");
-		for(var i=0;i<arr.length;i++){
-			if(arr[i].type===1){
-				stack.push({value:arr[i].value,type:1});
+var Mexp=require('./postfix.js');
+Mexp.prototype.postfixEval = function (UserDefined) {
+	'use strict';
+	UserDefined=UserDefined||{};
+	UserDefined.PI=Math.PI;
+	UserDefined.E=Math.E;
+	var stack=[],pop1,pop2,pop3;
+	var disp=[];
+	var temp='';
+	var arr=this.value;
+	var bool=(typeof UserDefined.n!=="undefined");
+	for(var i=0;i<arr.length;i++){
+		if(arr[i].type===1){
+			stack.push({value:arr[i].value,type:1});
+		}
+		else if(arr[i].type===3){
+			stack.push({value:UserDefined[arr[i].value],type:1});
+		}
+		else if(arr[i].type===0){
+			if(typeof stack[stack.length-1].type==="undefined"){
+				stack[stack.length-1].push(arr[i]);
 			}
-			else if(arr[i].type===3){
-				stack.push({value:UserDefined[arr[i].value],type:1});
+			else stack[stack.length-1].value=arr[i].value(stack[stack.length-1].value);
+		}
+		else if(arr[i].type===7){
+			if(typeof stack[stack.length-1].type==="undefined"){
+				stack[stack.length-1].push(arr[i]);
 			}
-			else if(arr[i].type===0){
-				if(typeof stack[stack.length-1].type==="undefined"){
-					stack[stack.length-1].push(arr[i]);
-				}
-				else stack[stack.length-1].value=arr[i].value(stack[stack.length-1].value);
+			else stack[stack.length-1].value=arr[i].value(stack[stack.length-1].value);
+		}
+		else if(arr[i].type===8){
+			pop1=stack.pop();
+			pop2=stack.pop();
+			stack.push({type:1,value:arr[i].value(pop2.value,pop1.value)});
+		}
+		else if(arr[i].type===11){
+			pop1=stack.pop();
+			pop2=stack.pop();
+			if(typeof pop2.type==="undefined"){
+				pop2=pop2.concat(pop1);
+				pop2.push(arr[i]);
+				stack.push(pop2);
 			}
-			else if(arr[i].type===7){
-				if(typeof stack[stack.length-1].type==="undefined"){
-					stack[stack.length-1].push(arr[i]);
-				}
-				else stack[stack.length-1].value=arr[i].value(stack[stack.length-1].value);
+			else if (typeof pop1.type==="undefined") {
+				pop1.unshift(pop2);
+				pop1.push(arr[i]);
+				stack.push(pop1);
 			}
-			else if(arr[i].type===8){
-				pop1=stack.pop();
-				pop2=stack.pop();
+			else
 				stack.push({type:1,value:arr[i].value(pop2.value,pop1.value)});
+		}
+		else if(arr[i].type===2||arr[i].type===9){
+			pop1=stack.pop();
+			pop2=stack.pop();
+			if(typeof pop2.type==="undefined"){
+				pop2=pop2.concat(pop1);
+				pop2.push(arr[i]);
+				stack.push(pop2);
 			}
-			else if(arr[i].type===11){
-				pop1=stack.pop();
-				pop2=stack.pop();
-				if(typeof pop2.type==="undefined"){
-					pop2=pop2.concat(pop1);
-					pop2.push(arr[i]);
-					stack.push(pop2);
-				}
-				else if (typeof pop1.type==="undefined") {
-					pop1.unshift(pop2);
-					pop1.push(arr[i]);
-					stack.push(pop1);
-				}
-				else
+			else if (typeof pop1.type==="undefined") {
+				pop1.unshift(pop2);
+				pop1.push(arr[i]);
+				stack.push(pop1);
+			}
+			else{
 				stack.push({type:1,value:arr[i].value(pop2.value,pop1.value)});
-			}
-			else if(arr[i].type===2||arr[i].type===9){
-				pop1=stack.pop();
-				pop2=stack.pop();
-				if(typeof pop2.type==="undefined"){
-					pop2=pop2.concat(pop1);
-					pop2.push(arr[i]);
-					stack.push(pop2);
-				}
-				else if (typeof pop1.type==="undefined") {
-					pop1.unshift(pop2);
-					pop1.push(arr[i]);
-					stack.push(pop1);
-				}
-				else{
-					stack.push({type:1,value:arr[i].value(pop2.value,pop1.value)});
-				}
-			}
-			else if(arr[i].type===22){
-				pop1=stack.pop();
-				pop2=stack.pop();
-				pop3=stack.pop();
-				if (pop1.constructor!==Array) {	//pop1 needs to be constructor
-					pop1=[pop1];
-				}
-				stack.push({type:1,value:arr[i].value(pop3.value,pop2.value,new Mexp(pop1))});
-			}
-			else if(arr[i].type===23){
-				if(bool){
-					stack.push({value:UserDefined[arr[i].value],type:3});
-				}
-				else stack.push([arr[i]]);
 			}
 		}
-		return stack[0].value>1000000000000000?"Infinity":Number(stack[0].value.toFixed(15)).toPrecision();
-	};
-    module.exports=Mexp;
+		else if(arr[i].type===22){
+			pop1=stack.pop();
+			pop2=stack.pop();
+			pop3=stack.pop();
+			if (pop1.constructor!==Array) {	//pop1 needs to be constructor
+				pop1=[pop1];
+			}
+			stack.push({type:1,value:arr[i].value(pop3.value,pop2.value,new Mexp(pop1))});
+		}
+		else if(arr[i].type===23){
+			if(bool){
+				stack.push({value:UserDefined[arr[i].value],type:3});
+			}
+			else stack.push([arr[i]]);
+		}
+	}
+	return stack[0].value>1000000000000000?"Infinity":Number(stack[0].value.toFixed(15)).toPrecision();
+};
+Mexp.eval=function(str,tokens,obj){
+	if (typeof tokens==="undefined") {
+		return this.lex(str).toPostfix().postfixEval();
+	}
+	else if (typeof obj==="undefined") {
+		if (typeof tokens.length!=="undefined") 
+			return this.lex(str,tokens).toPostfix().postfixEval();
+		else
+			return this.lex(str).toPostfix().postfixEval(tokens);
+	}
+	else
+		return this.lex(str,tokens).toPostfix().postfixEval(obj);
+};
+module.exports=Mexp;
 },{"./postfix.js":4}]},{},[1])(1)
 });

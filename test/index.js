@@ -51,4 +51,22 @@ describe('Testing Unit', function () {
   it('check when two parenthesis less functions are consecutive on one parameter', function () {
     assert.equal(a.lex("sinint2.5").toPostfix().postfixEval(),a.lex("sin(int(2.5))").toPostfix().postfixEval());
   });
+
+  it('check eval method with single argument', function () {
+    assert.equal(a.eval("5*3"),"15");
+  });
+  it('check eval method with three argument', function () {
+    assert.equal(a.eval("mexp*3",[{type:3,show:"mexp",token:"mexp",ev:"mexp",preced:0}],{mexp:5}),"15");
+  });
+  it('check eval method with two argument when second one is value of constants', function () {
+	a.addToken([{type:3,show:"mexp",ev:"mexp",preced:0,token:"mexp"}]);
+    assert.equal(a.eval("mexp*3",{mexp:5}),"15");
+  });
+  it('check eval method with two argument when second one is value of constants', function () {
+	a.addToken([{type:0,show:"mexp",ev:function(a){return 5*a;},preced:11,token:"mexp"}]);
+    assert.equal(a.lex("mexp3").toPostfix().postfixEval(),"15");
+  });
+  it('check eval method with two argument when second one is token list', function () {
+	 assert.equal(a.eval("mexp(3)",[{type:0,show:"mexp(",ev:function(a){return 5*a;},preced:11,token:"mexp"}]),"15");
+  });
 });
