@@ -118,6 +118,13 @@ atanh
 <h2>
 <a id="basic-usage" class="anchor" href="#basic-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Basic usage</h2>
 
+<p>Evaluate an expression using </p>
+
+<pre><code>var value = mexp.eval(exp);
+</code></pre>
+
+<p>Or you can use the constituents of eval method directly which are listed below</p>
+
 <p>Parse an expression and then add additional detail to the tokens using</p>
 
 <pre><code>var lexed = mexp.lex(exp);
@@ -152,9 +159,25 @@ atanh
 </code></pre>
 </li>
 <li>
+<p>eval method takes two extra arguments for user defined variable</p>
+
+<pre><code>var value = =mexp.eval(exp,[token1,token2,...],{name:value});
+</code></pre>
+</li>
+</ol>
+
+<p>Where token1 is something like </p>
+
+<pre><code>{type:3,show:"value for formula evaluator",ev:"name",preced:0,token:"name"}
+</code></pre>
+
+<p>and third argument is key-value pair which maps the value to variable name.</p>
+
+<ol>
+<li>
 <p>lex method takes another argument for user defined variable</p>
 
-<pre><code>var lexed = a.lex(exp,[token1,token2,...]);
+<pre><code>var lexed = mexp.lex(exp,[token1,token2,...]);
 </code></pre>
 </li>
 </ol>
