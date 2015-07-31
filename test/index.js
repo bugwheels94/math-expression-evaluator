@@ -69,4 +69,18 @@ describe('Testing Unit', function () {
   it('check eval method with two argument when second one is token list', function () {
 	 assert.equal(a.eval("mexp(3)",[{type:0,show:"mexp(",ev:function(a){return 5*a;},preced:11,token:"mexp"}]),"15");
   });
+  it('check if expression ends with cos', function () {
+	
+		var str=a.eval("sin(2,3)");
+		var dc=''
+		console.log(str);
+		
+	
+  });
+  var date=new Date;
+  for (var i=0;i<100000;i++) {
+	var res=a.eval("15*3");
+  }
+  console.log(new Date-date);
+  console.log(res);
 });

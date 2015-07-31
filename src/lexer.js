@@ -125,8 +125,7 @@
 			}
 			i+=key.length-1;
 			if(key===''){
-				console.error("Can't understand after "+inpStr.slice(i));
-				return;
+				throw(new Mexp.exception("Can't understand after "+inpStr.slice(i)));
 			}
 			var index=token.indexOf(key);
 			var cType=type[index];
@@ -137,6 +136,9 @@
 			for(j=ptc.length;j--;){	//loop over ptc
 				if(ptc[j]===0){
 					if([0,2,3,5,9,21,22,23].indexOf(cType)!==-1){
+						if(allowed[cType]!==true){
+							throw(new Mexp.exception(key+" is not allowed after "+prevKey));
+						}
 						str.push({value:")",type:5,pre:3,show:")"});
 						allowed=type1;
 						asterick=type_3;
@@ -145,8 +147,7 @@
 				}
 			}
 			if(allowed[cType]!==true){
-				console.error(key+" is not allowed after "+prevKey);
-				return;
+				throw(new Mexp.exception(key+" is not allowed after "+prevKey));
 			}
 			if(asterick[cType]===true){
 				cType=2;
@@ -186,7 +187,7 @@
 				asterick=type_3;
 			}
 			else if(cType===4){
-				inc(ptc,2);
+				inc(ptc,1);
 				bracToClose++;
 				allowed=type0;
 				asterick=empty;
@@ -194,8 +195,7 @@
 			}
 			else if(cType===5){
 				if(!bracToClose){
-					console.error("Closing parenthesis are more than opening one, wait What!!!");
-					return;
+					throw(new Mexp.exception("Closing parenthesis are more than opening one, wait What!!!"));
 				}
 				bracToClose--;
 				allowed=type1;
@@ -204,8 +204,7 @@
 			}
 			else if(cType===6){
 				if(pre.hasDec){
-					console.error("Two decimals are not allowed in one number");
-					return;
+					throw(new Mexp.exception("Two decimals are not allowed in one number"));
 				}
 				if(pre.type!==1){
 					str.push({value:0,type:1,pre:0});
@@ -285,6 +284,9 @@
 				str.push({value:")",show:")",type:5,pre:3});
 				inc(ptc,-1).pop();
 			}
+		}
+		if (allowed[5]!==true) {
+			throw(new Mexp.exception("complete the expression"));
 		}
 		while(bracToClose--)
 			str.push({value:")",show:")",type:5,pre:3});

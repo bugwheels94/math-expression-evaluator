@@ -82,6 +82,9 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 			else stack.push([arr[i]]);
 		}
 	}
+	if (stack.length>1) {
+		throw(new Mexp.exception("Math error"));
+	}
 	return stack[0].value>1000000000000000?"Infinity":Number(stack[0].value.toFixed(15)).toPrecision();
 };
 Mexp.eval=function(str,tokens,obj){

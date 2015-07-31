@@ -1,5 +1,5 @@
-/** math-expression-evaluator version 1.1.0
- Dated:2015-07-30 */
+/** math-expression-evaluator version 1.2.0
+ Dated:2015-08-01 */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mexp = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Mexp=require('./postfix_evaluator.js');
@@ -171,8 +171,7 @@ module.exports=Mexp;
 			}
 			i+=key.length-1;
 			if(key===''){
-				console.error("Can't understand after "+inpStr.slice(i));
-				return;
+				throw(new Mexp.exception("Can't understand after "+inpStr.slice(i)));
 			}
 			var index=token.indexOf(key);
 			var cType=type[index];
@@ -183,6 +182,9 @@ module.exports=Mexp;
 			for(j=ptc.length;j--;){	//loop over ptc
 				if(ptc[j]===0){
 					if([0,2,3,5,9,21,22,23].indexOf(cType)!==-1){
+						if(allowed[cType]!==true){
+							throw(new Mexp.exception(key+" is not allowed after "+prevKey));
+						}
 						str.push({value:")",type:5,pre:3,show:")"});
 						allowed=type1;
 						asterick=type_3;
@@ -191,8 +193,7 @@ module.exports=Mexp;
 				}
 			}
 			if(allowed[cType]!==true){
-				console.error(key+" is not allowed after "+prevKey);
-				return;
+				throw(new Mexp.exception(key+" is not allowed after "+prevKey));
 			}
 			if(asterick[cType]===true){
 				cType=2;
@@ -232,7 +233,7 @@ module.exports=Mexp;
 				asterick=type_3;
 			}
 			else if(cType===4){
-				inc(ptc,2);
+				inc(ptc,1);
 				bracToClose++;
 				allowed=type0;
 				asterick=empty;
@@ -240,8 +241,7 @@ module.exports=Mexp;
 			}
 			else if(cType===5){
 				if(!bracToClose){
-					console.error("Closing parenthesis are more than opening one, wait What!!!");
-					return;
+					throw(new Mexp.exception("Closing parenthesis are more than opening one, wait What!!!"));
 				}
 				bracToClose--;
 				allowed=type1;
@@ -250,8 +250,7 @@ module.exports=Mexp;
 			}
 			else if(cType===6){
 				if(pre.hasDec){
-					console.error("Two decimals are not allowed in one number");
-					return;
+					throw(new Mexp.exception("Two decimals are not allowed in one number"));
 				}
 				if(pre.type!==1){
 					str.push({value:0,type:1,pre:0});
@@ -332,6 +331,9 @@ module.exports=Mexp;
 				inc(ptc,-1).pop();
 			}
 		}
+		if (allowed[5]!==true) {
+			throw(new Mexp.exception("complete the expression"));
+		}
 		while(bracToClose--)
 			str.push({value:")",show:")",type:5,pre:3});
 		
@@ -340,9 +342,12 @@ module.exports=Mexp;
 	};
     module.exports=Mexp;
 },{"./math_function.js":3}],3:[function(require,module,exports){
-	var Mexp=function(parsed){
-		"use strict";
+	var Mexp=function(parsed,error){
+		if (error) {
+			this.value=[];
+		}
 		this.value=parsed;
+		
 	};
 	
 	Mexp.math={
@@ -455,6 +460,9 @@ module.exports=Mexp;
 		toRadian:function(x){
 			return x*Math.PI/180;
 		}
+	};
+	Mexp.exception=function(message){
+		this.message=message;
 	};
     module.exports=Mexp;
 },{}],4:[function(require,module,exports){
@@ -600,6 +608,9 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 			}
 			else stack.push([arr[i]]);
 		}
+	}
+	if (stack.length>1) {
+		throw(new Mexp.exception("Math error"));
 	}
 	return stack[0].value>1000000000000000?"Infinity":Number(stack[0].value.toFixed(15)).toPrecision();
 };

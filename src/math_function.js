@@ -1,6 +1,9 @@
-	var Mexp=function(parsed){
-		"use strict";
+	var Mexp=function(parsed,error){
+		if (error) {
+			this.value=[];
+		}
 		this.value=parsed;
+		
 	};
 	
 	Mexp.math={
@@ -113,5 +116,8 @@
 		toRadian:function(x){
 			return x*Math.PI/180;
 		}
+	};
+	Mexp.exception=function(message){
+		this.message=message;
 	};
     module.exports=Mexp;
