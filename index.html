@@ -22,7 +22,7 @@
       <h2>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>INTRODUCTION</h2>
 
-<p>A simple to use and efficient evaluator for Math expression using <a href="#importing">Javascript</a></p>
+<p>A simple to use and efficient evaluator for math expressions in Javascript</p>
 
 <h2>
 <a id="topics" class="anchor" href="#topics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Topics</h2>
@@ -41,9 +41,18 @@
 <a href="#usage">Usage</a>
 
 <ul>
-<li><a href="#math.eval()">mexp.eval()</a></li>
-<li><a href="#using-seperate-methods">using constituents of mexp.eval() methods</a></li>
-<li><a href="#user-defined-tokens">user defined tokens</a></li>
+<li><a href="#mexp.eval()">mexp.eval()</a></li>
+<li><a href="#using-separate-methods">using constituents of mexp.eval() methods</a></li>
+<li>
+<a href="#user-defined-tokens">user defined tokens</a>
+
+<ul>
+<li><a href="#understanding-token-structure">understanding token structure</a></li>
+<li><a href="#mexp.addToken()">using mexp.addToken</a></li>
+<li><a href="#argument-to-mexp-eval">by argument to mexp.eval()</a></li>
+<li><a href="#argument-to-constituents-of-mexp-eval">by argument to constituents of mexp.eval()</a></li>
+</ul>
+</li>
 <li><a href="#error-handling">Error Handling</a></li>
 </ul>
 </li>
@@ -119,63 +128,119 @@ atanh
 <h4>
 <a id="mexpeval" class="anchor" href="#mexpeval" aria-hidden="true"><span class="octicon octicon-link"></span></a>mexp.eval()</h4>
 
-<p>var value = mexp.eval(exp);</p>
+<pre><code>var value = mexp.eval(exp);
+</code></pre>
 </li>
 <li>
-<blockquote>
-<p>you can use the constituents of mexp.eval method directly which are listed below</p>
-</blockquote>
+<h4>
+<a id="constituents-of-mexpeval-method-directly-which-are-explained-below" class="anchor" href="#constituents-of-mexpeval-method-directly-which-are-explained-below" aria-hidden="true"><span class="octicon octicon-link"></span></a>Constituents of mexp.eval method directly which are explained below</h4>
 
-<p>Parse an expression and then add additional detail to the tokens using
-  var lexed = mexp.lex(exp);
-which returns a mexp constructor object which will further processed by toPostFix and postFixEval
-Now, that object is needed to be converted to postfix notation using
-var postfix = lexed.toPostfix();
-which converts the mexp object to Postfix notation and return new mexp object
-Now to get the value of expression use postfixEval
-var result = postfix.postfixEval();
-which is results</p>
+<ul>
+<li>
+<p>Parse an expression and then add additional detail to the tokens using  </p>
+
+<pre><code>var lexed = mexp.lex(exp);  
+</code></pre>
+
+<p>which returns a <code>mexp</code> constructor object which will further processed by methods <code>toPostfix</code> and <code>postfixEval</code></p>
+</li>
+<li>
+<p>Now, that object is needed to be converted to postfix notation using  </p>
+
+<pre><code>var postfix = lexed.toPostfix();  
+</code></pre>
+
+<p>which converts the <code>mexp</code> object to postfix notation and return new <code>mexp</code> object</p>
+</li>
+<li>
+<p>Now to get the value of expression use <code>postfixEval</code>  </p>
+
+<pre><code>var result = postfix.postfixEval();  
+</code></pre>
+
+<p>where result contains the result.</p>
+</li>
+</ul>
+</li>
+</ol>
 
 <h2>
 <a id="using-variables" class="anchor" href="#using-variables" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using variables</h2>
 
-<p>If your expression has user defined variables then either</p>
-</li>
-<li>Use addToken method using
-    Mexp.addToken([token1,token2,...]);</li>
+<ol>
 <li>
-<p>eval method takes two extra arguments for user defined variable</p>
+<h4>
+<a id="token" class="anchor" href="#token" aria-hidden="true"><span class="octicon octicon-link"></span></a>Token</h4>
+
+<p>Every token in this evaluator has five basic properties  </p>
+
+<ul>
+<li>
+<p>type  </p>
+
+<p>0 : function with syntax function_name(Maths_exp)
+1 : numbers 
+2 : binary operators like * / %
+3 : Math constant values like e,pi,Cruncher ans 
+4 : opening bracket
+5 : closing bracket
+6 : decimal
+7 : function with syntax (Math_exp)function_name
+8 : function with syntax function_name(Math_exp1,Math_exp2)
+9 : binary operator like +,-
+10: function with syntax (Math_exp1)function_name(Math_exp2)
+11: , operator
+12: function with three , separated parameters
+13: variable of type 12 function function</p>
+</li>
+<li><p>precedence( denoted by preced )  </p></li>
+<li>value<br>
+</li>
+<li>show( string to show when displaying parsed formula)</li>
+<li>token( string that is unique and used for tokenization) </li>
+</ul>
+</li>
+<li>
+<h4>
+<a id="mexpaddtoken" class="anchor" href="#mexpaddtoken" aria-hidden="true"><span class="octicon octicon-link"></span></a>mexp.addToken()</h4>
+
+<pre><code>Mexp.addToken([token1,token2,...]);
+</code></pre>
+
+<p>This method taken a list of tokens as arguments.How to define a user define token</p>
+</li>
+<li>
+<h4>
+<a id="argument-to-mexpeval" class="anchor" href="#argument-to-mexpeval" aria-hidden="true"><span class="octicon octicon-link"></span></a>argument to mexp.eval()</h4>
 
 <pre><code>var value = =mexp.eval(exp,[token1,token2,...],{name:value});
 </code></pre>
-</li>
-</ol>
 
 <p>Where token1 is something like </p>
 
-<pre><code>{type:3,show:"value for formula evaluator",ev:"name",preced:0,token:"name"}
-</code></pre>
+<p>{type:3,show:"value for formula evaluator",ev:"name",preced:0,token:"name"}</p>
 
 <p>and third argument is key-value pair which maps the value to variable name.</p>
-
-<ol>
+</li>
 <li>
-<p>lex method takes another argument for user defined variable</p>
+<h4>
+<a id="argument-toconstituents-of-mexpeval" class="anchor" href="#argument-toconstituents-of-mexpeval" aria-hidden="true"><span class="octicon octicon-link"></span></a>argument toconstituents of mexp.eval()</h4>
 
 <pre><code>var lexed = mexp.lex(exp,[token1,token2,...]);
 </code></pre>
-</li>
-</ol>
 
 <p>Where token1 is something like </p>
 
-<pre><code>{type:3,show:"value for formula evaluator",ev:"name",preced:0,token:"name"}
-</code></pre>
+<blockquote>
+<p>{type:3,show:"value for formula evaluator",ev:"name",preced:0,token:"name"}</p>
+</blockquote>
 
 <p>To evaluate variable also pass the key-value pair to postfixEval method</p>
 
 <pre><code>var result = postfix.postfixEval({name:value});
 </code></pre>
+</li>
+</ol>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/ankit31894/math-expression-evaluator">Math-expression-evaluator</a> is maintained by <a href="https://github.com/ankit31894">ankit31894</a>.</span>
