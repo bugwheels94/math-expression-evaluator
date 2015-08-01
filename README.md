@@ -2,6 +2,8 @@
 
 An extremelyt efficient evaluator with a smart parser for Math expression using Javascript. This evaluator will add some parenthesis if the user misses some. In short, any human readable math expression like `sincostan90` or `Sigma1,Sigma1,2,n,n`( which will give 6 as `Sigma(1 , Sigma(1 , 2 , n) , n) )` ) is also readable by this evaluator
 
+##[Demonstration](http://jsbin.com/qokime/edit?html,output)
+
 # Installation
 ## Node JS
  **Using npm** 
@@ -84,4 +86,4 @@ An extremelyt efficient evaluator with a smart parser for Math expression using 
 
     npm test
 
-#[Documentation](http://ankit31894.github.io/math-expression-evaluator/)
+##[Documentation](http://ankit31894.github.io/math-expression-evaluator/)
