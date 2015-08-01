@@ -42,7 +42,7 @@
 
 <ul>
 <li><a href="#math.eval()">mexp.eval()</a></li>
-<li>[using separate methods]</li>
+<li><a href="#using-seperate-methods">using constituents of mexp.eval() methods</a></li>
 <li><a href="#user-defined-tokens">user defined tokens</a></li>
 <li><a href="#error-handling">Error Handling</a></li>
 </ul>
@@ -70,118 +70,79 @@
 <a id="supported-maths-symbols" class="anchor" href="#supported-maths-symbols" aria-hidden="true"><span class="octicon octicon-link"></span></a>Supported Maths Symbols</h2>
 
 <pre><code>+       Addition Operator eg. 2+3 results 5
-
 -       Subtraction Operator eg. 2-3 results -1
-
 /       Division operator eg 3/2 results 1.5 
-
 \       Multiplication Operator eg. 23 results 6
-
 Mod     Modulus Operator eg. 3 Mod 2 results 1
-
 (       Opening Parenthesis
-
 )       Closing Parenthesis
-
 Sigma   Summation eg. Sigma(1,100,n) results 5050
-
 Pi      Product eg. Pi(1,10,n) results 3628800
-
 n       Variable for Summation or Product
-
 pi      Math constant pi returns 3.14
-
 e       Math constant e returns 2.71
-
 C       Combination operator eg. 4C2 returns 6
-
 P       Permutation operator eg. 4P2 returns 12
-
 !       factorial operator eg. 4! returns 24
-
 log     logarithmic function with base 10 eg. log 1000 returns 3
-
 ln      natural log function with base e eg. ln 2 returns .3010 
-
 pow     power function with two operator pow(2,3) returns 8
-
 ^       power operator eg. 2^3 returns 8
-
 root    underroot function root 4 returns 2
 </code></pre>
 
 <blockquote>
-<p>Trigonometric function</p>
+<p>Trigonometric function  </p>
 </blockquote>
 
-<pre><code>sin 
-
+<pre><code>sin
 cos
-
 tan
-
 asin
-
 acos
-
 atan
-
 sinh
-
 cosh
-
 tanh
-
 asinh
-
 acosh
-
 atanh
 </code></pre>
 
 <h2>
-<a id="basic-usage" class="anchor" href="#basic-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Basic usage</h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<p>Evaluate an expression using </p>
+<p>An expression can be evaluated using </p>
 
-<pre><code>var value = mexp.eval(exp);
-</code></pre>
+<ol>
+<li>
+<h4>
+<a id="mexpeval" class="anchor" href="#mexpeval" aria-hidden="true"><span class="octicon octicon-link"></span></a>mexp.eval()</h4>
 
-<p>Or you can use the constituents of eval method directly which are listed below</p>
+<p>var value = mexp.eval(exp);</p>
+</li>
+<li>
+<blockquote>
+<p>you can use the constituents of mexp.eval method directly which are listed below</p>
+</blockquote>
 
-<p>Parse an expression and then add additional detail to the tokens using</p>
-
-<pre><code>var lexed = mexp.lex(exp);
-</code></pre>
-
-<p>which returns a mexp constructor object which will further processed by toPostFix and postFixEval</p>
-
-<p>Now, that object is needed to be converted to postfix notation using</p>
-
-<pre><code>var postfix = lexed.toPostfix();
-</code></pre>
-
-<p>which converts the mexp object to Postfix notation and return new mexp object</p>
-
-<p>Now to get the value of expression use postfixEval</p>
-
-<pre><code>var result = postfix.postfixEval();
-</code></pre>
-
-<p>which is results</p>
+<p>Parse an expression and then add additional detail to the tokens using
+  var lexed = mexp.lex(exp);
+which returns a mexp constructor object which will further processed by toPostFix and postFixEval
+Now, that object is needed to be converted to postfix notation using
+var postfix = lexed.toPostfix();
+which converts the mexp object to Postfix notation and return new mexp object
+Now to get the value of expression use postfixEval
+var result = postfix.postfixEval();
+which is results</p>
 
 <h2>
 <a id="using-variables" class="anchor" href="#using-variables" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using variables</h2>
 
 <p>If your expression has user defined variables then either</p>
-
-<ol>
-<li>
-<p>Use addToken method using</p>
-
-<pre><code>Mexp.addToken([token1,token2,...]);
-</code></pre>
 </li>
+<li>Use addToken method using
+    Mexp.addToken([token1,token2,...]);</li>
 <li>
 <p>eval method takes two extra arguments for user defined variable</p>
 
