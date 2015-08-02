@@ -1,5 +1,5 @@
-/** math-expression-evaluator version 1.2.1
- Dated:2015-08-01 */
+/** math-expression-evaluator version 1.2.2
+ Dated:2015-08-03 */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mexp = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Mexp=require('./postfix_evaluator.js');
@@ -13,19 +13,19 @@ Mexp.prototype.formulaEval = function () {
 		if(arr[i].type===1||arr[i].type===3){
 			disp.push({value:arr[i].type===3?arr[i].show:arr[i].value,type:1});
 		}
-		else if(arr[i].type===23){
+		else if(arr[i].type===13){
 			disp.push({value:arr[i].show,type:1});
 		}
 		else if(arr[i].type===0){
-			disp[disp.length-1]={value:arr[i].show+disp[disp.length-1].value+(arr[i].show!="-"?")":""),type:0};
+			disp[disp.length-1]={value:arr[i].show+(arr[i].show!="-"?"(":"")+disp[disp.length-1].value+(arr[i].show!="-"?")":""),type:0};
 		}
 		else if(arr[i].type===7){
 			disp[disp.length-1]={value:(disp[disp.length-1].type!=1?"(":"")+disp[disp.length-1].value+(disp[disp.length-1].type!=1?")":"")+arr[i].show,type:7};
 		}
-		else if(arr[i].type===11){
+		else if(arr[i].type===10){
 			pop1=disp.pop();
 			pop2=disp.pop();
-			if(arr[i].show==='P'||arr[i].show==='C')disp.push({value:"<sup>"+pop2+"</sup>"+arr[i].show+"<sub>"+pop1+"</sub>",type:11});
+			if(arr[i].show==='P'||arr[i].show==='C')disp.push({value:"<sup>"+pop2+"</sup>"+arr[i].show+"<sub>"+pop1+"</sub>",type:10});
 			else disp.push({value:(pop2.type!=1?"(":"")+pop2.value+(pop2.type!=1?")":"")+"<sup>"+pop1.value+"</sup>",type:1});
 		}
 		else if(arr[i].type===2||arr[i].type===9){
@@ -33,11 +33,11 @@ Mexp.prototype.formulaEval = function () {
 			pop2=disp.pop();
 			disp.push({value:(pop2.type!=1?"(":"")+pop2.value+(pop2.type!=1?")":"")+arr[i].show+(pop1.type!=1?"(":"")+pop1.value+(pop1.type!=1?")":""),type:arr[i].type});
 		}
-		else if(arr[i].type===22){
+		else if(arr[i].type===12){
 			pop1=disp.pop();
 			pop2=disp.pop();
 			pop3=disp.pop();
-			disp.push({value:arr[i].show+"("+pop3.value+","+pop2.value+","+pop1.value+")",type:22});
+			disp.push({value:arr[i].show+"("+pop3.value+","+pop2.value+","+pop1.value+")",type:12});
 		}
 	}
 	return disp[0].value;
@@ -52,33 +52,29 @@ module.exports=Mexp;
 			arr[i]+=val;
 		return arr;
 	}
-	var token=['sin','cos','tan','pi','(',')','Del','P','C',
+	var token=['sin','cos','tan','pi','(',')','P','C',
 		  'asin','acos','atan','7','8','9','int',
 		  'cosh','acosh','ln','^','root','4','5','6','/','!',
-		  'tanh','atanh','Mod','1','2','3','*','=',
-		  'sinh','asinh','e','log','10^x','0','.','+','-',',','Sigma','n','Pi','pow'];
-	var show=['sin(','cos(','tan(','&pi;','(',')','Del','P','C',
-		'asin(','acos(','atan(','7','8','9','Int(',
-		'cosh(','acosh(',' ln(','^','root(','4','5','6','&divide;','!',
-		'tanh(','atanh(',' Mod ','1','2','3','&times;','=',
-		'sinh(','asinh(','e',' log(',' 10^(','0','.','+','-',',','&Sigma;','n','&Pi;','pow('];
-	var eva=[Mexp.math.sin,Mexp.math.cos,Mexp.math.tan,'PI','(',')','Del',Mexp.math.P,Mexp.math.C,
+		  'tanh','atanh','Mod','1','2','3','*',
+		  'sinh','asinh','e','log','0','.','+','-',',','Sigma','n','Pi','pow'];
+	var show=['sin','cos','tan','&pi;','(',')','P','C',
+		'asin','acos','atan','7','8','9','Int',
+		'cosh','acosh',' ln','^','root','4','5','6','&divide;','!',
+		'tanh','atanh',' Mod ','1','2','3','&times;',
+		'sinh','asinh','e',' log','0','.','+','-',',','&Sigma;','n','&Pi;','pow'];
+	var eva=[Mexp.math.sin,Mexp.math.cos,Mexp.math.tan,'PI','(',')',Mexp.math.P,Mexp.math.C,
 		Mexp.math.asin,Mexp.math.acos,Mexp.math.atan,'7','8','9',Math.floor,
 		Mexp.math.cosh,Mexp.math.acosh,Math.log,Math.pow,Math.pow,'4','5','6',Mexp.math.div,Mexp.math.fact,
-		Mexp.math.tanh,Mexp.math.atanh,Mexp.math.mod,'1','2','3',Mexp.math.mul,'=',
-		Mexp.math.sinh,Mexp.math.asinh,'E',Mexp.math.log,Mexp.math.pow10x,'0','.',Mexp.math.add,Mexp.math.sub,',',Mexp.math.sigma,'n',Mexp.math.Pi,Math.pow];
-	var preced=[11,11,11,0,0,0,0,7,7,
-		11,11,10,0,0,0,11,
-		11,11,10,10,11,0,0,0,3,11,
-		11,11,10,0,0,0,3,0,
-		11,11,0,11,11,0,0,1,1,0,11,0,11,11];
-	var type=[0,0,0,3,4,5,12,11,11,
+		Mexp.math.tanh,Mexp.math.atanh,Mexp.math.mod,'1','2','3',Mexp.math.mul,
+		Mexp.math.sinh,Mexp.math.asinh,'E',Mexp.math.log,'0','.',Mexp.math.add,Mexp.math.sub,',',Mexp.math.sigma,'n',Mexp.math.Pi,Math.pow];
+	var preced={0:11,1:0,2:3,3:0,4:0,5:0,6:0,7:11,8:11,9:1,10:10,11:0,12:11,13:0};
+	var type=[0,0,0,3,4,5,10,10,
 		0,0,0,1,1,1,0,
-		0,0,0,11,11,1,1,1,2,7,
-		0,0,2,1,1,1,2,13,
-		0,0,3,0,0,1,6,9,9,21,22,23,22,8];
+		0,0,0,10,0,1,1,1,2,7,
+		0,0,2,1,1,1,2,
+		0,0,3,0,1,6,9,9,11,12,13,12,8];
 	 /*
-	0 : function with syntax function_name(Maths_exp) whose math_exp is yet to be entered
+	0 : function with syntax function_name(Maths_exp)
 	1 : numbers 
 	2 : binary operators like * / %
 	3 : Math constant values like e,pi,Cruncher ans 
@@ -88,17 +84,16 @@ module.exports=Mexp;
 	7 : function with syntax (Math_exp)function_name
 	8: function with syntax function_name(Math_exp1,Math_exp2)
 	9 : binary operator like +,-
-	11: function with syntax (Math_exp1)function_name(Math_exp2) whose exp2 is yet to be entered
-	12: Delete Button
-	13: = button
-	22: function with , seperated three parameters
-	23: variable of Sigma function
+	10: function with syntax (Math_exp1)function_name(Math_exp2)
+	11: ,
+	12: function with , seperated three parameters
+	13: variable of Sigma function
 	 */
-	var type0={0:true,1:true,3:true,4:true,6:true,8:true,9:true,17:true,22:true,23:true},		//type2:true,type4:true,type9:true,type11:true,type21:true,type22
-	type1={0:true,1:true,2:true,3:true,4:true,5:true,6:true,7:true,8:true,9:true,10:true,11:true,13:true,17:true,21:true,22:true,23:true},//type3:true,type5:true,type7:true,type23
-	type_1={0:true,3:true,4:true,8:true,17:true,22:true,23:true},
+	var type0={0:true,1:true,3:true,4:true,6:true,8:true,9:true,12:true,13:true},//type2:true,type4:true,type9:true,type11:true,type21:true,type22
+	type1={0:true,1:true,2:true,3:true,4:true,5:true,6:true,7:true,8:true,9:true,10:true,11:true,12:true,13:true},//type3:true,type5:true,type7:true,type23
+	type_1={0:true,3:true,4:true,8:true,12:true,13:true},
 	empty={},
-	type_3={0:true,1:true,3:true,4:true,6:true,8:true,17:true,22:true,23:true},//type_5:true,type_7:true,type_23
+	type_3={0:true,1:true,3:true,4:true,6:true,8:true,12:true,13:true},//type_5:true,type_7:true,type_23
 	type6={1:true},
 	newAr=[[],
 			["1","2","3","7","8","9","4","5","6","+","-","*","/","(",")","^","!","P","C","=","e","0",".",",","n"],
@@ -131,14 +126,12 @@ module.exports=Mexp;
 					newAr[tokens[i].token.length]=[];
 				newAr[tokens[i].token.length].push(tokens[i].token);
 				eva.push(tokens[i].ev);
-				preced.push(tokens[i].preced);
 				show.push(tokens[i].show);
 			}
 			else {
 				token[temp]=tokens[i].token;
 				type[temp]=tokens[i].type;
 				eva[temp]=tokens[i].ev;
-				preced[temp]=tokens[i].preced;
 				show[temp]=tokens[i].show;
 			}
 		}
@@ -176,16 +169,16 @@ module.exports=Mexp;
 			var index=token.indexOf(key);
 			var cType=type[index];
 			var cEv=eva[index];
-			var cPre=preced[index];
+			var cPre=preced[cType];
 			var	cShow=show[index];
 			var pre=str[str.length-1];
 			for(j=ptc.length;j--;){	//loop over ptc
 				if(ptc[j]===0){
-					if([0,2,3,5,9,21,22,23].indexOf(cType)!==-1){
+					if([0,2,3,5,9,11,12,13].indexOf(cType)!==-1){
 						if(allowed[cType]!==true){
 							throw(new Mexp.exception(key+" is not allowed after "+prevKey));
 						}
-						str.push({value:")",type:5,pre:3,show:")"});
+						str.push({value:")",type:5,pre:0,show:")"});
 						allowed=type1;
 						asterick=type_3;
 						inc(ptc,-1).pop();
@@ -277,20 +270,23 @@ module.exports=Mexp;
 			}
 			else if(cType===9){
 				if(pre.type===9){
-					if(pre.value==='+'){
+					if(pre.value===Mexp.math.add){
 						pre.value=cEv;
 						pre.show=cShow;
 						inc(ptc,1);
 					}
-					else if(pre.value==='-'&&cShow==='-'){
-						pre.value='+';
+					else if(pre.value===Mexp.math.sub&&cShow==='-'){
+						pre.value=Mexp.math.add;
 						pre.show='+';
 						inc(ptc,1);
 					}
 				}
-				else if(pre.type!==5&&pre.type!==7&&pre.type!==1&&pre.type!==3&&pre.type!==23){
+				else if(pre.type!==5&&pre.type!==7&&pre.type!==1&&pre.type!==3&&pre.type!==13){
+					allowed=type0;
+					asterick=empty;
+					inc(ptc,2).push(2);
 					str.push({value:Mexp.math.changeSign,type:0,pre:21,show:"-"});
-					inc(ptc,1);
+					str.push({value:"(",type:4,pre:0,show:"("});
 				}
 				else{
 					str.push(obj);
@@ -299,25 +295,25 @@ module.exports=Mexp;
 				allowed=type0;
 				asterick=empty;
 			}
-			else if(cType===11){
+			else if(cType===10){
 				allowed=type0;
 				asterick=empty;
 				inc(ptc,2);
 				str.push(obj);
 			}
-			else if(cType===21){
+			else if(cType===11){
 				allowed=type0;
 				asterick=empty;
 				str.push(obj);
 			}
-			else if(cType===22){
+			else if(cType===12){
 				allowed=type0;
 				asterick=empty;
 				inc(ptc,6).push(6);
 				str.push(obj);
 				str.push({value:"(",type:4,pre:0});
 			}
-			else if(cType===23){
+			else if(cType===13){
 				allowed=type1;
 				asterick=type_3;
 				str.push(obj);
@@ -342,10 +338,7 @@ module.exports=Mexp;
 	};
     module.exports=Mexp;
 },{"./math_function.js":3}],3:[function(require,module,exports){
-	var Mexp=function(parsed,error){
-		if (error) {
-			this.value=[];
-		}
+	var Mexp=function(parsed){
 		this.value=parsed;
 		
 	};
@@ -435,6 +428,10 @@ module.exports=Mexp;
 		},
 		sigma:function(low,high,ex){
 			var sum=0;
+			if (ex.constructor!==Array) {	//pop1 needs to be constructor
+				ex=[{type:1,value:ex}];
+			}
+			ex=new Mexp(ex);
 			for(var i=low;i<=high;i++){
 				sum+=Number(ex.postfixEval({n:i}));
 			}
@@ -483,7 +480,7 @@ module.exports=Mexp;
     	var stack=[{value:"(",type:4,pre:0}];
 		var arr=this.value;
 		for (var i=1; i < arr.length; i++) {
-			if(arr[i].type===1||arr[i].type===3||arr[i].type===23){	//if token is number,constant,or n(which is also a special constant in our case)
+			if(arr[i].type===1||arr[i].type===3||arr[i].type===13){	//if token is number,constant,or n(which is also a special constant in our case)
 				if(arr[i].type===1)
 					arr[i].value=Number(arr[i].value);
 				post.push(arr[i]);
@@ -496,7 +493,7 @@ module.exports=Mexp;
 					post.push(popped);
 				}
 			}
-			else if(arr[i].type===21){
+			else if(arr[i].type===11){
 				while((popped=stack.pop()).type!==4){
 					post.push(popped);
 				}
@@ -545,13 +542,13 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 		}
 		else if(arr[i].type===0){
 			if(typeof stack[stack.length-1].type==="undefined"){
-				stack[stack.length-1].push(arr[i]);
+				stack[stack.length-1].value.push(arr[i]);
 			}
 			else stack[stack.length-1].value=arr[i].value(stack[stack.length-1].value);
 		}
 		else if(arr[i].type===7){
 			if(typeof stack[stack.length-1].type==="undefined"){
-				stack[stack.length-1].push(arr[i]);
+				stack[stack.length-1].value.push(arr[i]);
 			}
 			else stack[stack.length-1].value=arr[i].value(stack[stack.length-1].value);
 		}
@@ -560,17 +557,17 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 			pop2=stack.pop();
 			stack.push({type:1,value:arr[i].value(pop2.value,pop1.value)});
 		}
-		else if(arr[i].type===11){
+		else if(arr[i].type===10){
 			pop1=stack.pop();
 			pop2=stack.pop();
 			if(typeof pop2.type==="undefined"){
-				pop2=pop2.concat(pop1);
-				pop2.push(arr[i]);
+				pop2.value=pop2.value.concat(pop1);
+				pop2.value.push(arr[i]);
 				stack.push(pop2);
 			}
 			else if (typeof pop1.type==="undefined") {
-				pop1.unshift(pop2);
-				pop1.push(arr[i]);
+				pop1.value.unshift(pop2);
+				pop1.value.push(arr[i]);
 				stack.push(pop1);
 			}
 			else
@@ -580,37 +577,34 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 			pop1=stack.pop();
 			pop2=stack.pop();
 			if(typeof pop2.type==="undefined"){
-				pop2=pop2.concat(pop1);
-				pop2.push(arr[i]);
+				pop2=pop2.value.concat(pop1);
+				pop2.value.push(arr[i]);
 				stack.push(pop2);
 			}
 			else if (typeof pop1.type==="undefined") {
-				pop1.unshift(pop2);
-				pop1.push(arr[i]);
+				pop1.value.unshift(pop2);
+				pop1.value.push(arr[i]);
 				stack.push(pop1);
 			}
 			else{
 				stack.push({type:1,value:arr[i].value(pop2.value,pop1.value)});
 			}
 		}
-		else if(arr[i].type===22){
+		else if(arr[i].type===12){
 			pop1=stack.pop();
 			pop2=stack.pop();
 			pop3=stack.pop();
-			if (pop1.constructor!==Array) {	//pop1 needs to be constructor
-				pop1=[pop1];
-			}
-			stack.push({type:1,value:arr[i].value(pop3.value,pop2.value,new Mexp(pop1))});
+			stack.push({type:1,value:arr[i].value(pop3.value,pop2.value,pop1.value)});
 		}
-		else if(arr[i].type===23){
+		else if(arr[i].type===13){
 			if(bool){
 				stack.push({value:UserDefined[arr[i].value],type:3});
 			}
-			else stack.push([arr[i]]);
+			else stack.push({value:[arr[i]]});
 		}
 	}
 	if (stack.length>1) {
-		throw(new Mexp.exception("Math error"));
+		throw(new Mexp.exception("Uncaught Syntax error"));
 	}
 	return stack[0].value>1000000000000000?"Infinity":Number(stack[0].value.toFixed(15)).toPrecision();
 };
