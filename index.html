@@ -388,13 +388,15 @@ If variables are added to the evaluator then key-value pair needs to be passed t
 <a id="error-handling" class="anchor" href="#error-handling" aria-hidden="true"><span class="octicon octicon-link"></span></a>Error handling</h2>
 
 <p>This evaluator throws exception with error message if any error occurs.<br>
-So it is a good habit to catch the exception<br>
-    try{
-        mexp.eval("sin()");
-    }
-    catch(e){
-        alert(e.message); //alert ) is not allowed after (
-    }</p>
+So it is a good habit to catch the exception  </p>
+
+<pre><code>try{
+    mexp.eval("sin()");
+}
+catch(e){
+    alert(e.message); //alert ) is not allowed after (
+}
+</code></pre>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/ankit31894/math-expression-evaluator">Math-expression-evaluator</a> is maintained by <a href="https://github.com/ankit31894">ankit31894</a>.</span>
