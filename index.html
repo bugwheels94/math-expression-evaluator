@@ -22,7 +22,7 @@
       <h2>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>INTRODUCTION</h2>
 
-<p>A simple to use and efficient evaluator for math expressions in Javascript</p>
+<p>A simple to use and efficient evaluator for math expressions in Javascript.  </p>
 
 <h2>
 <a id="topics" class="anchor" href="#topics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Topics</h2>
@@ -41,19 +41,32 @@
 <a href="#usage">Usage</a>
 
 <ul>
-<li><a href="#mexp.eval()">mexp.eval()</a></li>
-<li><a href="#using-separate-methods">using constituents of mexp.eval() methods</a></li>
+<li><a href="#mexp.eval()">Using mexp.eval()</a></li>
+<li><a href="#using-separate-methods">Using constituents of mexp.eval() methods</a></li>
 <li>
-<a href="#user-defined-tokens">user defined tokens</a>
+<a href="#extending-tokens">Extending tokens</a>
 
 <ul>
-<li><a href="#understanding-token-structure">understanding token structure</a></li>
-<li><a href="#mexp.addToken()">using mexp.addToken</a></li>
-<li><a href="#argument-to-mexp-eval">by argument to mexp.eval()</a></li>
-<li><a href="#argument-to-constituents-of-mexp-eval">by argument to constituents of mexp.eval()</a></li>
+<li>
+<a href="#how-to-define-a-token">Defining a token</a>
+
+<ul>
+<li><a href="#function-with-one-parameter">Function with one parameter</a></li>
+<li><a href="#function-with-two-parameters">Function with two parameters</a></li>
+<li><a href="#function-with-three-parameter">Function with three parameters</a></li>
+<li><a href="#variable">Variable</a></li>
+<li><a href="#binary-infix-function">Binary infix function</a></li>
+<li><a href="unary-postfix-function">Unary postfix function</a></li>
 </ul>
 </li>
-<li><a href="#error-handling">Error Handling</a></li>
+<li><a href="#adding-tokens-using-mexp.addToken">Adding tokens using mexp.addToken</a></li>
+<li><a href="#adding-tokens-using-mexp.eval()">Adding tokens using mexp.eval()</a></li>
+<li><a href="#Adding-token-using-constituents-of-mexp.eval()">Adding token using constituents of mexp.eval()</a></li>
+</ul>
+</li>
+<li>
+<a href="#error-handling">Error Handling</a><br>
+</li>
 </ul>
 </li>
 </ul>
@@ -64,7 +77,7 @@
 <h3>
 <a id="node-js" class="anchor" href="#node-js" aria-hidden="true"><span class="octicon octicon-link"></span></a>Node js</h3>
 
-<pre><code>var mexp = require('math-exoression-evaluator');
+<pre><code>var mexp = require('math-expression-evaluator');
 </code></pre>
 
 <h3>
@@ -97,12 +110,10 @@ log     logarithmic function with base 10 eg. log 1000 returns 3
 ln      natural log function with base e eg. ln 2 returns .3010 
 pow     power function with two operator pow(2,3) returns 8
 ^       power operator eg. 2^3 returns 8
-root    underroot function root 4 returns 2
+root    underroot function root 4 returns 2  
 </code></pre>
 
-<blockquote>
-<p>Trigonometric function  </p>
-</blockquote>
+<p><strong>Trigonometric function</strong>  </p>
 
 <pre><code>sin
 cos
@@ -121,39 +132,36 @@ atanh
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<p>An expression can be evaluated using </p>
+<p>An expression can be evaluated using  </p>
 
-<ol>
-<li>
-<h4>
-<a id="mexpeval" class="anchor" href="#mexpeval" aria-hidden="true"><span class="octicon octicon-link"></span></a>mexp.eval()</h4>
+<h3>
+<a id="1-mexpeval" class="anchor" href="#1-mexpeval" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. mexp.eval()</h3>
 
-<pre><code>var value = mexp.eval(exp);
+<pre><code>    var value = mexp.eval(exp);  
 </code></pre>
-</li>
-<li>
-<h4>
-<a id="constituents-of-mexpeval-method-directly-which-are-explained-below" class="anchor" href="#constituents-of-mexpeval-method-directly-which-are-explained-below" aria-hidden="true"><span class="octicon octicon-link"></span></a>Constituents of mexp.eval method directly which are explained below</h4>
+
+<h3>
+<a id="2-constituents-of-mexpeval-method-directly-which-are-explained-below" class="anchor" href="#2-constituents-of-mexpeval-method-directly-which-are-explained-below" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Constituents of mexp.eval method directly which are explained below</h3>
 
 <ul>
 <li>
-<p>Parse an expression and then add additional detail to the tokens using  </p>
+<p>Parse an expression and then add additional detail to the tokens using</p>
 
 <pre><code>var lexed = mexp.lex(exp);  
 </code></pre>
 
-<p>which returns a <code>mexp</code> constructor object which will further processed by methods <code>toPostfix</code> and <code>postfixEval</code></p>
+<p>which returns a <code>mexp</code> constructor object which will be further processed by methods <code>toPostfix</code> and <code>postfixEval</code>  </p>
 </li>
 <li>
-<p>Now, that object is needed to be converted to postfix notation using  </p>
+<p>Now, that object is needed to be converted to postfix notation using</p>
 
 <pre><code>var postfix = lexed.toPostfix();  
 </code></pre>
 
-<p>which converts the <code>mexp</code> object to postfix notation and return new <code>mexp</code> object</p>
+<p>which converts the <code>mexp</code> object to postfix notation and return new <code>mexp</code> object  </p>
 </li>
 <li>
-<p>Now to get the value of expression use <code>postfixEval</code>  </p>
+<p>Now to get the value of expression use <code>postfixEval</code></p>
 
 <pre><code>var result = postfix.postfixEval();  
 </code></pre>
@@ -161,94 +169,236 @@ atanh
 <p>where result contains the result.</p>
 </li>
 </ul>
-</li>
-</ol>
 
 <h2>
-<a id="using-variables" class="anchor" href="#using-variables" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using variables</h2>
+<a id="extending-tokens" class="anchor" href="#extending-tokens" aria-hidden="true"><span class="octicon octicon-link"></span></a>Extending tokens</h2>
 
-<ol>
-<li>
-<h4>
-<a id="token" class="anchor" href="#token" aria-hidden="true"><span class="octicon octicon-link"></span></a>Token</h4>
+<h3>
+<a id="how-to-define-a-token" class="anchor" href="#how-to-define-a-token" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to define a token</h3>
 
-<p>Every token in this evaluator has four basic properties  </p>
+<pre><code>To create a token that represent any function, variable,operator etc. a object needs to be declared with four properties.
+1. token( string that is unique and used for tokenization)  
+    This property is used to identify and tokenize the string .This needs to be unique for every token.
+2. type  
+    These are the following type that should be chose suitably when creating a tokens  
 
-<ul>
-<li>
-<p>type<br>
-These are the following type that should be chose suitably when creating a tokens  </p>
+        0 : function with syntax function_name(Maths_exp)
+        2 : binary function  with syntax (Math_exp1)function_name(Math_exp2) eg. * / Mod
+        3 : Math constant values like e,pi 
+        7 : function with syntax (Math_exp)function_name eg. !
+        8 : function with two comma separated parameters syntax function_name(Math_exp1,Math_exp2) eg. pow
+        12: function with three comma separated parameters syntax function_name(Math_exp1,Math_exp2,Math_exp3) eg. pow
 
-<pre><code>0 : function with syntax function_name(Maths_exp)
-2 : binary function  with syntax (Math_exp1)function_name(Math_exp2) eg. * / Mod
-3 : Math constant values like e,pi 
-7 : function with syntax (Math_exp)function_name eg. !
-8 : function with two comma separated parameters syntax function_name(Math_exp1,Math_exp2) eg. pow
-12: function with three comma separated parameters syntax function_name(Math_exp1,Math_exp2,Math_exp3) eg. pow
+3. value  
+    What is the value stored in that token.  
+    In detail for any function `value` should be a Javascript function with the corresponding arguments.  
+
+4. show( string to show when displaying parsed formula)  
+    This is the value to display when the executed formula is displayed using `Mexp.formulaEval()`.
+    For eg. sin has `show` property sin while Sigma has show property `&amp;Sigma;` so that it displays &amp;Sigma; instead if plain Sigma.  
 </code></pre>
-</li>
-<li>
-<p>value 
-What is the value stored in that token.<br>
-In detail for any function <code>value</code> should be a Javascript function with the corresponding arguments.<br>
-Eg. a value for max of two no. would look like</p>
 
-<pre><code>function(a,b){
-    if(a&gt;b)
-        return a;
-    else 
-        return b;
+<h5>
+<a id="function-with-one-parameter" class="anchor" href="#function-with-one-parameter" aria-hidden="true"><span class="octicon octicon-link"></span></a>Function with one parameter</h5>
+
+<p>For defining a token for function which accepts only one argument like sine, an object with all four properties as explained above needs to be defined. For function with only one argument<br>
+<code>type</code> must be 0<br>
+<code>token</code> will be the function name<br>
+<code>show</code> can also be the function name as it is only used for displaying formula<br>
+<code>value</code> needs to be a function that accepts and operates on one argument.</p>
+
+<p>Eg. Object if a function needs to be added for inverse of a number</p>
+
+<pre><code>{
+    type:0,
+    token:"inverse",
+    show:"inverse",
+    value:function(a){
+        return 1/a;
+    }
 }
 </code></pre>
+
+<h5>
+<a id="function-with-two-parameters" class="anchor" href="#function-with-two-parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Function with two parameters</h5>
+
+<p>For defining a token for function which accepts two arguments like pow, an object with all four properties as <a href="how-to-define-a-token">explained above</a> needs to be defined. For function with two argument<br>
+<code>type</code> must be 8<br>
+<code>token</code> will be the function name<br>
+<code>show</code> can also be the function name as it is only used for displaying formula<br>
+<code>value</code> needs to be a function that accepts and operates on two arguments.</p>
+
+<p>Eg. Object if a function needs to be added for finding maximum of two number</p>
+
+<pre><code>{
+    type:8,
+    token:"max",
+    show:"max",
+    value:function(a,b){
+        if(a&gt;b)
+            return a;
+        return b;
+    }
+}
+</code></pre>
+
+<h5>
+<a id="function-with-three-parameters" class="anchor" href="#function-with-three-parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Function with three parameters</h5>
+
+<p>For defining a token for function which accepts three arguments like Sigma, an object with all four properties as <a href="how-to-define-a-token">explained above</a> needs to be defined. For function with three argument<br>
+<code>type</code> must be 12<br>
+<code>token</code> will be the function name<br>
+<code>show</code> can also be the function name as it is only used for displaying formula<br>
+<code>value</code> needs to be a function that accepts and operates on two arguments.</p>
+
+<p>Eg. Object if a function needs to be added for finding maximum of three number</p>
+
+<pre><code>{
+    type:12,
+    token:"max_three",
+    show:"max_three",
+    value:function(a,b,c){
+        if(a&gt;b){
+            if(a&gt;c)
+            return a;
+            else return c;
+        } 
+        else {
+            if(b&gt;c)
+            return b;
+            else return c;
+        }
+    }
+}
+</code></pre>
+
+<h5>
+<a id="variable" class="anchor" href="#variable" aria-hidden="true"><span class="octicon octicon-link"></span></a>Variable</h5>
+
+<p>For defining a token for variable like pi, an object with all four properties as <a href="how-to-define-a-token">explained above</a> needs to be defined. For a variable
+<code>type</code> must be 3<br>
+<code>token</code> will be the token name<br>
+<code>show</code> can be anything for displaying formula<br>
+<code>value</code> needs to be the unique name can also be token name.</p>
+
+<p><strong>Note : Value of the variable needs to be passed separately to the evaluator either in <code>eval</code> method or it's constituent <code>postfixEval</code> method</strong></p>
+
+<p>Eg. Object to add a variable named git</p>
+
+<pre><code>{
+    type:3,
+    token:"git",
+    show:"git",
+    value:"git"
+}
+</code></pre>
+
+<h5>
+<a id="unary-postfix-function" class="anchor" href="#unary-postfix-function" aria-hidden="true"><span class="octicon octicon-link"></span></a>Unary postfix function</h5>
+
+<p>For defining a token for postfix function which accepts one arguments like factorial !, an object with all four properties as <a href="how-to-define-a-token">explained above</a> needs to be defined. For postfix function with one argument<br>
+<code>type</code> must be 7<br>
+<code>token</code> will be the function name<br>
+<code>show</code> can also be the function name as it is only used for displaying formula<br>
+<code>value</code> needs to be a function that accepts and operates on one arguments.</p>
+
+<p>Eg. Object if a postfix function needs to be added for inverse of a number</p>
+
+<pre><code>{
+    type:7,
+    token:"inverse",
+    show:"inverse",
+    value:function(a){
+        return 1/a;
+    }
+}
+</code></pre>
+
+<h5>
+<a id="binary-infix-function" class="anchor" href="#binary-infix-function" aria-hidden="true"><span class="octicon octicon-link"></span></a>Binary infix function</h5>
+
+<p>For defining a token for infix function which accepts two arguments like *,/ or Mod, an object with all four properties as <a href="how-to-define-a-token">explained above</a> needs to be defined. For infix function with two argument<br>
+<code>type</code> must be 2<br>
+<code>token</code> will be the function name<br>
+<code>show</code> can also be the function name as it is only used for displaying formula<br>
+<code>value</code> needs to be a function that accepts and operates on two arguments.</p>
+
+<p>Eg. Object if a binary function needs to be added for finding maximum of two number</p>
+
+<pre><code>{
+    type:2,
+    token:"max",
+    show:"max",
+    value:function(a,b){
+        if(a&gt;b)
+            return a;
+        return b;
+    }
+}
+</code></pre>
+
+<h4>
+<a id="adding-tokens-using-mexpaddtoken" class="anchor" href="#adding-tokens-using-mexpaddtoken" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding tokens using mexp.addToken</h4>
+
+<pre><code>Mexp.addToken([token1,token2,...]);  
+</code></pre>
+
+<p>This method taken a list of tokens which are <a href="#how-to-define-a-token">explained above</a> as arguments and adds them to the built-in tokens. After that the evaluator can be used as usual.<br>
+<strong>Note : If a variable is being added to the evaluator then the value of the variable needs to be passed as explained below.</strong></p>
+
+<h4>
+<a id="adding-tokens-using-mexpeval" class="anchor" href="#adding-tokens-using-mexpeval" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding tokens using mexp.eval()</h4>
+
+<pre><code>var value = =mexp.eval(exp,[token1,token2,...],pair);  
+</code></pre>
+
+<p><code>eval</code> method takes three arguments where  </p>
+
+<ul>
+<li>first is the expression to be evaluated<br>
 </li>
-<li><p>show( string to show when displaying parsed formula)<br>
-This is the value to display when the executed formula is displayed using <code>Mexp.formulaEval()</code>.
-For eg. sin has <code>show</code> property sin while Sigma has show property <code>&amp;Sigma;</code> so that it displays Σ instead if plain Sigma.  </p></li>
-<li><p>token( string that is unique and used for tokenization) 
-This property is used to identify and tokenize the string .This needs to be unique for every token.</p></li>
+<li>second is list of tokens where structure of token is <a href="#how-to-define-a-token">explained here</a>
+</li>
+<li>third is the key-value pair object. This object is the key-value mappings for all the variables added to the evaluator where key is equal to value property of token and value is equal to some number.</li>
 </ul>
-</li>
-<li>
+
+<p>Eg. For <a href="#variable">this token</a>, the pair object would look like</p>
+
+<pre><code>{"git":100}
+</code></pre>
+
 <h4>
-<a id="mexpaddtoken" class="anchor" href="#mexpaddtoken" aria-hidden="true"><span class="octicon octicon-link"></span></a>mexp.addToken()</h4>
+<a id="adding-tokens-using-constituents-of-mexpeval" class="anchor" href="#adding-tokens-using-constituents-of-mexpeval" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding tokens using constituents of mexp.eval()</h4>
 
-<pre><code>Mexp.addToken([token1,token2,...]);
+<pre><code>var lexed = mexp.lex(exp,[token1,token2,...]);  
 </code></pre>
 
-<p>This method taken a list of tokens as arguments.</p>
-</li>
-<li>
-<h4>
-<a id="argument-to-mexpeval" class="anchor" href="#argument-to-mexpeval" aria-hidden="true"><span class="octicon octicon-link"></span></a>argument to mexp.eval()</h4>
+<p><code>lex</code> method takes list of tokens as <a href="#how-to-define-a-token">explained here</a> as second second arguments.
+If variables are added to the evaluator then key-value pair needs to be passed to <code>postfixEval</code> method  </p>
 
-<pre><code>var value = =mexp.eval(exp,[token1,token2,...],{name:value});
+<pre><code>var result = postfix.postfixEval(pair);
 </code></pre>
 
-<p>Where token1 is something like </p>
+<p>where pair object is the key-value mappings for all the variable where key is equal to value property of token and value is equal to some number.</p>
 
-<p>{type:3,show:"value for formula evaluator",ev:"name",preced:0,token:"name"}</p>
+<p>Eg. For <a href="#variable">this token</a>, the pair object would look like</p>
 
-<p>and third argument is key-value pair which maps the value to variable name.</p>
-</li>
-<li>
-<h4>
-<a id="argument-to-constituents-of-mexpeval" class="anchor" href="#argument-to-constituents-of-mexpeval" aria-hidden="true"><span class="octicon octicon-link"></span></a>argument to constituents of mexp.eval()</h4>
-
-<pre><code>var lexed = mexp.lex(exp,[token1,token2,...]);
+<pre><code>{"git":100}
 </code></pre>
 
-<p>Where token1 is something like </p>
+<h2>
+<a id="error-handling" class="anchor" href="#error-handling" aria-hidden="true"><span class="octicon octicon-link"></span></a>Error handling</h2>
 
-<blockquote>
-<p>{type:3,show:"value for formula evaluator",ev:"name",preced:0,token:"name"}</p>
-</blockquote>
+<p>This evaluator throws exception with error message if any error occurs.<br>
+So it is a good habit to catch the exception</p>
 
-<p>To evaluate variable also pass the key-value pair to postfixEval method</p>
-
-<pre><code>var result = postfix.postfixEval({name:value});
+<pre><code>try{
+    mexp.eval("sin()");
+}
+catch(e){
+    alert(e.message); //alert ) is not allowed after (
+}
 </code></pre>
-</li>
-</ol>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/ankit31894/math-expression-evaluator">Math-expression-evaluator</a> is maintained by <a href="https://github.com/ankit31894">ankit31894</a>.</span>
