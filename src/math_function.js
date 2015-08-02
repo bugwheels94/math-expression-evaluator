@@ -76,8 +76,12 @@
 		},
 		Pi:function(low,high,ex){
 			var pro=1;
+			if (ex.constructor!==Array) {	//pop1 needs to be constructor
+				ex=[{type:1,value:ex}];
+			}
+			ex=new Mexp(ex);
 			for(var i=low;i<=high;i++){
-				pro*=ex.postfixEval({n:i});
+				pro*=Number(ex.postfixEval({n:i}));
 			}
 			return pro;
 		},
@@ -88,7 +92,7 @@
 		},
 		sigma:function(low,high,ex){
 			var sum=0;
-			if (ex.constructor!==Array) {	//pop1 needs to be constructor
+			if (ex.constructor!==Array) {	//when ex is not Array then it is a number
 				ex=[{type:1,value:ex}];
 			}
 			ex=new Mexp(ex);

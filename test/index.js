@@ -85,4 +85,7 @@ describe('Testing Unit', function () {
   it('check eval method with two argument when second one is token list', function () {
 	 assert.equal(a.eval("mexp(3)",[{type:0,show:"mexp(",ev:function(a){return 5*a;},preced:11,token:"mexp"}]),"15");
   });
+  it('Pi', function () {
+	 assert.equal(a.eval("Pi1,5,n"),"120");
+  });
 });
