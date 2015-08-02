@@ -18,13 +18,13 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 		}
 		else if(arr[i].type===0){
 			if(typeof stack[stack.length-1].type==="undefined"){
-				stack[stack.length-1].push(arr[i]);
+				stack[stack.length-1].value.push(arr[i]);
 			}
 			else stack[stack.length-1].value=arr[i].value(stack[stack.length-1].value);
 		}
 		else if(arr[i].type===7){
 			if(typeof stack[stack.length-1].type==="undefined"){
-				stack[stack.length-1].push(arr[i]);
+				stack[stack.length-1].value.push(arr[i]);
 			}
 			else stack[stack.length-1].value=arr[i].value(stack[stack.length-1].value);
 		}
@@ -33,17 +33,17 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 			pop2=stack.pop();
 			stack.push({type:1,value:arr[i].value(pop2.value,pop1.value)});
 		}
-		else if(arr[i].type===11){
+		else if(arr[i].type===10){
 			pop1=stack.pop();
 			pop2=stack.pop();
 			if(typeof pop2.type==="undefined"){
-				pop2=pop2.concat(pop1);
-				pop2.push(arr[i]);
+				pop2.value=pop2.value.concat(pop1);
+				pop2.value.push(arr[i]);
 				stack.push(pop2);
 			}
 			else if (typeof pop1.type==="undefined") {
-				pop1.unshift(pop2);
-				pop1.push(arr[i]);
+				pop1.value.unshift(pop2);
+				pop1.value.push(arr[i]);
 				stack.push(pop1);
 			}
 			else
@@ -53,37 +53,34 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 			pop1=stack.pop();
 			pop2=stack.pop();
 			if(typeof pop2.type==="undefined"){
-				pop2=pop2.concat(pop1);
-				pop2.push(arr[i]);
+				pop2=pop2.value.concat(pop1);
+				pop2.value.push(arr[i]);
 				stack.push(pop2);
 			}
 			else if (typeof pop1.type==="undefined") {
-				pop1.unshift(pop2);
-				pop1.push(arr[i]);
+				pop1.value.unshift(pop2);
+				pop1.value.push(arr[i]);
 				stack.push(pop1);
 			}
 			else{
 				stack.push({type:1,value:arr[i].value(pop2.value,pop1.value)});
 			}
 		}
-		else if(arr[i].type===22){
+		else if(arr[i].type===12){
 			pop1=stack.pop();
 			pop2=stack.pop();
 			pop3=stack.pop();
-			if (pop1.constructor!==Array) {	//pop1 needs to be constructor
-				pop1=[pop1];
-			}
-			stack.push({type:1,value:arr[i].value(pop3.value,pop2.value,new Mexp(pop1))});
+			stack.push({type:1,value:arr[i].value(pop3.value,pop2.value,pop1.value)});
 		}
-		else if(arr[i].type===23){
+		else if(arr[i].type===13){
 			if(bool){
 				stack.push({value:UserDefined[arr[i].value],type:3});
 			}
-			else stack.push([arr[i]]);
+			else stack.push({value:[arr[i]]});
 		}
 	}
 	if (stack.length>1) {
-		throw(new Mexp.exception("Math error"));
+		throw(new Mexp.exception("Uncaught Syntax error"));
 	}
 	return stack[0].value>1000000000000000?"Infinity":Number(stack[0].value.toFixed(15)).toPrecision();
 };

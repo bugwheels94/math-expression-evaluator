@@ -1,7 +1,4 @@
-	var Mexp=function(parsed,error){
-		if (error) {
-			this.value=[];
-		}
+	var Mexp=function(parsed){
 		this.value=parsed;
 		
 	};
@@ -91,6 +88,10 @@
 		},
 		sigma:function(low,high,ex){
 			var sum=0;
+			if (ex.constructor!==Array) {	//pop1 needs to be constructor
+				ex=[{type:1,value:ex}];
+			}
+			ex=new Mexp(ex);
 			for(var i=low;i<=high;i++){
 				sum+=Number(ex.postfixEval({n:i}));
 			}

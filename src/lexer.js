@@ -6,33 +6,29 @@
 			arr[i]+=val;
 		return arr;
 	}
-	var token=['sin','cos','tan','pi','(',')','Del','P','C',
+	var token=['sin','cos','tan','pi','(',')','P','C',
 		  'asin','acos','atan','7','8','9','int',
 		  'cosh','acosh','ln','^','root','4','5','6','/','!',
-		  'tanh','atanh','Mod','1','2','3','*','=',
-		  'sinh','asinh','e','log','10^x','0','.','+','-',',','Sigma','n','Pi','pow'];
-	var show=['sin(','cos(','tan(','&pi;','(',')','Del','P','C',
-		'asin(','acos(','atan(','7','8','9','Int(',
-		'cosh(','acosh(',' ln(','^','root(','4','5','6','&divide;','!',
-		'tanh(','atanh(',' Mod ','1','2','3','&times;','=',
-		'sinh(','asinh(','e',' log(',' 10^(','0','.','+','-',',','&Sigma;','n','&Pi;','pow('];
-	var eva=[Mexp.math.sin,Mexp.math.cos,Mexp.math.tan,'PI','(',')','Del',Mexp.math.P,Mexp.math.C,
+		  'tanh','atanh','Mod','1','2','3','*',
+		  'sinh','asinh','e','log','0','.','+','-',',','Sigma','n','Pi','pow'];
+	var show=['sin','cos','tan','&pi;','(',')','P','C',
+		'asin','acos','atan','7','8','9','Int',
+		'cosh','acosh',' ln','^','root','4','5','6','&divide;','!',
+		'tanh','atanh',' Mod ','1','2','3','&times;',
+		'sinh','asinh','e',' log','0','.','+','-',',','&Sigma;','n','&Pi;','pow'];
+	var eva=[Mexp.math.sin,Mexp.math.cos,Mexp.math.tan,'PI','(',')',Mexp.math.P,Mexp.math.C,
 		Mexp.math.asin,Mexp.math.acos,Mexp.math.atan,'7','8','9',Math.floor,
 		Mexp.math.cosh,Mexp.math.acosh,Math.log,Math.pow,Math.pow,'4','5','6',Mexp.math.div,Mexp.math.fact,
-		Mexp.math.tanh,Mexp.math.atanh,Mexp.math.mod,'1','2','3',Mexp.math.mul,'=',
-		Mexp.math.sinh,Mexp.math.asinh,'E',Mexp.math.log,Mexp.math.pow10x,'0','.',Mexp.math.add,Mexp.math.sub,',',Mexp.math.sigma,'n',Mexp.math.Pi,Math.pow];
-	var preced=[11,11,11,0,0,0,0,7,7,
-		11,11,10,0,0,0,11,
-		11,11,10,10,11,0,0,0,3,11,
-		11,11,10,0,0,0,3,0,
-		11,11,0,11,11,0,0,1,1,0,11,0,11,11];
-	var type=[0,0,0,3,4,5,12,11,11,
+		Mexp.math.tanh,Mexp.math.atanh,Mexp.math.mod,'1','2','3',Mexp.math.mul,
+		Mexp.math.sinh,Mexp.math.asinh,'E',Mexp.math.log,'0','.',Mexp.math.add,Mexp.math.sub,',',Mexp.math.sigma,'n',Mexp.math.Pi,Math.pow];
+	var preced={0:11,1:0,2:3,3:0,4:0,5:0,6:0,7:11,8:11,9:1,10:10,11:0,12:11,13:0};
+	var type=[0,0,0,3,4,5,10,10,
 		0,0,0,1,1,1,0,
-		0,0,0,11,11,1,1,1,2,7,
-		0,0,2,1,1,1,2,13,
-		0,0,3,0,0,1,6,9,9,21,22,23,22,8];
+		0,0,0,10,0,1,1,1,2,7,
+		0,0,2,1,1,1,2,
+		0,0,3,0,1,6,9,9,11,12,13,12,8];
 	 /*
-	0 : function with syntax function_name(Maths_exp) whose math_exp is yet to be entered
+	0 : function with syntax function_name(Maths_exp)
 	1 : numbers 
 	2 : binary operators like * / %
 	3 : Math constant values like e,pi,Cruncher ans 
@@ -42,17 +38,16 @@
 	7 : function with syntax (Math_exp)function_name
 	8: function with syntax function_name(Math_exp1,Math_exp2)
 	9 : binary operator like +,-
-	11: function with syntax (Math_exp1)function_name(Math_exp2) whose exp2 is yet to be entered
-	12: Delete Button
-	13: = button
-	22: function with , seperated three parameters
-	23: variable of Sigma function
+	10: function with syntax (Math_exp1)function_name(Math_exp2)
+	11: ,
+	12: function with , seperated three parameters
+	13: variable of Sigma function
 	 */
-	var type0={0:true,1:true,3:true,4:true,6:true,8:true,9:true,17:true,22:true,23:true},		//type2:true,type4:true,type9:true,type11:true,type21:true,type22
-	type1={0:true,1:true,2:true,3:true,4:true,5:true,6:true,7:true,8:true,9:true,10:true,11:true,13:true,17:true,21:true,22:true,23:true},//type3:true,type5:true,type7:true,type23
-	type_1={0:true,3:true,4:true,8:true,17:true,22:true,23:true},
+	var type0={0:true,1:true,3:true,4:true,6:true,8:true,9:true,12:true,13:true},//type2:true,type4:true,type9:true,type11:true,type21:true,type22
+	type1={0:true,1:true,2:true,3:true,4:true,5:true,6:true,7:true,8:true,9:true,10:true,11:true,12:true,13:true},//type3:true,type5:true,type7:true,type23
+	type_1={0:true,3:true,4:true,8:true,12:true,13:true},
 	empty={},
-	type_3={0:true,1:true,3:true,4:true,6:true,8:true,17:true,22:true,23:true},//type_5:true,type_7:true,type_23
+	type_3={0:true,1:true,3:true,4:true,6:true,8:true,12:true,13:true},//type_5:true,type_7:true,type_23
 	type6={1:true},
 	newAr=[[],
 			["1","2","3","7","8","9","4","5","6","+","-","*","/","(",")","^","!","P","C","=","e","0",".",",","n"],
@@ -85,14 +80,12 @@
 					newAr[tokens[i].token.length]=[];
 				newAr[tokens[i].token.length].push(tokens[i].token);
 				eva.push(tokens[i].ev);
-				preced.push(tokens[i].preced);
 				show.push(tokens[i].show);
 			}
 			else {
 				token[temp]=tokens[i].token;
 				type[temp]=tokens[i].type;
 				eva[temp]=tokens[i].ev;
-				preced[temp]=tokens[i].preced;
 				show[temp]=tokens[i].show;
 			}
 		}
@@ -130,16 +123,16 @@
 			var index=token.indexOf(key);
 			var cType=type[index];
 			var cEv=eva[index];
-			var cPre=preced[index];
+			var cPre=preced[cType];
 			var	cShow=show[index];
 			var pre=str[str.length-1];
 			for(j=ptc.length;j--;){	//loop over ptc
 				if(ptc[j]===0){
-					if([0,2,3,5,9,21,22,23].indexOf(cType)!==-1){
+					if([0,2,3,5,9,11,12,13].indexOf(cType)!==-1){
 						if(allowed[cType]!==true){
 							throw(new Mexp.exception(key+" is not allowed after "+prevKey));
 						}
-						str.push({value:")",type:5,pre:3,show:")"});
+						str.push({value:")",type:5,pre:0,show:")"});
 						allowed=type1;
 						asterick=type_3;
 						inc(ptc,-1).pop();
@@ -231,20 +224,23 @@
 			}
 			else if(cType===9){
 				if(pre.type===9){
-					if(pre.value==='+'){
+					if(pre.value===Mexp.math.add){
 						pre.value=cEv;
 						pre.show=cShow;
 						inc(ptc,1);
 					}
-					else if(pre.value==='-'&&cShow==='-'){
-						pre.value='+';
+					else if(pre.value===Mexp.math.sub&&cShow==='-'){
+						pre.value=Mexp.math.add;
 						pre.show='+';
 						inc(ptc,1);
 					}
 				}
-				else if(pre.type!==5&&pre.type!==7&&pre.type!==1&&pre.type!==3&&pre.type!==23){
+				else if(pre.type!==5&&pre.type!==7&&pre.type!==1&&pre.type!==3&&pre.type!==13){
+					allowed=type0;
+					asterick=empty;
+					inc(ptc,2).push(2);
 					str.push({value:Mexp.math.changeSign,type:0,pre:21,show:"-"});
-					inc(ptc,1);
+					str.push({value:"(",type:4,pre:0,show:"("});
 				}
 				else{
 					str.push(obj);
@@ -253,25 +249,25 @@
 				allowed=type0;
 				asterick=empty;
 			}
-			else if(cType===11){
+			else if(cType===10){
 				allowed=type0;
 				asterick=empty;
 				inc(ptc,2);
 				str.push(obj);
 			}
-			else if(cType===21){
+			else if(cType===11){
 				allowed=type0;
 				asterick=empty;
 				str.push(obj);
 			}
-			else if(cType===22){
+			else if(cType===12){
 				allowed=type0;
 				asterick=empty;
 				inc(ptc,6).push(6);
 				str.push(obj);
 				str.push({value:"(",type:4,pre:0});
 			}
-			else if(cType===23){
+			else if(cType===13){
 				allowed=type1;
 				asterick=type_3;
 				str.push(obj);

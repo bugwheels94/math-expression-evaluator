@@ -15,7 +15,7 @@
     	var stack=[{value:"(",type:4,pre:0}];
 		var arr=this.value;
 		for (var i=1; i < arr.length; i++) {
-			if(arr[i].type===1||arr[i].type===3||arr[i].type===23){	//if token is number,constant,or n(which is also a special constant in our case)
+			if(arr[i].type===1||arr[i].type===3||arr[i].type===13){	//if token is number,constant,or n(which is also a special constant in our case)
 				if(arr[i].type===1)
 					arr[i].value=Number(arr[i].value);
 				post.push(arr[i]);
@@ -28,7 +28,7 @@
 					post.push(popped);
 				}
 			}
-			else if(arr[i].type===21){
+			else if(arr[i].type===11){
 				while((popped=stack.pop()).type!==4){
 					post.push(popped);
 				}

@@ -15,9 +15,25 @@ describe('Testing Unit', function () {
   it('equal test', function () {
     assert.equal(a.lex("tan(pi)").toPostfix().postfixEval(),0);
   });
+  it('minus with exponent test', function () {
+    assert.equal(a.lex("0+-2^2").toPostfix().postfixEval(),-4);
+  });
   it('equal test', function () {
     assert.equal(a.lex("2(7-4)3").toPostfix().postfixEval(),18);
   });
+  it('multiplication and exponential in series', function () {
+    assert.equal(a.lex("2*7^2").toPostfix().postfixEval(),98);
+  });
+  it('exponential and multiplication in series', function () {
+    assert.equal(a.lex("2^5*2").toPostfix().postfixEval(),64);
+  });
+  it('-3^2=-9', function () {
+    assert.equal(a.lex("-3^2").toPostfix().postfixEval(),-9);
+  });
+  it('3^2-2^2=5', function () {
+    assert.equal(a.lex("3^2-2^2").toPostfix().postfixEval(),5);
+  });
+  
   it('formula test', function () {
     assert.equal(a.lex("2").toPostfix().formulaEval(),2);
   });
@@ -43,10 +59,10 @@ describe('Testing Unit', function () {
     assert.equal(a.lex("-e").toPostfix().postfixEval(),-Math.E);
   });
   it('check for constant inside Sigma', function () {
-    assert.equal(a.lex("Sigma1,3,x",[{type:3,preced:0,ev:"x",show:"x",token:"x"}]).toPostfix().postfixEval({x:2}),6);
+    assert.equal(a.lex("Sigma1,3,2",[{type:3,preced:0,ev:"x",show:"x",token:"x"}]).toPostfix().postfixEval({x:2}),6);
   });
   it('check when arithmetic and n are present inside sigma', function () {
-    assert.equal(a.lex("Sigma1,2,(1+n!)").toPostfix().postfixEval(),5);
+    assert.equal(a.lex("Sigma1,2,n").toPostfix().postfixEval(),3);
   });
   it('check when two parenthesis less functions are consecutive on one parameter', function () {
     assert.equal(a.lex("sinint2.5").toPostfix().postfixEval(),a.lex("sin(int(2.5))").toPostfix().postfixEval());
@@ -69,18 +85,4 @@ describe('Testing Unit', function () {
   it('check eval method with two argument when second one is token list', function () {
 	 assert.equal(a.eval("mexp(3)",[{type:0,show:"mexp(",ev:function(a){return 5*a;},preced:11,token:"mexp"}]),"15");
   });
-  it('check if expression ends with cos', function () {
-	
-		var str=a.eval("sin(2,3)");
-		var dc=''
-		console.log(str);
-		
-	
-  });
-  var date=new Date;
-  for (var i=0;i<100000;i++) {
-	var res=a.eval("15*3");
-  }
-  console.log(new Date-date);
-  console.log(res);
 });
