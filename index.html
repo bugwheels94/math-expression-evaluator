@@ -135,7 +135,7 @@ atanh
 <p>An expression can be evaluated using  </p>
 
 <h3>
-<a id="1-mexpeval" class="anchor" href="#1-mexpeval" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. mexp.eval()</h3>
+<a id="1-mexpeval-method" class="anchor" href="#1-mexpeval-method" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. mexp.eval method</h3>
 
 <pre><code>    var value = mexp.eval(exp);  
 </code></pre>
@@ -338,7 +338,7 @@ atanh
 </code></pre>
 
 <h4>
-<a id="adding-tokens-using-mexpaddtoken" class="anchor" href="#adding-tokens-using-mexpaddtoken" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding tokens using mexp.addToken</h4>
+<a id="adding-tokens-using-mexpaddtoken-method" class="anchor" href="#adding-tokens-using-mexpaddtoken-method" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding tokens using mexp.addToken method</h4>
 
 <pre><code>Mexp.addToken([token1,token2,...]);  
 </code></pre>
@@ -347,7 +347,7 @@ atanh
 <strong>Note : If a variable is being added to the evaluator then the value of the variable needs to be passed as explained below.</strong></p>
 
 <h4>
-<a id="adding-tokens-using-mexpeval" class="anchor" href="#adding-tokens-using-mexpeval" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding tokens using mexp.eval()</h4>
+<a id="adding-tokens-using-mexpeval-method" class="anchor" href="#adding-tokens-using-mexpeval-method" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding tokens using mexp.eval method</h4>
 
 <pre><code>var value = =mexp.eval(exp,[token1,token2,...],pair);  
 </code></pre>
@@ -368,7 +368,7 @@ atanh
 </code></pre>
 
 <h4>
-<a id="adding-tokens-using-constituents-of-mexpeval" class="anchor" href="#adding-tokens-using-constituents-of-mexpeval" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding tokens using constituents of mexp.eval()</h4>
+<a id="adding-tokens-using-constituents-of-mexpeval-method" class="anchor" href="#adding-tokens-using-constituents-of-mexpeval-method" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding tokens using constituents of mexp.eval method</h4>
 
 <pre><code>var lexed = mexp.lex(exp,[token1,token2,...]);  
 </code></pre>
@@ -381,24 +381,20 @@ If variables are added to the evaluator then key-value pair needs to be passed t
 
 <p>where pair object is the key-value mappings for all the variable where key is equal to value property of token and value is equal to some number.</p>
 
-<p>Eg. For <a href="#variable">this token</a>, the pair object would look like</p>
-
-<pre><code>{"git":100}
-</code></pre>
+<p>Eg. For <a href="#variable">this token</a>, the pair object would look like<br>
+    {"git":100}</p>
 
 <h2>
 <a id="error-handling" class="anchor" href="#error-handling" aria-hidden="true"><span class="octicon octicon-link"></span></a>Error handling</h2>
 
 <p>This evaluator throws exception with error message if any error occurs.<br>
-So it is a good habit to catch the exception</p>
-
-<pre><code>try{
-    mexp.eval("sin()");
-}
-catch(e){
-    alert(e.message); //alert ) is not allowed after (
-}
-</code></pre>
+So it is a good habit to catch the exception<br>
+    try{
+        mexp.eval("sin()");
+    }
+    catch(e){
+        alert(e.message); //alert ) is not allowed after (
+    }</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/ankit31894/math-expression-evaluator">Math-expression-evaluator</a> is maintained by <a href="https://github.com/ankit31894">ankit31894</a>.</span>
