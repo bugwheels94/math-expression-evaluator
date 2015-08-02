@@ -176,15 +176,16 @@ atanh
 
 <ul>
 <li>
-<p>type  </p>
+<p>type<br>
+These are the following type that should be chose suitably when creating a tokens  </p>
 
-<p>These are the following type that should be chose suitably when creating a tokens<br>
-0 : function with syntax function_name(Maths_exp)
+<pre><code>0 : function with syntax function_name(Maths_exp)
 2 : binary function  with syntax (Math_exp1)function_name(Math_exp2) eg. * / Mod
 3 : Math constant values like e,pi 
 7 : function with syntax (Math_exp)function_name eg. !
 8 : function with two comma separated parameters syntax function_name(Math_exp1,Math_exp2) eg. pow
-12: function with three comma separated parameters syntax function_name(Math_exp1,Math_exp2,Math_exp3) eg. pow</p>
+12: function with three comma separated parameters syntax function_name(Math_exp1,Math_exp2,Math_exp3) eg. pow
+</code></pre>
 </li>
 <li>
 <p>value 
@@ -231,7 +232,7 @@ This property is used to identify and tokenize the string .This needs to be uniq
 </li>
 <li>
 <h4>
-<a id="argument-toconstituents-of-mexpeval" class="anchor" href="#argument-toconstituents-of-mexpeval" aria-hidden="true"><span class="octicon octicon-link"></span></a>argument toconstituents of mexp.eval()</h4>
+<a id="argument-to-constituents-of-mexpeval" class="anchor" href="#argument-to-constituents-of-mexpeval" aria-hidden="true"><span class="octicon octicon-link"></span></a>argument to constituents of mexp.eval()</h4>
 
 <pre><code>var lexed = mexp.lex(exp,[token1,token2,...]);
 </code></pre>
