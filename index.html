@@ -41,8 +41,8 @@
 <a href="#usage">Usage</a>
 
 <ul>
-<li><a href="#mexp%2Eeval-method">Using mexp.eval()</a></li>
-<li><a href="#constituents-of-mexp.eval-method">Using constituents of mexp.eval methods</a></li>
+<li><a href="#using-eval-method-of-mexp-object">Using eval method of mexp object</a></li>
+<li><a href="#using-constituents-of-eval-methods-of-mexp-object">Using constituents of eval methods of mexp object</a></li>
 <li>
 <a href="#extending-tokens">Extending tokens</a>
 
@@ -59,9 +59,9 @@
 <li><a href="#unary-postfix-function">Unary postfix function</a></li>
 </ul>
 </li>
-<li><a href="#adding-tokens-using-mexp.addToken-method">Adding tokens using mexp.addToken</a></li>
-<li><a href="#adding-tokens-using-mexp.eval-method">Adding tokens using mexp.eval()</a></li>
-<li><a href="#adding-tokens-using-constituents-of-mexp.eval">Adding token using constituents of mexp.eval()</a></li>
+<li><a href="#adding-tokens-using-addToken-method-of-mexp-object">Adding tokens using addToken method of mexp object</a></li>
+<li><a href="#adding-tokens-using-eval-method-of-mexp-object">Adding tokens using eval method of mexp object</a></li>
+<li><a href="#adding-token-using-constituents-of-eval-method-of-mexp-object">Adding token using constituents of eval method of mexp object</a></li>
 </ul>
 </li>
 <li>
@@ -135,13 +135,13 @@ atanh
 <p>An expression can be evaluated using  </p>
 
 <h3>
-<a id="mexpeval-method" class="anchor" href="#mexpeval-method" aria-hidden="true"><span class="octicon octicon-link"></span></a>mexp.eval method</h3>
+<a id="using-eval-method-of-mexp-object" class="anchor" href="#using-eval-method-of-mexp-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using eval method of mexp object</h3>
 
 <pre><code>    var value = mexp.eval(exp);  
 </code></pre>
 
 <h3>
-<a id="2-constituents-of-mexpeval-method" class="anchor" href="#2-constituents-of-mexpeval-method" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Constituents of mexp.eval method</h3>
+<a id="using-constituents-of-eval-methods-of-mexp-object" class="anchor" href="#using-constituents-of-eval-methods-of-mexp-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using constituents of eval methods of mexp object</h3>
 
 <ul>
 <li>
@@ -338,7 +338,7 @@ atanh
 </code></pre>
 
 <h4>
-<a id="adding-tokens-using-mexpaddtoken-method" class="anchor" href="#adding-tokens-using-mexpaddtoken-method" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding tokens using mexp.addToken method</h4>
+<a id="adding-tokens-using-addtoken-method-of-mexp-object" class="anchor" href="#adding-tokens-using-addtoken-method-of-mexp-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding tokens using addToken method of mexp object</h4>
 
 <pre><code>Mexp.addToken([token1,token2,...]);  
 </code></pre>
@@ -347,7 +347,7 @@ atanh
 <strong>Note : If a variable is being added to the evaluator then the value of the variable needs to be passed as explained below.</strong></p>
 
 <h4>
-<a id="adding-tokens-using-mexpeval-method" class="anchor" href="#adding-tokens-using-mexpeval-method" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding tokens using mexp.eval method</h4>
+<a id="adding-tokens-using-eval-method-of-mexp-object" class="anchor" href="#adding-tokens-using-eval-method-of-mexp-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding tokens using eval method of mexp object</h4>
 
 <pre><code>var value = =mexp.eval(exp,[token1,token2,...],pair);  
 </code></pre>
@@ -368,7 +368,7 @@ atanh
 </code></pre>
 
 <h4>
-<a id="adding-tokens-using-constituents-of-mexpeval-method" class="anchor" href="#adding-tokens-using-constituents-of-mexpeval-method" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding tokens using constituents of mexp.eval method</h4>
+<a id="adding-token-using-constituents-of-eval-method-of-mexp-object" class="anchor" href="#adding-token-using-constituents-of-eval-method-of-mexp-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding token using constituents of eval method of mexp object</h4>
 
 <pre><code>var lexed = mexp.lex(exp,[token1,token2,...]);  
 </code></pre>
