@@ -1,4 +1,4 @@
-/** math-expression-evaluator version 1.2.4
+/** math-expression-evaluator version 1.2.5
  Dated:2015-08-03 */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mexp = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
@@ -416,10 +416,6 @@ module.exports=Mexp;
 		},
 		Pi:function(low,high,ex){
 			var pro=1;
-			if (ex.constructor!==Array) {	//pop1 needs to be constructor
-				ex=[{type:1,value:ex}];
-			}
-			ex=new Mexp(ex);
 			for(var i=low;i<=high;i++){
 				pro*=Number(ex.postfixEval({n:i}));
 			}
@@ -432,10 +428,6 @@ module.exports=Mexp;
 		},
 		sigma:function(low,high,ex){
 			var sum=0;
-			if (ex.constructor!==Array) {	//pop1 needs to be constructor
-				ex=[{type:1,value:ex}];
-			}
-			ex=new Mexp(ex);
 			for(var i=low;i<=high;i++){
 				sum+=Number(ex.postfixEval({n:i}));
 			}
@@ -596,15 +588,18 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 		}
 		else if(arr[i].type===12){
 			pop1=stack.pop();
+			if (typeof pop1.type!=="undefined") {
+				pop1=[pop1];
+			}
 			pop2=stack.pop();
 			pop3=stack.pop();
-			stack.push({type:1,value:arr[i].value(pop3.value,pop2.value,pop1.value)});
+			stack.push({type:1,value:arr[i].value(pop3.value,pop2.value,new Mexp(pop1))});
 		}
 		else if(arr[i].type===13){
 			if(bool){
 				stack.push({value:UserDefined[arr[i].value],type:3});
 			}
-			else stack.push({value:[arr[i]]});
+			else stack.push([arr[i]]);
 		}
 	}
 	if (stack.length>1) {

@@ -68,15 +68,18 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 		}
 		else if(arr[i].type===12){
 			pop1=stack.pop();
+			if (typeof pop1.type!=="undefined") {
+				pop1=[pop1];
+			}
 			pop2=stack.pop();
 			pop3=stack.pop();
-			stack.push({type:1,value:arr[i].value(pop3.value,pop2.value,pop1.value)});
+			stack.push({type:1,value:arr[i].value(pop3.value,pop2.value,new Mexp(pop1))});
 		}
 		else if(arr[i].type===13){
 			if(bool){
 				stack.push({value:UserDefined[arr[i].value],type:3});
 			}
-			else stack.push({value:[arr[i]]});
+			else stack.push([arr[i]]);
 		}
 	}
 	if (stack.length>1) {
