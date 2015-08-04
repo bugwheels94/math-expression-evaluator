@@ -187,7 +187,7 @@ atanh
         3 : Math constant values like e,pi 
         7 : function with syntax (Math_exp)function_name eg. !
         8 : function with two comma separated parameters syntax function_name(Math_exp1,Math_exp2) eg. pow
-        12: function with three comma separated parameters syntax function_name(Math_exp1,Math_exp2,Math_exp3) eg. pow
+        12: function of Sigma or Pi kind which have three comma separated parameters function_name(Math_exp1,Math_exp2,Math_exp3) eg. pow
 
 3. value  
     What is the value stored in that token.  
@@ -243,7 +243,7 @@ atanh
 </code></pre>
 
 <h5>
-<a id="function-with-three-parameters" class="anchor" href="#function-with-three-parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Function with three parameters</h5>
+<a id="sigma-or-pi-kind-functions-with-three-parameters" class="anchor" href="#sigma-or-pi-kind-functions-with-three-parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sigma or Pi kind functions with three parameters</h5>
 
 <p>For defining a token for function which accepts three arguments like Sigma, an object with all four properties as <a href="how-to-define-a-token">explained above</a> needs to be defined. For function with three argument<br>
 <code>type</code> must be 12<br>
@@ -251,23 +251,20 @@ atanh
 <code>show</code> can also be the function name as it is only used for displaying formula<br>
 <code>value</code> needs to be a function that accepts and operates on two arguments.</p>
 
-<p>Eg. Object if a function needs to be added for finding maximum of three number</p>
+<p>Eg. Object if a function needs to be added for finding maximum of n expression from i to k number</p>
 
 <pre><code>{
     type:12,
     token:"max_three",
     show:"max_three",
-    value:function(a,b,c){
-        if(a&gt;b){
-            if(a&gt;c)
-            return a;
-            else return c;
-        } 
-        else {
-            if(b&gt;c)
-            return b;
-            else return c;
+    value:function(a,b,c){ 
+        var max=c.postfixEval({n:a}),temp;
+        for(var i=a+1;i&lt;b;i++){
+            var temp=c.postfixEval({n:i});
+            if(temp&gt;max)
+                max=temp;
         }
+        return max;
     }
 }
 </code></pre>
