@@ -95,7 +95,7 @@
 		var str=[{type:4,value:"(",show:"(",pre:0}];
 		var ptc=[];	//Parenthesis to close at the beginning is after one token 
 		var inpStr=inp;
-		var key='';
+		var key;
 		var allowed=type0;
 		var bracToClose=0;
 		var asterick=empty;
@@ -108,6 +108,7 @@
 			if (inpStr[i]==' ') {
 				continue;
 			}
+			key='';
 			sec:for(x=(inpStr.length-i>(newAr.length-2)?newAr.length-1:inpStr.length-i);x>0;x--){
 				for(y=0;y<newAr[x].length;y++){
 					if (match(inpStr,newAr[x][y],i,x)){
