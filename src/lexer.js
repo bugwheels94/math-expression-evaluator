@@ -50,10 +50,10 @@
 	type_3={0:true,1:true,3:true,4:true,6:true,8:true,12:true,13:true},//type_5:true,type_7:true,type_23
 	type6={1:true},
 	newAr=[[],
-			["1","2","3","7","8","9","4","5","6","+","-","*","/","(",")","^","!","P","C","=","e","0",".",",","n"],
+			["1","2","3","7","8","9","4","5","6","+","-","*","/","(",")","^","!","P","C","e","0",".",",","n"],
 			["pi","ln","Pi"],
-			["Ans","sin","cos","tan","Del","int","Mod","log","pow"],
-			["asin","acos","atan","cosh","root","tanh","sinh","10^x"],
+			["sin","cos","tan","Del","int","Mod","log","pow"],
+			["asin","acos","atan","cosh","root","tanh","sinh"],
 			["acosh","atanh","asinh","Sigma"]];
 	function match(str1,str2,i,x){
 		for(var f=0;f<x;f++){
@@ -79,13 +79,13 @@
 				if(newAr.length<=tokens[i].token.length)
 					newAr[tokens[i].token.length]=[];
 				newAr[tokens[i].token.length].push(tokens[i].token);
-				eva.push(tokens[i].ev);
+				eva.push(tokens[i].value);
 				show.push(tokens[i].show);
 			}
 			else {
 				token[temp]=tokens[i].token;
 				type[temp]=tokens[i].type;
-				eva[temp]=tokens[i].ev;
+				eva[temp]=tokens[i].value;
 				show[temp]=tokens[i].show;
 			}
 		}

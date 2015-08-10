@@ -1,5 +1,5 @@
-/** math-expression-evaluator version 1.2.7
- Dated:2015-08-05 */
+/** math-expression-evaluator version 1.2.8
+ Dated:2015-08-10 */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mexp = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Mexp=require('./postfix_evaluator.js');
@@ -96,10 +96,10 @@ module.exports=Mexp;
 	type_3={0:true,1:true,3:true,4:true,6:true,8:true,12:true,13:true},//type_5:true,type_7:true,type_23
 	type6={1:true},
 	newAr=[[],
-			["1","2","3","7","8","9","4","5","6","+","-","*","/","(",")","^","!","P","C","=","e","0",".",",","n"],
+			["1","2","3","7","8","9","4","5","6","+","-","*","/","(",")","^","!","P","C","e","0",".",",","n"],
 			["pi","ln","Pi"],
-			["Ans","sin","cos","tan","Del","int","Mod","log","pow"],
-			["asin","acos","atan","cosh","root","tanh","sinh","10^x"],
+			["sin","cos","tan","Del","int","Mod","log","pow"],
+			["asin","acos","atan","cosh","root","tanh","sinh"],
 			["acosh","atanh","asinh","Sigma"]];
 	function match(str1,str2,i,x){
 		for(var f=0;f<x;f++){
@@ -125,13 +125,13 @@ module.exports=Mexp;
 				if(newAr.length<=tokens[i].token.length)
 					newAr[tokens[i].token.length]=[];
 				newAr[tokens[i].token.length].push(tokens[i].token);
-				eva.push(tokens[i].ev);
+				eva.push(tokens[i].value);
 				show.push(tokens[i].show);
 			}
 			else {
 				token[temp]=tokens[i].token;
 				type[temp]=tokens[i].type;
-				eva[temp]=tokens[i].ev;
+				eva[temp]=tokens[i].value;
 				show[temp]=tokens[i].show;
 			}
 		}
