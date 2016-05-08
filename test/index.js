@@ -7,13 +7,13 @@ describe('Testing Unit', function () {
     assert.equal(a.lex("2").toPostfix().postfixEval(),2);
   });
   it('equal test', function () {
-    assert.equal(a.lex("sinpi").toPostfix().postfixEval(),0);
+    assert.equal(a.lex("sin180").toPostfix().postfixEval(),0);
   });
   it('equal test', function () {
-    assert.equal(a.lex("cos pi").toPostfix().postfixEval(),-1);
+    assert.equal(a.lex("cos 180").toPostfix().postfixEval(),-1);
   });
   it('equal test', function () {
-    assert.equal(a.lex("tan(pi)").toPostfix().postfixEval(),0);
+    assert.equal(a.lex("tan(180)").toPostfix().postfixEval(),0);
   });
   it('minus with exponent test', function () {
     assert.equal(a.lex("0+-2^2").toPostfix().postfixEval(),-4);
@@ -33,7 +33,7 @@ describe('Testing Unit', function () {
   it('3^2-2^2=5', function () {
     assert.equal(a.lex("3^2-2^2").toPostfix().postfixEval(),5);
   });
-  
+
   it('formula test', function () {
     assert.equal(a.lex("2").toPostfix().formulaEval(),2);
   });
@@ -64,6 +64,7 @@ describe('Testing Unit', function () {
   it('check when arithmetic and n are present inside sigma', function () {
     assert.equal(a.lex("Sigma1,2,n").toPostfix().postfixEval(),3);
   });
+
   it('check when two parenthesis less functions are consecutive on one parameter', function () {
     assert.equal(a.lex("sinint2.5").toPostfix().postfixEval(),a.lex("sin(int(2.5))").toPostfix().postfixEval());
   });
@@ -72,23 +73,26 @@ describe('Testing Unit', function () {
     assert.equal(a.eval("5*3"),"15");
   });
   it('check eval method with three argument', function () {
-    assert.equal(a.eval("mexp*3",[{type:3,show:"mexp",token:"mexp",ev:"mexp",preced:0}],{mexp:5}),"15");
+    assert.equal(a.eval("mexp*3",[{type:3,show:"mexp",token:"mexp",value:"mexp",preced:0}],{mexp:5}),"15");
   });
   it('check eval method with two argument when second one is value of constants', function () {
-	a.addToken([{type:3,show:"mexp",ev:"mexp",preced:0,token:"mexp"}]);
+	a.addToken([{type:3,show:"mexp",value:"mexp",preced:0,token:"mexp"}]);
     assert.equal(a.eval("mexp*3",{mexp:5}),"15");
   });
   it('check eval method with two argument when second one is value of constants', function () {
-	a.addToken([{type:0,show:"mexp",ev:function(a){return 5*a;},preced:11,token:"mexp"}]);
+	a.addToken([{type:0,show:"mexp",value:function(a){return 5*a;},preced:11,token:"mexp"}]);
     assert.equal(a.lex("mexp3").toPostfix().postfixEval(),"15");
   });
   it('check eval method with two argument when second one is token list', function () {
-	 assert.equal(a.eval("mexp(3)",[{type:0,show:"mexp(",ev:function(a){return 5*a;},preced:11,token:"mexp"}]),"15");
+	 assert.equal(a.eval("mexp(3)",[{type:0,show:"mexp(",value:function(a){return 5*a;},preced:11,token:"mexp"}]),"15");
   });
   it('Pi', function () {
 	 assert.equal(a.eval("Pi1,5,n"),"120");
   });
-  it('2w', function () {
-	 assert.equal(a.eval("2w"),"22");
+  it('tan5(6+3)', function () {
+	 assert.equal(a.eval("tan5(6+3)"),"1");
+  });
+  it('tan(40+5)', function () {
+	 assert.equal(a.eval("tan(40+5)"),"1");
   });
 });

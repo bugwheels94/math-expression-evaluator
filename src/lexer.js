@@ -1,5 +1,4 @@
-    
-    var Mexp=require('./math_function.js');
+  var Mexp=require('./math_function.js');
 
 	function inc(arr,val){
 		for(var i=0;i<arr.length;i++)
@@ -29,9 +28,9 @@
 		0,0,3,0,1,6,9,9,11,12,13,12,8];
 	 /*
 	0 : function with syntax function_name(Maths_exp)
-	1 : numbers 
+	1 : numbers
 	2 : binary operators like * / %
-	3 : Math constant values like e,pi,Cruncher ans 
+	3 : Math constant values like e,pi,Cruncher ans
 	4 : opening bracket
 	5 : closing bracket
 	6 : decimal
@@ -57,7 +56,7 @@
 			["acosh","atanh","asinh","Sigma"]];
 	function match(str1,str2,i,x){
 		for(var f=0;f<x;f++){
-			if (str1[i+f]!==str2[f]) 
+			if (str1[i+f]!==str2[f])
 				return false;
 		}
 		return true;
@@ -93,9 +92,10 @@
 	Mexp.lex=function(inp,tokens){
 		'use strict';
 		var str=[{type:4,value:"(",show:"(",pre:0}];
-		var ptc=[];	//Parenthesis to close at the beginning is after one token 
+		var ptc=[];	//Parenthesis to close at the beginning is after one token
 		var inpStr=inp;
 		var key;
+        var pcounter=0;
 		var allowed=type0;
 		var bracToClose=0;
 		var asterick=empty;
@@ -181,7 +181,8 @@
 				asterick=type_3;
 			}
 			else if(cType===4){
-				inc(ptc,1);
+                pcounter+=ptc.length;
+                ptc=[];
 				bracToClose++;
 				allowed=type0;
 				asterick=empty;
@@ -191,6 +192,10 @@
 				if(!bracToClose){
 					throw(new Mexp.exception("Closing parenthesis are more than opening one, wait What!!!"));
 				}
+                while(pcounter--){	//loop over ptc
+    						str.push({value:")",type:5,pre:0,show:")"});
+    			}
+                pcounter=0;
 				bracToClose--;
 				allowed=type1;
 				asterick=type_3;
@@ -287,8 +292,9 @@
 		}
 		while(bracToClose--)
 			str.push({value:")",show:")",type:5,pre:3});
-		
+
 		str.push({type:5,value:")",show:")",pre:0});
+        console.log(str);
 		return new Mexp(str);
 	};
     module.exports=Mexp;

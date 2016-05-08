@@ -1,0 +1,88 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'unpublish',
+1 verbose cli   '--force' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.40
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 warn using --force I sure hope you know what you are doing.
+6 verbose request where is /math-expression-evaluator?write=true
+7 verbose request registry https://registry.npmjs.org/
+8 verbose request id d03fa0cfeedf5862
+9 verbose url raw /math-expression-evaluator?write=true
+10 verbose url resolving [ 'https://registry.npmjs.org/',
+10 verbose url resolving   './math-expression-evaluator?write=true' ]
+11 verbose url resolved https://registry.npmjs.org/math-expression-evaluator?write=true
+12 verbose request where is https://registry.npmjs.org/math-expression-evaluator?write=true
+13 info trying registry request attempt 1 at 03:55:57
+14 http GET https://registry.npmjs.org/math-expression-evaluator?write=true
+15 http 200 https://registry.npmjs.org/math-expression-evaluator?write=true
+16 silly registry.get cb [ 200,
+16 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+16 silly registry.get     etag: '"DNIHYHGR8O1DK6OGOIISP0Q4V"',
+16 silly registry.get     'content-type': 'application/json',
+16 silly registry.get     'cache-control': 'max-age=0',
+16 silly registry.get     'content-length': '24045',
+16 silly registry.get     'accept-ranges': 'bytes',
+16 silly registry.get     date: 'Fri, 15 Apr 2016 22:25:59 GMT',
+16 silly registry.get     via: '1.1 varnish',
+16 silly registry.get     age: '0',
+16 silly registry.get     connection: 'keep-alive',
+16 silly registry.get     'x-served-by': 'cache-sin6926-SIN',
+16 silly registry.get     'x-cache': 'MISS',
+16 silly registry.get     'x-cache-hits': '0',
+16 silly registry.get     'x-timer': 'S1460759158.236527,VS0,VE1051',
+16 silly registry.get     vary: 'Accept-Encoding' } ]
+17 verbose unpublish removing attachments { shasum: '973c98442bcad4abe71a4322440762895f5db823',
+17 verbose unpublish   tarball: 'http://registry.npmjs.org/math-expression-evaluator/-/math-expression-evaluator-1.2.8.tgz' }
+18 verbose request where is /math-expression-evaluator/-rev/21-6bf51dc89781e7a8a2d123fda231335a
+19 verbose request registry https://registry.npmjs.org/
+20 verbose url raw /math-expression-evaluator/-rev/21-6bf51dc89781e7a8a2d123fda231335a
+21 verbose url resolving [ 'https://registry.npmjs.org/',
+21 verbose url resolving   './math-expression-evaluator/-rev/21-6bf51dc89781e7a8a2d123fda231335a' ]
+22 verbose url resolved https://registry.npmjs.org/math-expression-evaluator/-rev/21-6bf51dc89781e7a8a2d123fda231335a
+23 verbose request where is https://registry.npmjs.org/math-expression-evaluator/-rev/21-6bf51dc89781e7a8a2d123fda231335a
+24 info trying registry request attempt 1 at 03:55:59
+25 http PUT https://registry.npmjs.org/math-expression-evaluator/-rev/21-6bf51dc89781e7a8a2d123fda231335a
+26 http 500 https://registry.npmjs.org/math-expression-evaluator/-rev/21-6bf51dc89781e7a8a2d123fda231335a
+27 info retry will retry, error on last attempt: Error: "cannot unpublish a version that is >24 hours old" : math-expression-evaluator/-rev/21-6bf51dc89781e7a8a2d123fda231335a
+28 info trying registry request attempt 2 at 03:56:12
+29 http PUT https://registry.npmjs.org/math-expression-evaluator/-rev/21-6bf51dc89781e7a8a2d123fda231335a
+30 http 500 https://registry.npmjs.org/math-expression-evaluator/-rev/21-6bf51dc89781e7a8a2d123fda231335a
+31 info retry will retry, error on last attempt: Error: "cannot unpublish a version that is >24 hours old" : math-expression-evaluator/-rev/21-6bf51dc89781e7a8a2d123fda231335a
+32 info trying registry request attempt 3 at 03:57:14
+33 http PUT https://registry.npmjs.org/math-expression-evaluator/-rev/21-6bf51dc89781e7a8a2d123fda231335a
+34 http 500 https://registry.npmjs.org/math-expression-evaluator/-rev/21-6bf51dc89781e7a8a2d123fda231335a
+35 verbose headers { 'content-type': 'application/json',
+35 verbose headers   'cache-control': 'max-age=0',
+35 verbose headers   'content-length': '80',
+35 verbose headers   'accept-ranges': 'bytes',
+35 verbose headers   date: 'Fri, 15 Apr 2016 22:27:16 GMT',
+35 verbose headers   via: '1.1 varnish',
+35 verbose headers   connection: 'keep-alive',
+35 verbose headers   'x-served-by': 'cache-sin6922-SIN',
+35 verbose headers   'x-cache': 'MISS',
+35 verbose headers   'x-cache-hits': '0',
+35 verbose headers   'x-timer': 'S1460759235.023503,VS0,VE1147' }
+36 error unpublish Failed to update data
+37 error Error: "cannot unpublish a version that is >24 hours old" : math-expression-evaluator/-rev/21-6bf51dc89781e7a8a2d123fda231335a
+37 error     at RegClient.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:308:14)
+37 error     at Request._callback (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:246:65)
+37 error     at Request.self.callback (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:236:22)
+37 error     at Request.emit (events.js:98:17)
+37 error     at Request.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1142:14)
+37 error     at Request.emit (events.js:117:20)
+37 error     at IncomingMessage.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1096:12)
+37 error     at IncomingMessage.emit (events.js:117:20)
+37 error     at _stream_readable.js:944:16
+37 error     at process._tickCallback (node.js:448:13)
+38 error If you need help, you may report this *entire* log,
+38 error including the npm and node versions, at:
+38 error     <http://github.com/npm/npm/issues>
+39 error System Windows_NT 6.2.9200
+40 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "unpublish" "--force"
+41 error cwd D:\Pthing\Projects\math-expression-evaluator
+42 error node -v v0.10.40
+43 error npm -v 1.4.28
+44 verbose exit [ 1, true ]

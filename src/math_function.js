@@ -1,21 +1,21 @@
 	var Mexp=function(parsed){
 		this.value=parsed;
-		
+
 	};
-	
+
 	Mexp.math={
-		isDegree:false, //mode of calculator 
-		acos:function(x){ 
-			return (Mexp.isDegree?180/Math.PI*Math.acos(x):Math.acos(x));
+		isDegree:true, //mode of calculator
+		acos:function(x){
+			return (Mexp.math.isDegree?180/Math.PI*Math.acos(x):Math.acos(x));
 		},
 		add:function(a,b){
 			return a+b;
 		},
 		asin:function(x){
-			return (Mexp.isDegree?180/Math.PI*Math.asin(x):Math.asin(x));
+			return (Mexp.math.isDegree?180/Math.PI*Math.asin(x):Math.asin(x));
 		},
 		atan:function(x){
-			return (Mexp.isDegree?180/Math.PI*Math.atan(x):Math.atan(x));
+			return (Mexp.math.isDegree?180/Math.PI*Math.atan(x):Math.atan(x));
 		},
 		acosh:function(x){
 			return Math.log(x+Math.sqrt(x*x-1));
@@ -40,7 +40,7 @@
 			return -x;
 		},
 		cos:function(x){
-			if(Mexp.isDegree)x=Mexp.math.toRadian(x);
+			if(Mexp.math.isDegree)x=Mexp.math.toRadian(x);
 			return Math.cos(x);
 		},
 		cosh:function(x){
@@ -72,7 +72,7 @@
 			 for(var i=Math.floor(n)-Math.floor(r)+1;i<=Math.floor(n);i++)
 					pro*=i;
 					return pro;
-		
+
 		},
 		Pi:function(low,high,ex){
 			var pro=1;
@@ -94,7 +94,7 @@
 			return sum;
 		},
 		sin:function(x){
-			if(Mexp.isDegree)x=Mexp.math.toRadian(x);
+			if(Mexp.math.isDegree)x=Mexp.math.toRadian(x);
 			return Math.sin(x);
 		},
 		sinh:function(x){
@@ -104,7 +104,7 @@
 		return a-b;
 		},
 		tan:function(x){
-			if(Mexp.isDegree)x=Mexp.math.toRadian(x);
+			if(Mexp.math.isDegree)x=Mexp.math.toRadian(x);
 			return Math.tan(x);
 		},
 		tanh:function(x){

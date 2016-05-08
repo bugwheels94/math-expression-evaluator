@@ -1,5 +1,5 @@
 /** math-expression-evaluator version 1.2.8
- Dated:2015-08-10 */
+ Dated:2016-04-20 */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mexp = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Mexp=require('./postfix_evaluator.js');
@@ -44,8 +44,7 @@ Mexp.prototype.formulaEval = function () {
 };
 module.exports=Mexp;
 },{"./postfix_evaluator.js":5}],2:[function(require,module,exports){
-    
-    var Mexp=require('./math_function.js');
+  var Mexp=require('./math_function.js');
 
 	function inc(arr,val){
 		for(var i=0;i<arr.length;i++)
@@ -75,9 +74,9 @@ module.exports=Mexp;
 		0,0,3,0,1,6,9,9,11,12,13,12,8];
 	 /*
 	0 : function with syntax function_name(Maths_exp)
-	1 : numbers 
+	1 : numbers
 	2 : binary operators like * / %
-	3 : Math constant values like e,pi,Cruncher ans 
+	3 : Math constant values like e,pi,Cruncher ans
 	4 : opening bracket
 	5 : closing bracket
 	6 : decimal
@@ -103,7 +102,7 @@ module.exports=Mexp;
 			["acosh","atanh","asinh","Sigma"]];
 	function match(str1,str2,i,x){
 		for(var f=0;f<x;f++){
-			if (str1[i+f]!==str2[f]) 
+			if (str1[i+f]!==str2[f])
 				return false;
 		}
 		return true;
@@ -139,9 +138,10 @@ module.exports=Mexp;
 	Mexp.lex=function(inp,tokens){
 		'use strict';
 		var str=[{type:4,value:"(",show:"(",pre:0}];
-		var ptc=[];	//Parenthesis to close at the beginning is after one token 
+		var ptc=[];	//Parenthesis to close at the beginning is after one token
 		var inpStr=inp;
 		var key;
+        var pcounter=0;
 		var allowed=type0;
 		var bracToClose=0;
 		var asterick=empty;
@@ -227,7 +227,8 @@ module.exports=Mexp;
 				asterick=type_3;
 			}
 			else if(cType===4){
-				inc(ptc,1);
+                pcounter+=ptc.length;
+                ptc=[];
 				bracToClose++;
 				allowed=type0;
 				asterick=empty;
@@ -237,6 +238,10 @@ module.exports=Mexp;
 				if(!bracToClose){
 					throw(new Mexp.exception("Closing parenthesis are more than opening one, wait What!!!"));
 				}
+                while(pcounter--){	//loop over ptc
+    						str.push({value:")",type:5,pre:0,show:")"});
+    			}
+                pcounter=0;
 				bracToClose--;
 				allowed=type1;
 				asterick=type_3;
@@ -333,30 +338,31 @@ module.exports=Mexp;
 		}
 		while(bracToClose--)
 			str.push({value:")",show:")",type:5,pre:3});
-		
+
 		str.push({type:5,value:")",show:")",pre:0});
+        console.log(str);
 		return new Mexp(str);
 	};
     module.exports=Mexp;
 },{"./math_function.js":3}],3:[function(require,module,exports){
 	var Mexp=function(parsed){
 		this.value=parsed;
-		
+
 	};
-	
+
 	Mexp.math={
-		isDegree:false, //mode of calculator 
-		acos:function(x){ 
-			return (Mexp.isDegree?180/Math.PI*Math.acos(x):Math.acos(x));
+		isDegree:true, //mode of calculator
+		acos:function(x){
+			return (Mexp.math.isDegree?180/Math.PI*Math.acos(x):Math.acos(x));
 		},
 		add:function(a,b){
 			return a+b;
 		},
 		asin:function(x){
-			return (Mexp.isDegree?180/Math.PI*Math.asin(x):Math.asin(x));
+			return (Mexp.math.isDegree?180/Math.PI*Math.asin(x):Math.asin(x));
 		},
 		atan:function(x){
-			return (Mexp.isDegree?180/Math.PI*Math.atan(x):Math.atan(x));
+			return (Mexp.math.isDegree?180/Math.PI*Math.atan(x):Math.atan(x));
 		},
 		acosh:function(x){
 			return Math.log(x+Math.sqrt(x*x-1));
@@ -381,7 +387,7 @@ module.exports=Mexp;
 			return -x;
 		},
 		cos:function(x){
-			if(Mexp.isDegree)x=Mexp.math.toRadian(x);
+			if(Mexp.math.isDegree)x=Mexp.math.toRadian(x);
 			return Math.cos(x);
 		},
 		cosh:function(x){
@@ -413,7 +419,7 @@ module.exports=Mexp;
 			 for(var i=Math.floor(n)-Math.floor(r)+1;i<=Math.floor(n);i++)
 					pro*=i;
 					return pro;
-		
+
 		},
 		Pi:function(low,high,ex){
 			var pro=1;
@@ -435,7 +441,7 @@ module.exports=Mexp;
 			return sum;
 		},
 		sin:function(x){
-			if(Mexp.isDegree)x=Mexp.math.toRadian(x);
+			if(Mexp.math.isDegree)x=Mexp.math.toRadian(x);
 			return Math.sin(x);
 		},
 		sinh:function(x){
@@ -445,7 +451,7 @@ module.exports=Mexp;
 		return a-b;
 		},
 		tan:function(x){
-			if(Mexp.isDegree)x=Mexp.math.toRadian(x);
+			if(Mexp.math.isDegree)x=Mexp.math.toRadian(x);
 			return Math.tan(x);
 		},
 		tanh:function(x){
