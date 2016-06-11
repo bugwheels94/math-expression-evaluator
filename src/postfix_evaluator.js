@@ -46,8 +46,9 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 				pop1.push(arr[i]);
 				stack.push(pop1);
 			}
-			else
+			else{
 				stack.push({type:1,value:arr[i].value(pop2.value,pop1.value)});
+            }
 		}
 		else if(arr[i].type===2||arr[i].type===9){
 			pop1=stack.pop();

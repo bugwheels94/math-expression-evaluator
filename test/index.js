@@ -64,6 +64,9 @@ describe('Testing Unit', function () {
   it('check when arithmetic and n are present inside sigma', function () {
     assert.equal(a.lex("Sigma1,2,n").toPostfix().postfixEval(),3);
   });
+  it(' should check when 4C3', function () {
+    assert.equal(a.lex("4C3").toPostfix().postfixEval(),4);
+  });
   it('check when arithmetic and n are present inside sigma', function () {
     assert.equal(a.lex("Sigma1,2,(n*n)").toPostfix().postfixEval(),5);
   });

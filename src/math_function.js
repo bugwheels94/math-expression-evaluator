@@ -34,7 +34,7 @@
 			}
 			for(var i=choice+1;i<=n;i++)
 				pro*=i;
-			return pro/Mexp.fact(other);
+			return pro/Mexp.math.fact(other);
 		},
 		changeSign:function(x){
 			return -x;
