@@ -21,7 +21,7 @@ Mexp.prototype.formulaEval = function () {
 		else if(arr[i].type===10){
 			pop1=disp.pop();
 			pop2=disp.pop();
-			if(arr[i].show==='P'||arr[i].show==='C')disp.push({value:"<sup>"+pop2+"</sup>"+arr[i].show+"<sub>"+pop1+"</sub>",type:10});
+			if(arr[i].show==='P'||arr[i].show==='C')disp.push({value:"<sup>"+pop2.value+"</sup>"+arr[i].show+"<sub>"+pop1.value+"</sub>",type:10});
 			else disp.push({value:(pop2.type!=1?"(":"")+pop2.value+(pop2.type!=1?")":"")+"<sup>"+pop1.value+"</sup>",type:1});
 		}
 		else if(arr[i].type===2||arr[i].type===9){
