@@ -64,6 +64,9 @@ describe('Testing Unit', function () {
   it('check when arithmetic and n are present inside sigma', function () {
     assert.equal(a.lex("Sigma1,2,n").toPostfix().postfixEval(),3);
   });
+  it('check when arithmetic and n are present inside sigma', function () {
+    assert.equal(a.lex("Sigma1,2,(n*n)").toPostfix().postfixEval(),5);
+  });
 
   it('check when two parenthesis less functions are consecutive on one parameter', function () {
     assert.equal(a.lex("sinint2.5").toPostfix().postfixEval(),a.lex("sin(int(2.5))").toPostfix().postfixEval());

@@ -294,7 +294,7 @@
 			str.push({value:")",show:")",type:5,pre:3});
 
 		str.push({type:5,value:")",show:")",pre:0});
-        console.log(str);
+//        console.log(str);
 		return new Mexp(str);
 	};
     module.exports=Mexp;

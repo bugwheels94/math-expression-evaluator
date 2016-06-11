@@ -37,13 +37,13 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 			pop1=stack.pop();
 			pop2=stack.pop();
 			if(typeof pop2.type==="undefined"){
-				pop2.value=pop2.value.concat(pop1);
+				pop2.value=pop2.concat(pop1);
 				pop2.value.push(arr[i]);
 				stack.push(pop2);
 			}
 			else if (typeof pop1.type==="undefined") {
-				pop1.value.unshift(pop2);
-				pop1.value.push(arr[i]);
+				pop1.unshift(pop2);
+				pop1.push(arr[i]);
 				stack.push(pop1);
 			}
 			else
@@ -53,13 +53,14 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 			pop1=stack.pop();
 			pop2=stack.pop();
 			if(typeof pop2.type==="undefined"){
-				pop2=pop2.value.concat(pop1);
-				pop2.value.push(arr[i]);
+                console.log(pop2);
+				pop2=pop2.concat(pop1);
+				pop2.push(arr[i]);
 				stack.push(pop2);
 			}
 			else if (typeof pop1.type==="undefined") {
-				pop1.value.unshift(pop2);
-				pop1.value.push(arr[i]);
+				pop1.unshift(pop2);
+				pop1.push(arr[i]);
 				stack.push(pop1);
 			}
 			else{

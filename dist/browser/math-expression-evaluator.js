@@ -1,5 +1,5 @@
 /** math-expression-evaluator version 1.2.8
- Dated:2016-04-20 */
+ Dated:2016-06-11 */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mexp = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Mexp=require('./postfix_evaluator.js');
@@ -340,7 +340,7 @@ module.exports=Mexp;
 			str.push({value:")",show:")",type:5,pre:3});
 
 		str.push({type:5,value:")",show:")",pre:0});
-        console.log(str);
+//        console.log(str);
 		return new Mexp(str);
 	};
     module.exports=Mexp;
@@ -564,13 +564,13 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 			pop1=stack.pop();
 			pop2=stack.pop();
 			if(typeof pop2.type==="undefined"){
-				pop2.value=pop2.value.concat(pop1);
+				pop2.value=pop2.concat(pop1);
 				pop2.value.push(arr[i]);
 				stack.push(pop2);
 			}
 			else if (typeof pop1.type==="undefined") {
-				pop1.value.unshift(pop2);
-				pop1.value.push(arr[i]);
+				pop1.unshift(pop2);
+				pop1.push(arr[i]);
 				stack.push(pop1);
 			}
 			else
@@ -580,13 +580,14 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 			pop1=stack.pop();
 			pop2=stack.pop();
 			if(typeof pop2.type==="undefined"){
-				pop2=pop2.value.concat(pop1);
-				pop2.value.push(arr[i]);
+                console.log(pop2);
+				pop2=pop2.concat(pop1);
+				pop2.push(arr[i]);
 				stack.push(pop2);
 			}
 			else if (typeof pop1.type==="undefined") {
-				pop1.value.unshift(pop2);
-				pop1.value.push(arr[i]);
+				pop1.unshift(pop2);
+				pop1.push(arr[i]);
 				stack.push(pop1);
 			}
 			else{
