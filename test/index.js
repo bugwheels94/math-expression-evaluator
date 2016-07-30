@@ -3,28 +3,34 @@
 var assert = require('assert');
 var a=require("../src/formula_evaluator.js");
 describe('Testing Unit', function () {
-  it('equal test', function () {
+  it('should equal 2 to check a number', function () {
     assert.equal(a.lex("2").toPostfix().postfixEval(),2);
   });
-  it('equal test', function () {
-    assert.equal(a.lex("sin180").toPostfix().postfixEval(),0);
-  });
-  it('equal test', function () {
-    assert.equal(a.lex("cos 180").toPostfix().postfixEval(),-1);
-  });
-  it('equal test', function () {
+  it('checks a math function', function () {
     assert.equal(a.lex("tan(180)").toPostfix().postfixEval(),0);
   });
-  it('minus with exponent test', function () {
-    assert.equal(a.lex("0+-2^2").toPostfix().postfixEval(),-4);
+  it('checks a parenthesis less function', function () {
+    assert.equal(a.lex("sin180").toPostfix().postfixEval(),0);
   });
-  it('equal test', function () {
+  it('checks a parenthesis less function after a space', function () {
+    assert.equal(a.lex("cos 180").toPostfix().postfixEval(),-1);
+  });
+  it('checks a parenthesis less function after multiple spaces', function () {
+    assert.equal(a.lex("cos   180").toPostfix().postfixEval(),-1);
+  });
+  it('checks consecutive operator', function () {
+    assert.equal(a.lex("0+-2").toPostfix().postfixEval(),-2);
+  });
+  it('checks ^ operator', function () {
+    assert.equal(a.lex("2^2").toPostfix().postfixEval(),4);
+  });
+  it('checks when * is omitted before parenthesis and after', function () {
     assert.equal(a.lex("2(7-4)3").toPostfix().postfixEval(),18);
   });
-  it('multiplication and exponential in series', function () {
+  it('checks multiplication and exponential in series', function () {
     assert.equal(a.lex("2*7^2").toPostfix().postfixEval(),98);
   });
-  it('exponential and multiplication in series', function () {
+  it('checks exponential and multiplication in series', function () {
     assert.equal(a.lex("2^5*2").toPostfix().postfixEval(),64);
   });
   it('-3^2=-9', function () {
@@ -100,5 +106,8 @@ describe('Testing Unit', function () {
   });
   it('tan(40+5)', function () {
 	 assert.equal(a.eval("tan(40+5)"),"1");
+  });
+  it('checks when a 0 is missing in a decimal number', function () {
+	 assert.equal(a.eval("5*.8"),"4");
   });
 });

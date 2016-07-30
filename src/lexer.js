@@ -206,7 +206,8 @@
 					throw(new Mexp.exception("Two decimals are not allowed in one number"));
 				}
 				if(pre.type!==1){
-					str.push({value:0,type:1,pre:0});
+					pre={value:0,type:1,pre:0};	//pre needs to be changed as it will the last value now to be safe in later code
+					str.push(pre);
 					inc(ptc,-1);
 				}
 				allowed=type6;
@@ -283,6 +284,7 @@
 		}
 		for(var j=ptc.length;j--;){	//loop over ptc
 			if(ptc[j]===0){
+
 				str.push({value:")",show:")",type:5,pre:3});
 				inc(ptc,-1).pop();
 			}
