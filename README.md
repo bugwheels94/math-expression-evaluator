@@ -16,7 +16,7 @@ Plus it supports Sigma and Pi notations too. Also, any human readable math expre
     - [Node JS](#node-js)
     - [Browser](#browser)
 - [Test](#test)
-- [Documentation](http://ankit31894.github.io/math-expression-evaluator/)
+- [Documentation](http://redhivesoftware.github.io/math-expression-evaluator/)
 
 
 # Installation
