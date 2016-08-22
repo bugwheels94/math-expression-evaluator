@@ -1,9 +1,9 @@
-    
+
     var Mexp=require('./lexer.js');
-	if(!Array.indexOf)
+	if(!(Array.indexOf || Array.prototype.indexOf))
 		Array.prototype.indexOf = function (vItem) {
 			for (var i=0; i < this.length; i++) {
-				if (vItem == this[i]) {
+				if (vItem === this[i]) {
 				return i;
 				}
 			}
