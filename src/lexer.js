@@ -1,5 +1,5 @@
-  var Mexp=require('./math_function.js');
-
+var Mexp=require('./math_function.js');
+var indexOf = require('lodash.indexof');
 	function inc(arr,val){
 		for(var i=0;i<arr.length;i++)
 			arr[i]+=val;
@@ -29,7 +29,7 @@
 	 /*
 	0 : function with syntax function_name(Maths_exp)
 	1 : numbers
-	2 : binary operators like * / %
+	2 : binary operators like * / Mod left associate and same precedence
 	3 : Math constant values like e,pi,Cruncher ans
 	4 : opening bracket
 	5 : closing bracket
@@ -37,7 +37,7 @@
 	7 : function with syntax (Math_exp)function_name
 	8: function with syntax function_name(Math_exp1,Math_exp2)
 	9 : binary operator like +,-
-	10: function with syntax (Math_exp1)function_name(Math_exp2)
+	10: binary operator like P C or ^
 	11: ,
 	12: function with , seperated three parameters
 	13: variable of Sigma function
@@ -65,10 +65,14 @@
 		for(i=0;i<tokens.length;i++){
 			x=tokens[i].token.length;
 			var temp=-1;
-			if (x<newAr.length)
+
+			//newAr is a specially designed data structure in which 1D array at location one of 2d array has all string with length 1 2 with 2 and so on
+
+			if (x<newAr.length)	//match to check if token is really huge and not existing
+								//if not checked it will break in next line as undefined index
 				for(y=0;y<newAr[x].length;y++){
 					if (tokens[i].token===newAr[x][y]){
-						temp=token.indexOf(newAr[x][y]);
+						temp=indexOf(token,newAr[x][y]);
 						break;
 					}
 				}
@@ -121,7 +125,7 @@
 			if(key===''){
 				throw(new Mexp.exception("Can't understand after "+inpStr.slice(i)));
 			}
-			var index=token.indexOf(key);
+			var index=indexOf(token,key);
 			var cType=type[index];
 			var cEv=eva[index];
 			var cPre=preced[cType];
@@ -129,7 +133,7 @@
 			var pre=str[str.length-1];
 			for(j=ptc.length;j--;){	//loop over ptc
 				if(ptc[j]===0){
-					if([0,2,3,5,9,11,12,13].indexOf(cType)!==-1){
+					if(indexOf([0,2,3,5,9,11,12,13], cType)!==-1){
 						if(allowed[cType]!==true){
 							throw(new Mexp.exception(key+" is not allowed after "+prevKey));
 						}

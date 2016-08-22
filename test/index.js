@@ -111,13 +111,3 @@ describe('Testing Unit', function () {
 	 assert.equal(a.eval("5*.8"),"4");
   });
 });
-
-describe('Verifying indexOf', function () {
-  it('does not break indexOf', function () {
-    var a = 1;
-    var b = '1';
-    var array = [a, b];
-    assert.equal(array.indexOf(a), 0);
-    assert.equal(array.indexOf(b), 1);
-  });
-});

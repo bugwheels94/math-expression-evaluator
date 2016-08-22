@@ -1,7 +1,340 @@
-/** math-expression-evaluator version 1.2.11
+/** math-expression-evaluator version 1.2.12
  Dated:2016-08-22 */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mexp = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0,
+    MAX_INTEGER = 1.7976931348623157e+308,
+    NAN = 0 / 0;
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/**
+ * The base implementation of `_.findIndex` and `_.findLastIndex` without
+ * support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {Function} predicate The function invoked per iteration.
+ * @param {number} fromIndex The index to search from.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseFindIndex(array, predicate, fromIndex, fromRight) {
+  var length = array.length,
+      index = fromIndex + (fromRight ? 1 : -1);
+
+  while ((fromRight ? index-- : ++index < length)) {
+    if (predicate(array[index], index, array)) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+/**
+ * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} value The value to search for.
+ * @param {number} fromIndex The index to search from.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseIndexOf(array, value, fromIndex) {
+  if (value !== value) {
+    return baseFindIndex(array, baseIsNaN, fromIndex);
+  }
+  var index = fromIndex - 1,
+      length = array.length;
+
+  while (++index < length) {
+    if (array[index] === value) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+/**
+ * The base implementation of `_.isNaN` without support for number objects.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
+ */
+function baseIsNaN(value) {
+  return value !== value;
+}
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max;
+
+/**
+ * Gets the index at which the first occurrence of `value` is found in `array`
+ * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * for equality comparisons. If `fromIndex` is negative, it's used as the
+ * offset from the end of `array`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Array
+ * @param {Array} array The array to inspect.
+ * @param {*} value The value to search for.
+ * @param {number} [fromIndex=0] The index to search from.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ * @example
+ *
+ * _.indexOf([1, 2, 1, 2], 2);
+ * // => 1
+ *
+ * // Search from the `fromIndex`.
+ * _.indexOf([1, 2, 1, 2], 2, 2);
+ * // => 3
+ */
+function indexOf(array, value, fromIndex) {
+  var length = array ? array.length : 0;
+  if (!length) {
+    return -1;
+  }
+  var index = fromIndex == null ? 0 : toInteger(fromIndex);
+  if (index < 0) {
+    index = nativeMax(length + index, 0);
+  }
+  return baseIndexOf(array, value, index);
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+}
+
+/**
+ * Converts `value` to a finite number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.12.0
+ * @category Lang
+ * @param {*} value The value to convert.
+ * @returns {number} Returns the converted number.
+ * @example
+ *
+ * _.toFinite(3.2);
+ * // => 3.2
+ *
+ * _.toFinite(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toFinite(Infinity);
+ * // => 1.7976931348623157e+308
+ *
+ * _.toFinite('3.2');
+ * // => 3.2
+ */
+function toFinite(value) {
+  if (!value) {
+    return value === 0 ? value : 0;
+  }
+  value = toNumber(value);
+  if (value === INFINITY || value === -INFINITY) {
+    var sign = (value < 0 ? -1 : 1);
+    return sign * MAX_INTEGER;
+  }
+  return value === value ? value : 0;
+}
+
+/**
+ * Converts `value` to an integer.
+ *
+ * **Note:** This method is loosely based on
+ * [`ToInteger`](http://www.ecma-international.org/ecma-262/7.0/#sec-tointeger).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to convert.
+ * @returns {number} Returns the converted integer.
+ * @example
+ *
+ * _.toInteger(3.2);
+ * // => 3
+ *
+ * _.toInteger(Number.MIN_VALUE);
+ * // => 0
+ *
+ * _.toInteger(Infinity);
+ * // => 1.7976931348623157e+308
+ *
+ * _.toInteger('3.2');
+ * // => 3
+ */
+function toInteger(value) {
+  var result = toFinite(value),
+      remainder = result % 1;
+
+  return result === result ? (remainder ? result - remainder : result) : 0;
+}
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+module.exports = indexOf;
+
+},{}],2:[function(require,module,exports){
 var Mexp=require('./postfix_evaluator.js');
 Mexp.prototype.formulaEval = function () {
 	"use strict";
@@ -43,9 +376,9 @@ Mexp.prototype.formulaEval = function () {
 	return disp[0].value;
 };
 module.exports=Mexp;
-},{"./postfix_evaluator.js":5}],2:[function(require,module,exports){
-  var Mexp=require('./math_function.js');
-
+},{"./postfix_evaluator.js":6}],3:[function(require,module,exports){
+var Mexp=require('./math_function.js');
+var indexOf = require('lodash.indexof');
 	function inc(arr,val){
 		for(var i=0;i<arr.length;i++)
 			arr[i]+=val;
@@ -75,7 +408,7 @@ module.exports=Mexp;
 	 /*
 	0 : function with syntax function_name(Maths_exp)
 	1 : numbers
-	2 : binary operators like * / %
+	2 : binary operators like * / Mod left associate and same precedence
 	3 : Math constant values like e,pi,Cruncher ans
 	4 : opening bracket
 	5 : closing bracket
@@ -83,7 +416,7 @@ module.exports=Mexp;
 	7 : function with syntax (Math_exp)function_name
 	8: function with syntax function_name(Math_exp1,Math_exp2)
 	9 : binary operator like +,-
-	10: function with syntax (Math_exp1)function_name(Math_exp2)
+	10: binary operator like P C or ^
 	11: ,
 	12: function with , seperated three parameters
 	13: variable of Sigma function
@@ -111,10 +444,14 @@ module.exports=Mexp;
 		for(i=0;i<tokens.length;i++){
 			x=tokens[i].token.length;
 			var temp=-1;
-			if (x<newAr.length)
+
+			//newAr is a specially designed data structure in which 1D array at location one of 2d array has all string with length 1 2 with 2 and so on
+
+			if (x<newAr.length)	//match to check if token is really huge and not existing
+								//if not checked it will break in next line as undefined index
 				for(y=0;y<newAr[x].length;y++){
 					if (tokens[i].token===newAr[x][y]){
-						temp=token.indexOf(newAr[x][y]);
+						temp=indexOf(token,newAr[x][y]);
 						break;
 					}
 				}
@@ -167,7 +504,7 @@ module.exports=Mexp;
 			if(key===''){
 				throw(new Mexp.exception("Can't understand after "+inpStr.slice(i)));
 			}
-			var index=token.indexOf(key);
+			var index=indexOf(token,key);
 			var cType=type[index];
 			var cEv=eva[index];
 			var cPre=preced[cType];
@@ -175,7 +512,7 @@ module.exports=Mexp;
 			var pre=str[str.length-1];
 			for(j=ptc.length;j--;){	//loop over ptc
 				if(ptc[j]===0){
-					if([0,2,3,5,9,11,12,13].indexOf(cType)!==-1){
+					if(indexOf([0,2,3,5,9,11,12,13], cType)!==-1){
 						if(allowed[cType]!==true){
 							throw(new Mexp.exception(key+" is not allowed after "+prevKey));
 						}
@@ -347,7 +684,7 @@ module.exports=Mexp;
 	};
     module.exports=Mexp;
 
-},{"./math_function.js":3}],3:[function(require,module,exports){
+},{"./math_function.js":4,"lodash.indexof":1}],4:[function(require,module,exports){
 	var Mexp=function(parsed){
 		this.value=parsed;
 
@@ -468,74 +805,9 @@ module.exports=Mexp;
 		this.message=message;
 	};
     module.exports=Mexp;
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 
     var Mexp=require('./lexer.js');
-	// Production steps of ECMA-262, Edition 5, 15.4.4.14
-	// Reference: http://es5.github.io/#x15.4.4.14
-	if (!Array.prototype.indexOf) {
-	  Array.prototype.indexOf = function(searchElement, fromIndex) {
-
-	    var k;
-
-	    // 1. Let o be the result of calling ToObject passing
-	    //    the this value as the argument.
-	    if (this == null) {
-	      throw new TypeError('"this" is null or not defined');
-	    }
-
-	    var o = Object(this);
-
-	    // 2. Let lenValue be the result of calling the Get
-	    //    internal method of o with the argument "length".
-	    // 3. Let len be ToUint32(lenValue).
-	    var len = o.length >>> 0;
-
-	    // 4. If len is 0, return -1.
-	    if (len === 0) {
-	      return -1;
-	    }
-
-	    // 5. If argument fromIndex was passed let n be
-	    //    ToInteger(fromIndex); else let n be 0.
-	    var n = +fromIndex || 0;
-
-	    if (Math.abs(n) === Infinity) {
-	      n = 0;
-	    }
-
-	    // 6. If n >= len, return -1.
-	    if (n >= len) {
-	      return -1;
-	    }
-
-	    // 7. If n >= 0, then Let k be n.
-	    // 8. Else, n<0, Let k be len - abs(n).
-	    //    If k is less than 0, then let k be 0.
-	    k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
-
-	    // 9. Repeat, while k < len
-	    while (k < len) {
-	      // a. Let Pk be ToString(k).
-	      //   This is implicit for LHS operands of the in operator
-	      // b. Let kPresent be the result of calling the
-	      //    HasProperty internal method of o with argument Pk.
-	      //   This step can be combined with c
-	      // c. If kPresent is true, then
-	      //    i.  Let elementK be the result of calling the Get
-	      //        internal method of o with the argument ToString(k).
-	      //   ii.  Let same be the result of applying the
-	      //        Strict Equality Comparison Algorithm to
-	      //        searchElement and elementK.
-	      //  iii.  If same is true, return k.
-	      if (k in o && o[k] === searchElement) {
-	        return k;
-	      }
-	      k++;
-	    }
-	    return -1;
-	  };
-	}
 
 	Mexp.prototype.toPostfix = function () {
 		'use strict';
@@ -584,7 +856,7 @@ module.exports=Mexp;
 		return new Mexp(post);
 	};
     module.exports=Mexp;
-},{"./lexer.js":2}],5:[function(require,module,exports){
+},{"./lexer.js":3}],6:[function(require,module,exports){
 var Mexp=require('./postfix.js');
 Mexp.prototype.postfixEval = function (UserDefined) {
 	'use strict';
@@ -690,5 +962,5 @@ Mexp.eval=function(str,tokens,obj){
 		return this.lex(str,tokens).toPostfix().postfixEval(obj);
 };
 module.exports=Mexp;
-},{"./postfix.js":4}]},{},[1])(1)
+},{"./postfix.js":5}]},{},[2])(2)
 });

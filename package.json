@@ -1,6 +1,6 @@
 {
   "name": "math-expression-evaluator",
-  "version": "1.2.11",
+  "version": "1.2.12",
   "description": "A flexible math expression evaluator",
   "main": "src/formula_evaluator.js",
   "scripts": {
@@ -28,5 +28,8 @@
     "grunt-contrib-jshint": "^0.11.2",
     "grunt-contrib-uglify": "^0.9.1",
     "mocha": "^2.2.5"
+  },
+  "dependencies": {
+    "lodash.indexof": "^4.0.5"
   }
 }
