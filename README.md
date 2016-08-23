@@ -57,7 +57,6 @@ An extremely efficient, flexible and amazing evaluator with a smart parser for M
  |**pow**|  power function with two operator pow(2,3) returns 8  |
  |**^**|  power operator eg. 2^3 returns 8  |
  |**root**|  underroot function root 4 returns 2 | 
-|**Trigonometric function**| |
  |**sin**| Sine function|
  |**cos**| Cosine function|
  |**tan**| Tangent function|
