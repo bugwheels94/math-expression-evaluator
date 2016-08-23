@@ -110,4 +110,7 @@ describe('Testing Unit', function () {
   it('checks when a 0 is missing in a decimal number', function () {
 	 assert.equal(a.eval("5*.8"),"4");
   });
+  it('checks root function', function () {
+	 assert.equal(a.eval("root4"),"2");
+  });
 });

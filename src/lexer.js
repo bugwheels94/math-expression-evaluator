@@ -17,7 +17,7 @@ var indexOf = require('lodash.indexof');
 		'sinh','asinh','e',' log','0','.','+','-',',','&Sigma;','n','&Pi;','pow'];
 	var eva=[Mexp.math.sin,Mexp.math.cos,Mexp.math.tan,'PI','(',')',Mexp.math.P,Mexp.math.C,
 		Mexp.math.asin,Mexp.math.acos,Mexp.math.atan,'7','8','9',Math.floor,
-		Mexp.math.cosh,Mexp.math.acosh,Math.log,Math.pow,Math.pow,'4','5','6',Mexp.math.div,Mexp.math.fact,
+		Mexp.math.cosh,Mexp.math.acosh,Math.log,Math.pow,Math.sqrt,'4','5','6',Mexp.math.div,Mexp.math.fact,
 		Mexp.math.tanh,Mexp.math.atanh,Mexp.math.mod,'1','2','3',Mexp.math.mul,
 		Mexp.math.sinh,Mexp.math.asinh,'E',Mexp.math.log,'0','.',Mexp.math.add,Mexp.math.sub,',',Mexp.math.sigma,'n',Mexp.math.Pi,Math.pow];
 	var preced={0:11,1:0,2:3,3:0,4:0,5:0,6:0,7:11,8:11,9:1,10:10,11:0,12:11,13:0};
