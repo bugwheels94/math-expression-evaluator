@@ -1,5 +1,5 @@
-/** math-expression-evaluator version 1.2.13
- Dated:2016-08-23 */
+/** math-expression-evaluator version 1.2.14
+ Dated:2016-08-25 */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mexp = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
@@ -505,6 +505,7 @@ var indexOf = require('lodash.indexof');
 				throw(new Mexp.exception("Can't understand after "+inpStr.slice(i)));
 			}
 			var index=indexOf(token,key);
+			var cToken=key;
 			var cType=type[index];
 			var cEv=eva[index];
 			var cPre=preced[cType];
@@ -625,12 +626,15 @@ var indexOf = require('lodash.indexof');
 						inc(ptc,1);
 					}
 				}
-				else if(pre.type!==5&&pre.type!==7&&pre.type!==1&&pre.type!==3&&pre.type!==13){
-					allowed=type0;
-					asterick=empty;
-					inc(ptc,2).push(2);
-					str.push({value:Mexp.math.changeSign,type:0,pre:21,show:"-"});
-					str.push({value:"(",type:4,pre:0,show:"("});
+				else if(pre.type!==5&&pre.type!==7&&pre.type!==1&&pre.type!==3&&pre.type!==13){//changesign only when negative is found 
+					if(cToken==='-'){//do nothing for + token 
+									//don't add with the above if statement as that will run the else statement of parent if on Ctoken +
+						allowed=type0;
+						asterick=empty;
+						inc(ptc,2).push(2);
+						str.push({value:Mexp.math.changeSign,type:0,pre:21,show:"-"});
+						str.push({value:"(",type:4,pre:0,show:"("});
+					}
 				}
 				else{
 					str.push(obj);

@@ -113,4 +113,54 @@ describe('Testing Unit', function () {
   it('checks root function', function () {
 	 assert.equal(a.eval("root4"),"2");
   });
+  it('checks + precedence before number insise parenthesis ', function () {
+	 assert.equal(a.eval("(-2)"),"-2");
+  });
+  it('checks multiple allowable operator', function () {
+	 assert.equal(a.eval("2+++-++-+-+3"),"-1");
+	 assert.equal(a.eval("2*+3"),"6");
+  });
+});
+describe('These expression will raise error', function () {
+  it('should tell to compllete expression', function () {
+	try{
+		a.eval("2*")
+	}
+	catch(e){
+		assert.equal(e.message,"complete the expression")
+	}
+  });
+  it('should warn about multiple operators', function () {
+	try{
+		a.eval("2**3")
+	}
+	catch(e){
+		assert.equal(e.message,"* is not allowed after *")
+	}
+  });
+  it('should warn about multiple operators', function () {
+	try{
+		a.eval("2*Mod*3")
+	}
+	catch(e){
+		assert.equal(e.message,"Mod is not allowed after *")
+	}
+  });
+  it('should warn about operator inside parenthesis', function () {
+	try{
+		a.eval("(+)")
+	}
+	catch(e){
+		assert.equal(e.message,") is not allowed after +")
+	}
+  });
+  it('should warn about operator inside parenthesis', function () {
+	try{
+		a.eval("(+)")
+	}
+	catch(e){
+		assert.equal(e.message,") is not allowed after +")
+	}
+  });
+
 });

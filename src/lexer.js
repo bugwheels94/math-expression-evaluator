@@ -126,6 +126,7 @@ var indexOf = require('lodash.indexof');
 				throw(new Mexp.exception("Can't understand after "+inpStr.slice(i)));
 			}
 			var index=indexOf(token,key);
+			var cToken=key;
 			var cType=type[index];
 			var cEv=eva[index];
 			var cPre=preced[cType];
@@ -246,12 +247,15 @@ var indexOf = require('lodash.indexof');
 						inc(ptc,1);
 					}
 				}
-				else if(pre.type!==5&&pre.type!==7&&pre.type!==1&&pre.type!==3&&pre.type!==13){
-					allowed=type0;
-					asterick=empty;
-					inc(ptc,2).push(2);
-					str.push({value:Mexp.math.changeSign,type:0,pre:21,show:"-"});
-					str.push({value:"(",type:4,pre:0,show:"("});
+				else if(pre.type!==5&&pre.type!==7&&pre.type!==1&&pre.type!==3&&pre.type!==13){//changesign only when negative is found 
+					if(cToken==='-'){//do nothing for + token 
+									//don't add with the above if statement as that will run the else statement of parent if on Ctoken +
+						allowed=type0;
+						asterick=empty;
+						inc(ptc,2).push(2);
+						str.push({value:Mexp.math.changeSign,type:0,pre:21,show:"-"});
+						str.push({value:"(",type:4,pre:0,show:"("});
+					}
 				}
 				else{
 					str.push(obj);
