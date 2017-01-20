@@ -1,6 +1,6 @@
 {
   "name": "math-expression-evaluator",
-  "version": "1.2.14",
+  "version": "1.2.15",
   "description": "A flexible math expression evaluator",
   "main": "src/formula_evaluator.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ankit31894/math-expression-evaluator.git"
+    "url": "git+https://github.com/redhivesoftware/math-expression-evaluator#readme"
   },
   "keywords": [
     "math",
@@ -16,12 +16,12 @@
     "evaluator",
     "parser"
   ],
-  "author": "Ankit G. <ankit31894@gmail.com>",
+  "author": "Ankit<ankitbug94@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ankit2038/math-expression-evaluator/issues"
+    "url": "https://github.com/redhivesoftware/math-expression-evaluator/issues"
   },
-  "homepage": "https://github.com/ankit2038/math-expression-evaluator#readme",
+  "homepage": "https://github.com/redhivesoftware/math-expression-evaluator#readme",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-browserify": "^3.8.0",
