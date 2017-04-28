@@ -123,7 +123,7 @@ describe('Testing Unit', function () {
 });
 describe('These expression will check for types of returned result', function () {
   it('should tell to compllete expression', function () {
-    typeof a.eval('0') === 'string'
+    assert.equal(typeof a.eval('0'), 'number')
   });
 });
 describe('These expression will raise error', function () {
