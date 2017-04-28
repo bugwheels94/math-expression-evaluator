@@ -121,6 +121,11 @@ describe('Testing Unit', function () {
 	 assert.equal(a.eval("2*+3"),"6");
   });
 });
+describe('These expression will check for types of returned result', function () {
+  it('should tell to compllete expression', function () {
+    typeof a.eval('0') === 'string'
+  });
+});
 describe('These expression will raise error', function () {
   it('should tell to compllete expression', function () {
 	try{
