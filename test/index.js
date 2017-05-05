@@ -169,3 +169,8 @@ describe('These expression will raise error', function () {
   });
 
 });
+describe('Check autoclose of parenthesis of parser', function () {
+  it('should tell to compllete expression', function () {
+    assert.equal(a.eval("((2+3*4"),"14");
+  });
+});

@@ -3,9 +3,12 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-	jshint:{
-		all:['src/*.js']	
-	},
+    eslint: { // Task
+        options: { // Target options
+            configFile: '.eslintrc.json'
+        },
+        target: ['src/lexer.js']
+    },
 	browserify: {
       standalone: {
         src: [ 'src/formula_evaluator.js' ],
@@ -27,15 +30,31 @@ module.exports = function(grunt) {
 			src: 'dist/browser/<%= pkg.name %>.js',
 			dest: 'dist/browser/<%= pkg.name %>.min.js'
 		}
-	}
+	},
+    watch: {
+        scripts: {
+            files: ['src/*.js'],
+            tasks: ['eslint','browserify','uglify'],
+            options: {
+                spawn: false,
+            }
+        }
+    },
 });
 
   // Load the plugin that provides the "uglify" task.
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-browserify');
-
+	grunt.loadNpmTasks('grunt-eslint');
+	grunt.loadNpmTasks('grunt-contrib-watch');
   // Default task(s).
-  grunt.registerTask('default', ['jshint','browserify','uglify']);
+    grunt.registerTask('default', ['watch']);
+	grunt.event.on('watch', function (action, file) {
+        if (/\.js/.test(file)) {
+            grunt.config(['eslint', 'target'], [file]);
+        }
+    });
 
 };
+
+
