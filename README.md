@@ -1,5 +1,3 @@
-
-
 # math-expression-evaluator
 An extremely efficient, flexible and amazing evaluator for Math expression in Javascript.([Documentation](http://redhivesoftware.github.io/math-expression-evaluator/))
 
@@ -20,7 +18,7 @@ An extremely efficient, flexible and amazing evaluator for Math expression in Ja
 
 ## Installation
 ### Node JS
- **Using npm** 
+ **Using npm**
 
     npm install math-expression-evaluator
 
@@ -56,7 +54,7 @@ An extremely efficient, flexible and amazing evaluator for Math expression in Ja
 |**ln**| natural log function with base e eg. ln 2 returns .3010 |
 |**pow**| power function with two operator pow(2,3) returns 8 |
 |**^**| power operator eg. 2^3 returns 8 |
-|**root**| underroot function root 4 returns 2 | 
+|**root**| underroot function root 4 returns 2 |
 |**sin**| Sine function |
 |**cos**| Cosine function |
 |**tan**| Tangent function |
@@ -70,10 +68,10 @@ An extremely efficient, flexible and amazing evaluator for Math expression in Ja
 |**acosh**| Inverse Hyperbolic Cosine funtion |
 |**atanh**| Inverse Hyperbolic Tangent funtion |
 
-## Features  
+## Features
 
-### Amazing support for Sigma and Pi  
-This is a fantastic feature of this calculator that it is capable of evaluating expressions containing **Sigma and Pi**.  
+### Amazing support for Sigma and Pi
+This is a fantastic feature of this calculator that it is capable of evaluating expressions containing **Sigma and Pi**.
 Passing `Sigma(1,100,n)` will evaluate to 5050 as n is summationed from 1 to 100.
 and Pi(1,15,n) will evaluate to 1307674368000 as n is multiplied from 1 to 15 which is equal to 15!
 
@@ -81,8 +79,7 @@ and Pi(1,15,n) will evaluate to 1307674368000 as n is multiplied from 1 to 15 wh
 If a expression is readable by human then it is readable by this evaluator. There is no need to wrap every function inside parenthesis.
 For eg. sin90 will work totally fine instead of sin(90)
 
-
 ##Changelog
 
-### Removed lodash.indexof and used native Array.prototype.indexOf hence dropping suppports for IE8 and below. 
+### Removed lodash.indexof and used native Array.prototype.indexOf hence dropping suppports for IE8 and below.
 This will reflect in next release named v1.2.16
