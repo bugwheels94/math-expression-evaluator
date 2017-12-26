@@ -58,15 +58,15 @@ An extremely efficient, flexible and amazing evaluator for Math expression in Ja
 |**sin**| Sine function |
 |**cos**| Cosine function |
 |**tan**| Tangent function |
-|**asin**| Inverse Sine funtion |
-|**acos**| Inverse Cosine funtion |
-|**atan**| Inverse Tangent funtion |
-|**sinh**| Hyperbolic Sine funtion |
-|**cosh**| Hyperbolic Cosine funtion |
-|**tanh**| Hyperbolic Tangent funtion |
-|**asinh**| Inverse Hyperbolic Sine funtion |
-|**acosh**| Inverse Hyperbolic Cosine funtion |
-|**atanh**| Inverse Hyperbolic Tangent funtion |
+|**asin**| Inverse Sine function |
+|**acos**| Inverse Cosine function |
+|**atan**| Inverse Tangent function |
+|**sinh**| Hyperbolic Sine function |
+|**cosh**| Hyperbolic Cosine function |
+|**tanh**| Hyperbolic Tangent function |
+|**asinh**| Inverse Hyperbolic Sine function |
+|**acosh**| Inverse Hyperbolic Cosine function |
+|**atanh**| Inverse Hyperbolic Tangent function |
 
 ## Features
 
