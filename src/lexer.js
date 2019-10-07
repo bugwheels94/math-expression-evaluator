@@ -9,17 +9,17 @@ var token = ['sin', 'cos', 'tan', 'pi', '(', ')', 'P', 'C',
   'asin', 'acos', 'atan', '7', '8', '9', 'int',
   'cosh', 'acosh', 'ln', '^', 'root', '4', '5', '6', '/', '!',
   'tanh', 'atanh', 'Mod', '1', '2', '3', '*',
-  'sinh', 'asinh', 'e', 'log', '0', '.', '+', '-', ',', 'Sigma', 'n', 'Pi', 'pow']
+  'sinh', 'asinh', 'e', 'log', '0', '.', '+', '-', ',', 'Sigma', 'n', 'Pi', 'pow', 'nroot']
 var show = ['sin', 'cos', 'tan', '&pi;', '(', ')', 'P', 'C',
   'asin', 'acos', 'atan', '7', '8', '9', 'Int',
   'cosh', 'acosh', ' ln', '^', 'root', '4', '5', '6', '&divide;', '!',
   'tanh', 'atanh', ' Mod ', '1', '2', '3', '&times;',
-  'sinh', 'asinh', 'e', ' log', '0', '.', '+', '-', ',', '&Sigma;', 'n', '&Pi;', 'pow']
+  'sinh', 'asinh', 'e', ' log', '0', '.', '+', '-', ',', '&Sigma;', 'n', '&Pi;', 'pow', 'nroot']
 var eva = [Mexp.math.sin, Mexp.math.cos, Mexp.math.tan, 'PI', '(', ')', Mexp.math.P, Mexp.math.C,
   Mexp.math.asin, Mexp.math.acos, Mexp.math.atan, '7', '8', '9', Math.floor,
   Mexp.math.cosh, Mexp.math.acosh, Math.log, Math.pow, Math.sqrt, '4', '5', '6', Mexp.math.div, Mexp.math.fact,
   Mexp.math.tanh, Mexp.math.atanh, Mexp.math.mod, '1', '2', '3', Mexp.math.mul,
-  Mexp.math.sinh, Mexp.math.asinh, 'E', Mexp.math.log, '0', '.', Mexp.math.add, Mexp.math.sub, ',', Mexp.math.sigma, 'n', Mexp.math.Pi, Math.pow]
+  Mexp.math.sinh, Mexp.math.asinh, 'E', Mexp.math.log, '0', '.', Mexp.math.add, Mexp.math.sub, ',', Mexp.math.sigma, 'n', Mexp.math.Pi, Math.pow, Mexp.math.nroot]
 var preced = {
   0: 11,
   1: 0,
@@ -40,7 +40,7 @@ var type = [0, 0, 0, 3, 4, 5, 10, 10,
   0, 0, 0, 1, 1, 1, 0,
   0, 0, 0, 10, 0, 1, 1, 1, 2, 7,
   0, 0, 2, 1, 1, 1, 2,
-  0, 0, 3, 0, 1, 6, 9, 9, 11, 12, 13, 12, 8]
+  0, 0, 3, 0, 1, 6, 9, 9, 11, 12, 13, 12, 8, 8]
 /*
 0 : function with syntax function_name(Maths_exp)
 1 : numbers
@@ -112,7 +112,7 @@ var newAr = [
   ['pi', 'ln', 'Pi'],
   ['sin', 'cos', 'tan', 'Del', 'int', 'Mod', 'log', 'pow'],
   ['asin', 'acos', 'atan', 'cosh', 'root', 'tanh', 'sinh'],
-  ['acosh', 'atanh', 'asinh', 'Sigma']
+  ['acosh', 'atanh', 'asinh', 'nroot', 'Sigma']
 ]
 
 function match (str1, str2, i, x) {

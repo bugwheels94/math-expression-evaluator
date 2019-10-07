@@ -113,6 +113,15 @@ describe('Testing Unit', function () {
   it('checks root function', function () {
 	 assert.equal(a.eval("root4"),"2");
   });
+  it('checks nroot function', function () {
+	 assert.equal(a.eval("nroot(4,2)"),"2");
+  });
+  it('checks nroot function', function () {
+	 assert.equal(a.eval("nroot(27,3)"),"3");
+  });
+  it('checks nroot function without parentheses', function () {
+	 assert.equal(a.eval("nroot27,3"),"3");
+  });
   it('checks + precedence before number insise parenthesis ', function () {
 	 assert.equal(a.eval("(-2)"),"-2");
   });

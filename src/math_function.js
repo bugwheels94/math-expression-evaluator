@@ -71,6 +71,17 @@ Mexp.math = {
   mul: function (a, b) {
     return a * b
   },
+  nroot: function (a, b) {
+    if (b === 0) { return a }
+    var ng = (b % 2 && a < 0)
+
+    if (ng) { a = Math.abs(a) }
+    var r = Math.pow(a, 1 / b)
+    b = Math.pow(r, b)
+    if (Math.abs(a - b) < 1 && ((a > 0) === (b > 0))) {
+      return ng ? -r : r
+    } else { return NaN }
+  },
   P: function (n, r) {
     var pro = 1
     for (var i = Math.floor(n) - Math.floor(r) + 1; i <= Math.floor(n); i++) {
