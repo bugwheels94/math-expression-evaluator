@@ -85,7 +85,7 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 		}
 	}
 	if (stack.length>1) {
-		throw(new Mexp.exception("Uncaught Syntax error"));
+		throw(new Mexp.Exception("Uncaught Syntax error"));
 	}
 	return stack[0].value>1000000000000000?"Infinity":parseFloat(stack[0].value.toFixed(15));
 };
