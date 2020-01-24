@@ -38,6 +38,11 @@ describe('Testing Unit', function () {
   });
   it('3^2-2^2=5', function () {
     assert.equal(a.lex("3^2-2^2").toPostfix().postfixEval(),5);
+
+    assert.equal(
+      Math.round((a.eval("(4-(2-1)^2)^.5") + Number.EPSILON) * 100) / 100,
+      Math.round((Math.sqrt(3) + Number.EPSILON) * 100) / 100
+    )
   });
 
   it('formula test', function () {
@@ -102,7 +107,10 @@ describe('Testing Unit', function () {
 	 assert.equal(a.eval("Pi1,5,n"),"120");
   });
   it('tan5(6+3)', function () {
-	 assert.equal(a.eval("tan5(6+3)"),"1");
+	 assert.equal(
+      Math.round((a.eval("tan45(6+3)") + Number.EPSILON) * 100) / 100,
+      Math.round((9 + Number.EPSILON) * 100) / 100
+  );
   });
   it('tan(40+5)', function () {
 	 assert.equal(a.eval("tan(40+5)"),"1");
@@ -112,6 +120,14 @@ describe('Testing Unit', function () {
   });
   it('checks root function', function () {
 	 assert.equal(a.eval("root4"),"2");
+    assert.equal(
+      Math.round((a.eval("root(4-1^2)") + Number.EPSILON) * 100) / 100,
+      Math.round((Math.sqrt(3) + Number.EPSILON) * 100) / 100
+    )
+    assert.equal(
+      Math.round((a.eval("root(4-(2-1)^2)") + Number.EPSILON) * 100) / 100,
+      Math.round((Math.sqrt(3) + Number.EPSILON) * 100) / 100
+    )
   });
   it('checks + precedence before number insise parenthesis ', function () {
 	 assert.equal(a.eval("(-2)"),"-2");

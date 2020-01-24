@@ -35,7 +35,7 @@ var preced = {
   11: 0,
   12: 11,
   13: 0
-}
+} // stores precedence by types
 var type = [0, 0, 0, 3, 4, 5, 10, 10,
   0, 0, 0, 1, 1, 1, 0,
   0, 0, 0, 10, 0, 1, 1, 1, 2, 7,
@@ -180,7 +180,6 @@ Mexp.lex = function (inp, tokens) {
   var ptc = [] // Parenthesis to close at the beginning is after one token
   var inpStr = inp
   var key
-  var pcounter = 0
   var allowed = type0
   var bracToClose = 0
   var asterick = empty
@@ -218,7 +217,7 @@ Mexp.lex = function (inp, tokens) {
     var j
     for (j = ptc.length; j--;) { // loop over ptc
       if (ptc[j] === 0) {
-        if ([0, 2, 3, 5, 9, 11, 12, 13].indexOf(cType) !== -1) {
+        if ([0, 2, 3, 4, 5, 9, 11, 12, 13].indexOf(cType) !== -1) {
           if (allowed[cType] !== true) {
             throw (new Mexp.Exception(key + ' is not allowed after ' + prevKey))
           }
@@ -270,8 +269,7 @@ Mexp.lex = function (inp, tokens) {
       allowed = type1
       asterick = type3Asterick
     } else if (cType === 4) {
-      pcounter += ptc.length
-      ptc = []
+      inc(ptc, 1)
       bracToClose++
       allowed = type0
       asterick = empty
@@ -280,10 +278,6 @@ Mexp.lex = function (inp, tokens) {
       if (!bracToClose) {
         throw (new Mexp.Exception('Closing parenthesis are more than opening one, wait What!!!'))
       }
-      while (pcounter--) { // loop over ptc
-        str.push(closingParObj)
-      }
-      pcounter = 0
       bracToClose--
       allowed = type1
       asterick = type3Asterick
@@ -381,6 +375,7 @@ Mexp.lex = function (inp, tokens) {
   }
 
   str.push(closingParObj)
+  console.log(str, inp)
   //        console.log(str);
   return new Mexp(str)
 }
