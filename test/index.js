@@ -202,6 +202,24 @@ describe('Check autoclose of parenthesis of parser', function () {
         }
     }])
     assert.equal(a.eval("27nroot3"), 3);
+    a.addToken([{
+        type:2,
+        token:"nrootlongesttoken",
+        show:"nrootlongesttoken",
+        value:function(a,b){
+          return Math.pow(a, 1 / b);
+        }
+    }])
+    assert.equal(a.eval("27nrootlongesttoken3"), 3);
+    a.addToken([{
+        type:2,
+        token:"tokenwithnumber34",
+        show:"tokenwithnumber34",
+        value:function(a,b){
+          return a + b;
+        }
+    }])
+    assert.equal(a.eval("17tokenwithnumber347"), 24);
 
   });
 });

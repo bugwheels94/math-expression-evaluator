@@ -128,7 +128,7 @@ Mexp.addToken = function (tokens) {
     var x = tokens[i].token.length
     var temp = -1
 
-    // newAr is a specially designed data structure in which 1D array at location one of 2d array has all string with length 1 2 with 2 and so on
+    // newAr is a specially designed data structure index of 1d array = length of tokens
 
     if (x < newAr.length) { // match to check if token is really huge and not existing
     // if not checked it will break in next line as undefined index
@@ -195,6 +195,7 @@ Mexp.lex = function (inp, tokens) {
     }
     key = ''
     for (x = (inpStr.length - i > (newAr.length - 2) ? newAr.length - 1 : inpStr.length - i); x > 0; x--) {
+      if (newAr[x] === undefined) continue;
       for (y = 0; y < newAr[x].length; y++) {
         if (match(inpStr, newAr[x][y], i, x)) {
           key = newAr[x][y]
