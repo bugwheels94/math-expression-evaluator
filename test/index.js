@@ -190,3 +190,18 @@ describe('Check autoclose of parenthesis of parser', function () {
     assert.equal(a.eval("((2+3*4"),"14");
   });
 });
+describe('Check autoclose of parenthesis of parser', function () {
+  it('should tell to compllete expression', function () {
+
+    a.addToken([{
+        type:2,
+        token:"nroot",
+        show:"nroot",
+        value:function(a,b){
+          return Math.pow(a, 1 / b);
+        }
+    }])
+    assert.equal(a.eval("27nroot3"), 3);
+
+  });
+});
