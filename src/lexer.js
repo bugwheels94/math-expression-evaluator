@@ -376,7 +376,6 @@ Mexp.lex = function (inp, tokens) {
   }
 
   str.push(closingParObj)
-  console.log(str, inp)
   //        console.log(str);
   return new Mexp(str)
 }
