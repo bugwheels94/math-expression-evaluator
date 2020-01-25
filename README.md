@@ -1,5 +1,5 @@
 # math-expression-evaluator
-An extremely efficient, flexible and amazing evaluator for Math expression in Javascript.([Documentation](http://redhivesoftware.github.io/math-expression-evaluator/))
+An extremely efficient, flexible and amazing evaluator for Math expression in Javascript.([Documentation](http://bugwheels94.github.io/math-expression-evaluator/))
 
 ## Use cases
 |Input|Result|Explanation|
