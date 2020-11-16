@@ -14,7 +14,7 @@ An extremely efficient, flexible and amazing evaluator for Math expression in Ja
 |**5P3**|60| Permutaion Method to calculate all the permutaions |
 |**sincostan90** *or* **sin(cos(tan(90)))**|0.017261434031253| Multiple functions with or without parenthesis (both works) |
 
-### [Fiddle Yourself](http://jsbin.com/fuyowu/1/edit?html,output)
+### [Fiddle Yourself](https://jsbin.com/romatuc/edit?html,output)
 
 ## Installation
 ### Node JS
