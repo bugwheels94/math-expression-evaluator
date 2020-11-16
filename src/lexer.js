@@ -34,7 +34,8 @@ var preced = {
   10: 10,
   11: 0,
   12: 11,
-  13: 0
+  13: 0,
+  14: -1 // will be filtered after lexer
 } // stores precedence by types
 var type = [0, 0, 0, 3, 4, 5, 10, 10,
   0, 0, 0, 1, 1, 1, 0,
@@ -54,7 +55,7 @@ var type = [0, 0, 0, 3, 4, 5, 10, 10,
 9 : binary operator like +,-
 10: binary operator like P C or ^
 11: ,
-12: function with , seperated three parameters
+12: function with , seperated three parameters and third parameter is a string that will be mexp string
 13: variable of Sigma function
 */
 var type0 = {
@@ -66,7 +67,8 @@ var type0 = {
   8: true,
   9: true,
   12: true,
-  13: true
+  13: true,
+  14: true
 } // type2:true,type4:true,type9:true,type11:true,type21:true,type22
 var type1 = {
   0: true,
@@ -129,14 +131,11 @@ Mexp.addToken = function (tokens) {
     var temp = -1
 
     // newAr is a specially designed data structure index of 1d array = length of tokens
-
-    if (x < newAr.length) { // match to check if token is really huge and not existing
-    // if not checked it will break in next line as undefined index
-      for (var y = 0; y < newAr[x].length; y++) {
-        if (tokens[i].token === newAr[x][y]) {
-          temp = token.indexOf(newAr[x][y])
-          break
-        }
+    newAr[x] = newAr[x] || [];
+    for (var y = 0; y < newAr[x].length; y++) {
+      if (tokens[i].token === newAr[x][y]) {
+        temp = token.indexOf(newAr[x][y])
+        break
       }
     }
     if (temp === -1) {
@@ -148,7 +147,7 @@ Mexp.addToken = function (tokens) {
       newAr[tokens[i].token.length].push(tokens[i].token)
       eva.push(tokens[i].value)
       show.push(tokens[i].show)
-    } else {
+    } else { // overwrite
       token[temp] = tokens[i].token
       type[temp] = tokens[i].type
       eva[temp] = tokens[i].value
@@ -191,6 +190,10 @@ Mexp.lex = function (inp, tokens) {
   var obj = {}
   for (i = 0; i < inpStr.length; i++) {
     if (inpStr[i] === ' ') {
+      var cType = 14;
+      if (!allowed[cType]) {
+        throw new Mexp.Exception('Unexpected Space')
+      }
       continue
     }
     key = ''
@@ -283,6 +286,7 @@ Mexp.lex = function (inp, tokens) {
       allowed = type1
       asterick = type3Asterick
       str.push(obj)
+      inc(ptc, 1)
     } else if (cType === 6) {
       if (pre.hasDec) {
         throw (new Mexp.Exception('Two decimals are not allowed in one number'))

@@ -54,7 +54,6 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 			pop1=stack.pop();
 			pop2=stack.pop();
 			if(typeof pop2.type==="undefined"){
-                console.log(pop2);
 				pop2=pop2.concat(pop1);
 				pop2.push(arr[i]);
 				stack.push(pop2);
@@ -85,7 +84,7 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 		}
 	}
 	if (stack.length>1) {
-		throw(new Mexp.exception("Uncaught Syntax error"));
+		throw(new Mexp.Exception("Uncaught Syntax error"));
 	}
 	return stack[0].value>1000000000000000?"Infinity":parseFloat(stack[0].value.toFixed(15));
 };
