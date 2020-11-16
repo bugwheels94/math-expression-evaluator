@@ -1,5 +1,5 @@
-/** math-expression-evaluator version 1.2.17
- Dated:2017-05-05 */
+/** math-expression-evaluator version 1.3.1
+ Dated:2020-11-16 */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mexp = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Mexp=require('./postfix_evaluator.js');
@@ -80,8 +80,9 @@ var preced = {
   10: 10,
   11: 0,
   12: 11,
-  13: 0
-}
+  13: 0,
+  14: -1 // will be filtered after lexer
+} // stores precedence by types
 var type = [0, 0, 0, 3, 4, 5, 10, 10,
   0, 0, 0, 1, 1, 1, 0,
   0, 0, 0, 10, 0, 1, 1, 1, 2, 7,
@@ -100,7 +101,7 @@ var type = [0, 0, 0, 3, 4, 5, 10, 10,
 9 : binary operator like +,-
 10: binary operator like P C or ^
 11: ,
-12: function with , seperated three parameters
+12: function with , seperated three parameters and third parameter is a string that will be mexp string
 13: variable of Sigma function
 */
 var type0 = {
@@ -112,7 +113,8 @@ var type0 = {
   8: true,
   9: true,
   12: true,
-  13: true
+  13: true,
+  14: true
 } // type2:true,type4:true,type9:true,type11:true,type21:true,type22
 var type1 = {
   0: true,
@@ -174,15 +176,12 @@ Mexp.addToken = function (tokens) {
     var x = tokens[i].token.length
     var temp = -1
 
-    // newAr is a specially designed data structure in which 1D array at location one of 2d array has all string with length 1 2 with 2 and so on
-
-    if (x < newAr.length) { // match to check if token is really huge and not existing
-    // if not checked it will break in next line as undefined index
-      for (var y = 0; y < newAr[x].length; y++) {
-        if (tokens[i].token === newAr[x][y]) {
-          temp = token.indexOf(newAr[x][y])
-          break
-        }
+    // newAr is a specially designed data structure index of 1d array = length of tokens
+    newAr[x] = newAr[x] || [];
+    for (var y = 0; y < newAr[x].length; y++) {
+      if (tokens[i].token === newAr[x][y]) {
+        temp = token.indexOf(newAr[x][y])
+        break
       }
     }
     if (temp === -1) {
@@ -194,7 +193,7 @@ Mexp.addToken = function (tokens) {
       newAr[tokens[i].token.length].push(tokens[i].token)
       eva.push(tokens[i].value)
       show.push(tokens[i].show)
-    } else {
+    } else { // overwrite
       token[temp] = tokens[i].token
       type[temp] = tokens[i].type
       eva[temp] = tokens[i].value
@@ -226,7 +225,6 @@ Mexp.lex = function (inp, tokens) {
   var ptc = [] // Parenthesis to close at the beginning is after one token
   var inpStr = inp
   var key
-  var pcounter = 0
   var allowed = type0
   var bracToClose = 0
   var asterick = empty
@@ -238,10 +236,15 @@ Mexp.lex = function (inp, tokens) {
   var obj = {}
   for (i = 0; i < inpStr.length; i++) {
     if (inpStr[i] === ' ') {
+      var cType = 14;
+      if (!allowed[cType]) {
+        throw new Mexp.Exception('Unexpected Space')
+      }
       continue
     }
     key = ''
     for (x = (inpStr.length - i > (newAr.length - 2) ? newAr.length - 1 : inpStr.length - i); x > 0; x--) {
+      if (newAr[x] === undefined) continue;
       for (y = 0; y < newAr[x].length; y++) {
         if (match(inpStr, newAr[x][y], i, x)) {
           key = newAr[x][y]
@@ -264,7 +267,7 @@ Mexp.lex = function (inp, tokens) {
     var j
     for (j = ptc.length; j--;) { // loop over ptc
       if (ptc[j] === 0) {
-        if ([0, 2, 3, 5, 9, 11, 12, 13].indexOf(cType) !== -1) {
+        if ([0, 2, 3, 4, 5, 9, 11, 12, 13].indexOf(cType) !== -1) {
           if (allowed[cType] !== true) {
             throw (new Mexp.Exception(key + ' is not allowed after ' + prevKey))
           }
@@ -316,8 +319,7 @@ Mexp.lex = function (inp, tokens) {
       allowed = type1
       asterick = type3Asterick
     } else if (cType === 4) {
-      pcounter += ptc.length
-      ptc = []
+      inc(ptc, 1)
       bracToClose++
       allowed = type0
       asterick = empty
@@ -326,14 +328,11 @@ Mexp.lex = function (inp, tokens) {
       if (!bracToClose) {
         throw (new Mexp.Exception('Closing parenthesis are more than opening one, wait What!!!'))
       }
-      while (pcounter--) { // loop over ptc
-        str.push(closingParObj)
-      }
-      pcounter = 0
       bracToClose--
       allowed = type1
       asterick = type3Asterick
       str.push(obj)
+      inc(ptc, 1)
     } else if (cType === 6) {
       if (pre.hasDec) {
         throw (new Mexp.Exception('Two decimals are not allowed in one number'))
@@ -566,55 +565,55 @@ module.exports = Mexp
 
 },{}],4:[function(require,module,exports){
 
-    var Mexp=require('./lexer.js');
+var Mexp = require('./lexer.js');
 
-	Mexp.prototype.toPostfix = function () {
-		'use strict';
-		var post=[],elem,popped,prep,pre,ele;
-    	var stack=[{value:"(",type:4,pre:0}];
-		var arr=this.value;
-		for (var i=1; i < arr.length; i++) {
-			if(arr[i].type===1||arr[i].type===3||arr[i].type===13){	//if token is number,constant,or n(which is also a special constant in our case)
-				if(arr[i].type===1)
-					arr[i].value=Number(arr[i].value);
-				post.push(arr[i]);
-			}
-			else if(arr[i].type===4){
-				stack.push(arr[i]);
-			}
-			else if(arr[i].type===5){
-				while((popped=stack.pop()).type!==4){
-					post.push(popped);
-				}
-			}
-			else if(arr[i].type===11){
-				while((popped=stack.pop()).type!==4){
-					post.push(popped);
-				}
-				stack.push(popped);
-			}
-			else {
-				elem=arr[i];
-				pre=elem.pre;
-				ele=stack[stack.length-1];
-				prep=ele.pre;
-				var flag=ele.value=='Math.pow'&&elem.value=='Math.pow';
-				if(pre>prep)stack.push(elem);
-				else {
-					while(prep>=pre&&!flag||flag&&pre<prep){
-						popped=stack.pop();
-						ele=stack[stack.length-1];
-						post.push(popped);
-						prep=ele.pre;
-						flag=elem.value=='Math.pow'&&ele.value=='Math.pow';
-					}
-					stack.push(elem);
-				}
+Mexp.prototype.toPostfix = function () {
+	'use strict';
+	var post = [], elem, popped, prep, pre, ele;
+	var stack = [{ value: "(", type: 4, pre: 0 }];
+	var arr = this.value;
+	for (var i = 1; i < arr.length; i++) {
+		if (arr[i].type === 1 || arr[i].type === 3 || arr[i].type === 13) {	//if token is number,constant,or n(which is also a special constant in our case)
+			if (arr[i].type === 1)
+				arr[i].value = Number(arr[i].value);
+			post.push(arr[i]);
+		}
+		else if (arr[i].type === 4) {
+			stack.push(arr[i]);
+		}
+		else if (arr[i].type === 5) {
+			while ((popped = stack.pop()).type !== 4) {
+				post.push(popped);
 			}
 		}
-		return new Mexp(post);
-	};
-    module.exports=Mexp;
+		else if (arr[i].type === 11) {
+			while ((popped = stack.pop()).type !== 4) {
+				post.push(popped);
+			}
+			stack.push(popped);
+		}
+		else {
+			elem = arr[i];
+			pre = elem.pre;
+			ele = stack[stack.length - 1];
+			prep = ele.pre;
+			var flag = ele.value == 'Math.pow' && elem.value == 'Math.pow';
+			if (pre > prep) stack.push(elem);
+			else {
+				while (prep >= pre && !flag || flag && pre < prep) {
+					popped = stack.pop();
+					ele = stack[stack.length - 1];
+					post.push(popped);
+					prep = ele.pre;
+					flag = elem.value == 'Math.pow' && ele.value == 'Math.pow';
+				}
+				stack.push(elem);
+			}
+		}
+	}
+	return new Mexp(post);
+};
+module.exports = Mexp;
 },{"./lexer.js":2}],5:[function(require,module,exports){
 var Mexp=require('./postfix.js');
 Mexp.prototype.postfixEval = function (UserDefined) {
@@ -672,7 +671,6 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 			pop1=stack.pop();
 			pop2=stack.pop();
 			if(typeof pop2.type==="undefined"){
-                console.log(pop2);
 				pop2=pop2.concat(pop1);
 				pop2.push(arr[i]);
 				stack.push(pop2);
@@ -703,7 +701,7 @@ Mexp.prototype.postfixEval = function (UserDefined) {
 		}
 	}
 	if (stack.length>1) {
-		throw(new Mexp.exception("Uncaught Syntax error"));
+		throw(new Mexp.Exception("Uncaught Syntax error"));
 	}
 	return stack[0].value>1000000000000000?"Infinity":parseFloat(stack[0].value.toFixed(15));
 };
