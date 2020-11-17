@@ -1,5 +1,5 @@
-/** math-expression-evaluator version 1.3.1
- Dated:2020-11-16 */
+/** math-expression-evaluator version 1.3.3
+ Dated:2020-11-17 */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mexp = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Mexp=require('./postfix_evaluator.js');
@@ -45,27 +45,27 @@ Mexp.prototype.formulaEval = function () {
 module.exports=Mexp;
 },{"./postfix_evaluator.js":5}],2:[function(require,module,exports){
 var Mexp = require('./math_function.js')
-function inc (arr, val) {
+function inc(arr, val) {
   for (var i = 0; i < arr.length; i++) {
     arr[i] += val
   }
   return arr
 }
-var token = ['sin', 'cos', 'tan', 'pi', '(', ')', 'P', 'C',
+var token = ['sin', 'cos', 'tan', 'pi', '(', ')', 'P', 'C', ' ',
   'asin', 'acos', 'atan', '7', '8', '9', 'int',
   'cosh', 'acosh', 'ln', '^', 'root', '4', '5', '6', '/', '!',
   'tanh', 'atanh', 'Mod', '1', '2', '3', '*',
   'sinh', 'asinh', 'e', 'log', '0', '.', '+', '-', ',', 'Sigma', 'n', 'Pi', 'pow']
-var show = ['sin', 'cos', 'tan', '&pi;', '(', ')', 'P', 'C',
+var show = ['sin', 'cos', 'tan', '&pi;', '(', ')', 'P', 'C', ' ',
   'asin', 'acos', 'atan', '7', '8', '9', 'Int',
   'cosh', 'acosh', ' ln', '^', 'root', '4', '5', '6', '&divide;', '!',
   'tanh', 'atanh', ' Mod ', '1', '2', '3', '&times;',
   'sinh', 'asinh', 'e', ' log', '0', '.', '+', '-', ',', '&Sigma;', 'n', '&Pi;', 'pow']
-var eva = [Mexp.math.sin, Mexp.math.cos, Mexp.math.tan, 'PI', '(', ')', Mexp.math.P, Mexp.math.C,
-  Mexp.math.asin, Mexp.math.acos, Mexp.math.atan, '7', '8', '9', Math.floor,
-  Mexp.math.cosh, Mexp.math.acosh, Math.log, Math.pow, Math.sqrt, '4', '5', '6', Mexp.math.div, Mexp.math.fact,
-  Mexp.math.tanh, Mexp.math.atanh, Mexp.math.mod, '1', '2', '3', Mexp.math.mul,
-  Mexp.math.sinh, Mexp.math.asinh, 'E', Mexp.math.log, '0', '.', Mexp.math.add, Mexp.math.sub, ',', Mexp.math.sigma, 'n', Mexp.math.Pi, Math.pow]
+var eva = [Mexp.math.sin, Mexp.math.cos, Mexp.math.tan, 'PI', '(', ')', Mexp.math.P, Mexp.math.C, ' '.anchor,
+Mexp.math.asin, Mexp.math.acos, Mexp.math.atan, '7', '8', '9', Math.floor,
+Mexp.math.cosh, Mexp.math.acosh, Math.log, Math.pow, Math.sqrt, '4', '5', '6', Mexp.math.div, Mexp.math.fact,
+Mexp.math.tanh, Mexp.math.atanh, Mexp.math.mod, '1', '2', '3', Mexp.math.mul,
+Mexp.math.sinh, Mexp.math.asinh, 'E', Mexp.math.log, '0', '.', Mexp.math.add, Mexp.math.sub, ',', Mexp.math.sigma, 'n', Mexp.math.Pi, Math.pow]
 var preced = {
   0: 11,
   1: 0,
@@ -83,7 +83,7 @@ var preced = {
   13: 0,
   14: -1 // will be filtered after lexer
 } // stores precedence by types
-var type = [0, 0, 0, 3, 4, 5, 10, 10,
+var type = [0, 0, 0, 3, 4, 5, 10, 10, 14,
   0, 0, 0, 1, 1, 1, 0,
   0, 0, 0, 10, 0, 1, 1, 1, 2, 7,
   0, 0, 2, 1, 1, 1, 2,
@@ -156,14 +156,14 @@ var type6 = {
 }
 var newAr = [
   [],
-  ['1', '2', '3', '7', '8', '9', '4', '5', '6', '+', '-', '*', '/', '(', ')', '^', '!', 'P', 'C', 'e', '0', '.', ',', 'n'],
+  ['1', '2', '3', '7', '8', '9', '4', '5', '6', '+', '-', '*', '/', '(', ')', '^', '!', 'P', 'C', 'e', '0', '.', ',', 'n', ' '],
   ['pi', 'ln', 'Pi'],
   ['sin', 'cos', 'tan', 'Del', 'int', 'Mod', 'log', 'pow'],
   ['asin', 'acos', 'atan', 'cosh', 'root', 'tanh', 'sinh'],
   ['acosh', 'atanh', 'asinh', 'Sigma']
 ]
 
-function match (str1, str2, i, x) {
+function match(str1, str2, i, x) {
   for (var f = 0; f < x; f++) {
     if (str1[i + f] !== str2[f]) {
       return false
@@ -201,8 +201,47 @@ Mexp.addToken = function (tokens) {
     }
   }
 }
+
+function tokenize(string) {
+  var nodes = [];
+  var length = string.length;
+  for (i = 0; i < length; i++) {
+    if (i < length - 1 && string[i] === ' ' && string[i + 1] === ' ') {
+      continue
+    }
+    key = ''
+    for (x = (string.length - i > (newAr.length - 2) ? newAr.length - 1 : string.length - i); x > 0; x--) {
+      if (newAr[x] === undefined) continue;
+      for (y = 0; y < newAr[x].length; y++) {
+        if (match(string, newAr[x][y], i, x)) {
+          key = newAr[x][y]
+          y = newAr[x].length
+          x = 0
+        }
+      }
+    }
+    i += key.length - 1
+    if (key === '') {
+      console.log(string, nodes)
+      throw (new Mexp.Exception('Can\'t understand after ' + string.slice(i)))
+    }
+    var index = token.indexOf(key);
+    nodes.push({
+      index: index,
+      token: key,
+      type: type[index],
+      eval: eva[index],
+      precedence: preced[type[index]],
+      show: show[index]
+    })
+  }
+  return nodes;
+}
+
 Mexp.lex = function (inp, tokens) {
   'use strict'
+
+
   var changeSignObj = {
     value: Mexp.math.changeSign,
     type: 0,
@@ -222,9 +261,9 @@ Mexp.lex = function (inp, tokens) {
     show: '('
   }
   var str = [openingParObj]
+
   var ptc = [] // Parenthesis to close at the beginning is after one token
   var inpStr = inp
-  var key
   var allowed = type0
   var bracToClose = 0
   var asterick = empty
@@ -234,42 +273,32 @@ Mexp.lex = function (inp, tokens) {
     Mexp.addToken(tokens)
   }
   var obj = {}
-  for (i = 0; i < inpStr.length; i++) {
-    if (inpStr[i] === ' ') {
-      var cType = 14;
-      if (!allowed[cType]) {
+  var nodes = tokenize(inpStr);
+  for (i = 0; i < nodes.length; i++) {
+    var node = nodes[i];
+    if (node.type === 14) {
+      if (i > 0 &&
+        i < nodes.length - 1 &&
+        nodes[i + 1].type === 1 &&
+        (nodes[i - 1].type === 1 || nodes[i - 1].type === 6))
         throw new Mexp.Exception('Unexpected Space')
-      }
       continue
     }
-    key = ''
-    for (x = (inpStr.length - i > (newAr.length - 2) ? newAr.length - 1 : inpStr.length - i); x > 0; x--) {
-      if (newAr[x] === undefined) continue;
-      for (y = 0; y < newAr[x].length; y++) {
-        if (match(inpStr, newAr[x][y], i, x)) {
-          key = newAr[x][y]
-          y = newAr[x].length
-          x = 0
-        }
-      }
-    }
-    i += key.length - 1
-    if (key === '') {
-      throw (new Mexp.Exception('Can\'t understand after ' + inpStr.slice(i)))
-    }
-    var index = token.indexOf(key)
-    var cToken = key
-    var cType = type[index]
-    var cEv = eva[index]
-    var cPre = preced[cType]
-    var cShow = show[index]
+
+    var index = node.index
+    var cToken = node.token
+    var cType = node.type
+    var cEv = node.eval
+    var cPre = node.precedence
+    var cShow = node.show
     var pre = str[str.length - 1]
     var j
     for (j = ptc.length; j--;) { // loop over ptc
       if (ptc[j] === 0) {
         if ([0, 2, 3, 4, 5, 9, 11, 12, 13].indexOf(cType) !== -1) {
           if (allowed[cType] !== true) {
-            throw (new Mexp.Exception(key + ' is not allowed after ' + prevKey))
+            console.log(inp, node, nodes, allowed)
+            throw (new Mexp.Exception(cToken + ' is not allowed after ' + prevKey))
           }
           str.push(closingParObj)
           allowed = type1
@@ -279,14 +308,14 @@ Mexp.lex = function (inp, tokens) {
       } else break
     }
     if (allowed[cType] !== true) {
-      throw (new Mexp.Exception(key + ' is not allowed after ' + prevKey))
+      throw (new Mexp.Exception(cToken + ' is not allowed after ' + prevKey))
     }
     if (asterick[cType] === true) {
       cType = 2
       cEv = Mexp.math.mul
       cShow = '&times;'
       cPre = 3
-      i = i - key.length
+      i = i - cToken.length
     }
     obj = {
       value: cEv,
@@ -410,7 +439,7 @@ Mexp.lex = function (inp, tokens) {
       str.push(obj)
     }
     inc(ptc, -1)
-    prevKey = key
+    prevKey = cToken
   }
   for (j = ptc.length; j--;) { // loop over ptc
     if (ptc[j] === 0) {

@@ -146,6 +146,7 @@ describe('These expression will raise error', function () {
   it('should tell to compllete expression', function () {
     try {
       a.eval("2*")
+      assert.equal(1, 2)
     }
     catch (e) {
       assert.equal(e.message, "complete the expression")
@@ -154,6 +155,7 @@ describe('These expression will raise error', function () {
   it('should warn about multiple operators', function () {
     try {
       a.eval("2**3")
+      assert.equal(1, 2)
     }
     catch (e) {
       assert.equal(e.message, "* is not allowed after *")
@@ -162,6 +164,7 @@ describe('These expression will raise error', function () {
   it('should warn about multiple operators', function () {
     try {
       a.eval("2*Mod*3")
+      assert.equal(1, 2)
     }
     catch (e) {
       assert.equal(e.message, "Mod is not allowed after *")
@@ -170,6 +173,7 @@ describe('These expression will raise error', function () {
   it('should warn about operator inside parenthesis', function () {
     try {
       a.eval("(+)")
+      assert.equal(1, 2)
     }
     catch (e) {
       assert.equal(e.message, ") is not allowed after +")
@@ -177,7 +181,8 @@ describe('These expression will raise error', function () {
   });
   it('should warn about operator inside parenthesis', function () {
     try {
-      a.eval("(2+3)")
+      a.eval("(2+3+)")
+      assert.equal(1, 2)
     }
     catch (e) {
       assert.equal(e.message, ") is not allowed after +")
@@ -186,6 +191,7 @@ describe('These expression will raise error', function () {
   it('should warn about using space as operator', function () {
     try {
       console.log(a.eval("1 2"))
+      assert.equal(1, 2)
     }
     catch (e) {
       assert.equal(e.message, "Unexpected Space")
@@ -194,6 +200,7 @@ describe('These expression will raise error', function () {
   it('should warn about using space as operator', function () {
     try {
       console.log(a.eval("1. 2"))
+      assert.equal(1, 2)
     }
     catch (e) {
       assert.equal(e.message, "Unexpected Space")
