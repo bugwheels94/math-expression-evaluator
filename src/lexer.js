@@ -159,7 +159,7 @@ Mexp.addToken = function (tokens) {
 function tokenize(string) {
   var nodes = [];
   var length = string.length;
-  for (let i = 0; i < length; i++) {
+  for (var i = 0; i < length; i++) {
     if (i < length - 1 && string[i] === ' ' && string[i + 1] === ' ') {
       continue
     }
