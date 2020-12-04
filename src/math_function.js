@@ -1,3 +1,4 @@
+"use strict";
 var Mexp = function (parsed) {
   this.value = parsed
 }

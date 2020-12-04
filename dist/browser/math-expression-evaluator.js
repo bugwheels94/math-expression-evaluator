@@ -1,4 +1,4 @@
-/** math-expression-evaluator version 1.3.4
+/** math-expression-evaluator version 1.3.5
  Dated:2020-12-04 */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mexp = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
@@ -44,6 +44,7 @@ Mexp.prototype.formulaEval = function () {
 };
 module.exports=Mexp;
 },{"./postfix_evaluator.js":5}],2:[function(require,module,exports){
+"use strict";
 var Mexp = require('./math_function.js')
 function inc(arr, val) {
   for (var i = 0; i < arr.length; i++) {
@@ -205,6 +206,7 @@ Mexp.addToken = function (tokens) {
 function tokenize(string) {
   var nodes = [];
   var length = string.length;
+  var key, x, y;
   for (var i = 0; i < length; i++) {
     if (i < length - 1 && string[i] === ' ' && string[i + 1] === ' ') {
       continue
@@ -268,7 +270,7 @@ Mexp.lex = function (inp, tokens) {
   var bracToClose = 0
   var asterick = empty
   var prevKey = ''
-  var i, x, y
+  var i;
   if (typeof tokens !== 'undefined') {
     Mexp.addToken(tokens)
   }
@@ -461,6 +463,7 @@ Mexp.lex = function (inp, tokens) {
 module.exports = Mexp
 
 },{"./math_function.js":3}],3:[function(require,module,exports){
+"use strict";
 var Mexp = function (parsed) {
   this.value = parsed
 }

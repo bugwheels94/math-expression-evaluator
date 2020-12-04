@@ -1,3 +1,4 @@
+"use strict";
 var Mexp = require('./math_function.js')
 function inc(arr, val) {
   for (var i = 0; i < arr.length; i++) {
@@ -159,6 +160,7 @@ Mexp.addToken = function (tokens) {
 function tokenize(string) {
   var nodes = [];
   var length = string.length;
+  var key, x, y;
   for (var i = 0; i < length; i++) {
     if (i < length - 1 && string[i] === ' ' && string[i + 1] === ' ') {
       continue
@@ -222,7 +224,7 @@ Mexp.lex = function (inp, tokens) {
   var bracToClose = 0
   var asterick = empty
   var prevKey = ''
-  var i, x, y
+  var i;
   if (typeof tokens !== 'undefined') {
     Mexp.addToken(tokens)
   }
