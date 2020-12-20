@@ -178,7 +178,6 @@ function tokenize(string) {
     }
     i += key.length - 1
     if (key === '') {
-      console.log(string, nodes)
       throw (new Mexp.Exception('Can\'t understand after ' + string.slice(i)))
     }
     var index = token.indexOf(key);
