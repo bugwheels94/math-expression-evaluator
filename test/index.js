@@ -15,12 +15,24 @@ describe("Testing Unit", function () {
   it("checks a parenthesis less function with multiplication", function () {
     assert.equal(a.lex("0sin180").toPostfix().postfixEval(), 0);
   });
+  it("checks a multiplication of root function", function () {
+    assert.equal(a.lex("3 root 9").toPostfix().postfixEval(), 9);
+  });
+  it("checks a multiplication of root function", function () {
+    assert.equal(a.lex("3root9").toPostfix().postfixEval(), 9);
+  });
+
   it("checks a parenthesis less function with multiplication by decimal", function () {
     assert.equal(a.lex("0.5sin90").toPostfix().postfixEval(), 0.5);
   });
   it("checks a parenthesis less function after a space", function () {
     assert.equal(a.lex("cos 180").toPostfix().postfixEval(), -1);
   });
+
+  it("checks a parenthesis function with multiplication", function () {
+    assert.equal(a.lex("0.5sin(90)").toPostfix().postfixEval(), 0.5);
+  });
+
   it("checks a parenthesis less function after multiple spaces", function () {
     assert.equal(a.lex("cos   180").toPostfix().postfixEval(), -1);
   });
