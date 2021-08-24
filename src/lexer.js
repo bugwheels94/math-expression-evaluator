@@ -52,7 +52,8 @@ var token = [
   'Sigma',
   'n',
   'Pi',
-  'pow'
+  'pow',
+  '&'
 ]
 var show = [
   'sin',
@@ -100,7 +101,8 @@ var show = [
   '&Sigma;',
   'n',
   '&Pi;',
-  'pow'
+  'pow',
+  '&'
 ]
 var eva = [
   Mexp.math.sin,
@@ -148,7 +150,8 @@ var eva = [
   Mexp.math.sigma,
   'n',
   Mexp.math.Pi,
-  Math.pow
+  Math.pow,
+  Mexp.math.and
 ]
 var preced = {
   0: 11,
@@ -169,7 +172,7 @@ var preced = {
 } // stores precedence by types
 var type = [
   0, 0, 0, 3, 4, 5, 10, 10, 14, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 10, 0, 1, 1, 1, 2, 7, 0, 0, 2, 1, 1,
-  1, 2, 0, 0, 3, 0, 1, 6, 9, 9, 11, 12, 13, 12, 8
+  1, 2, 0, 0, 3, 0, 1, 6, 9, 9, 11, 12, 13, 12, 8, 9
 ]
 /*
 0 : function with syntax function_name(Maths_exp)
@@ -264,7 +267,8 @@ var newAr = [
     '.',
     ',',
     'n',
-    ' '
+    ' ',
+    '&'
   ],
   ['pi', 'ln', 'Pi'],
   ['sin', 'cos', 'tan', 'Del', 'int', 'Mod', 'log', 'pow'],

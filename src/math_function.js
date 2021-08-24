@@ -123,6 +123,9 @@ Mexp.math = {
   },
   toRadian: function (x) {
     return x * Math.PI / 180
+  },
+  and: function (a, b) {
+    return a & b
   }
 }
 Mexp.Exception = function (message) {
