@@ -6,11 +6,11 @@ An extremely efficient, flexible and amazing evaluator for Math expression in Ja
 |:---:|:---:| --- |
 |**2+3-1**|4| Addition and Subtraction operator |
 |**2\*5/10**|1| Multiplication and Division operator |
-|**tan45** *or* **tan(45)**|1| Trigonometric Function ( tan in Degree mode) |
-|**tan45** *or* **tan(45)**|1.619775190543862| Trigonometric Function ( tan in Radian mode) |
+|**tan45** *or* **tan(45)**|1| Trigonometric Function (tan in Degree mode) |
+|**tan45** *or* **tan(45)**|1.619775190543862| Trigonometric Function (tan in Radian mode) |
 |**Pi1,15,n** *or* **Pi(1,15,n)**|1307674368000| Product of Sequence |
-|**Sigma1,15,n** *or* **Sigma(1,15,n)**|120| Sum of Sequence( also called summation)  |
-|**2^3**|8| Exponent( note this operator is left associative like MS Office) |
+|**Sigma1,15,n** *or* **Sigma(1,15,n)**|120| Sum of Sequence (also called summation)  |
+|**2^3**|8| Exponent (note this operator is left associative like MS Office) |
 |**5P3**|60| Permutaion Method to calculate all the permutaions |
 |**sincostan90** *or* **sin(cos(tan(90)))**|0.017261434031253| Multiple functions with or without parenthesis (both works) |
 
@@ -42,6 +42,7 @@ An extremely efficient, flexible and amazing evaluator for Math expression in Ja
 |**Mod**| Modulus Operator eg. 3 Mod 2 results 1 |
 |**(**| Opening Parenthesis |
 |**)**| Closing Parenthesis |
+|**&**| Bitwise AND eg. 3&1 results 1 |
 |**Sigma**| Summation eg. Sigma(1,100,n) results 5050 |
 |**Pi**| Product eg. Pi(1,10,n) results 3628800 |
 |**n**| Variable for Summation or Product |
