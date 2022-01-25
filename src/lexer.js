@@ -566,7 +566,6 @@ Mexp.lex = function (inp, tokens) {
     }
     inc(ptc, -1)
     prevKey = cToken
-    console.log(nodes[i].show, cType, ptc)
 
   }
   for (j = ptc.length; j--;) {
