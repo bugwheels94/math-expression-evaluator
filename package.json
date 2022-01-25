@@ -5,7 +5,8 @@
   "main": "src/formula_evaluator.js",
   "scripts": {
     "test": "mocha",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build": "grunt uglify"
   },
   "repository": {
     "type": "git",
@@ -37,7 +38,8 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^19.0.0",
     "husky": "^7.0.4",
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "semantic-release": "^19.0.2"
   },
   "config": {
     "commitizen": {
