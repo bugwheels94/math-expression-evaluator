@@ -419,7 +419,7 @@ Mexp.lex = function (inp, tokens) {
           str.push(closingParObj)
           allowed = type1
           asterick = type3Asterick
-          inc(ptc, -1).pop()
+          ptc.pop()
         }
       } else break
     }
@@ -445,6 +445,7 @@ Mexp.lex = function (inp, tokens) {
       inc(ptc, 2).push(2)
       str.push(obj)
       str.push(openingParObj)
+      // bracToClose++
     } else if (cType === 1) {
       if (pre.type === 1) {
         pre.value += cEv
@@ -490,7 +491,7 @@ Mexp.lex = function (inp, tokens) {
           pre: 0
         } // pre needs to be changed as it will the last value now to be safe in later code
         str.push(pre)
-        inc(ptc, -1)
+        // inc(ptc, 1)
       }
       allowed = type6
       inc(ptc, 1)
@@ -565,13 +566,12 @@ Mexp.lex = function (inp, tokens) {
     }
     inc(ptc, -1)
     prevKey = cToken
+    console.log(nodes[i].show, cType, ptc)
+
   }
   for (j = ptc.length; j--;) {
     // loop over ptc
-    if (ptc[j] === 0) {
-      str.push(closingParObj)
-      inc(ptc, -1).pop()
-    } else break // if it is not zero so before ptc also cant be zero
+    str.push(closingParObj)
   }
   if (allowed[5] !== true) {
     throw new Mexp.Exception('complete the expression')
