@@ -442,9 +442,12 @@ Mexp.lex = function (inp, tokens) {
     if (cType === 0) {
       allowed = type0
       asterick = empty
-      inc(ptc, 2).push(2)
+      inc(ptc, 2)
       str.push(obj)
-      str.push(openingParObj)
+      if (nodes[i + 1].type !== 4) {
+        str.push(openingParObj)
+        ptc.push(2)
+      }
       // bracToClose++
     } else if (cType === 1) {
       if (pre.type === 1) {
@@ -507,9 +510,13 @@ Mexp.lex = function (inp, tokens) {
     if (cType === 8) {
       allowed = type0
       asterick = empty
-      inc(ptc, 4).push(4)
+      inc(ptc, 4)
       str.push(obj)
-      str.push(openingParObj)
+      // str.push(openingParObj)
+      if (nodes[i + 1].type !== 4) {
+        str.push(openingParObj)
+        ptc.push(4)
+      }
     } else if (cType === 9) {
       if (pre.type === 9) {
         if (pre.value === Mexp.math.add) {
@@ -556,9 +563,12 @@ Mexp.lex = function (inp, tokens) {
     } else if (cType === 12) {
       allowed = type0
       asterick = empty
-      inc(ptc, 6).push(6)
+      inc(ptc, 6)
       str.push(obj)
-      str.push(openingParObj)
+      if (nodes[i + 1].type !== 4) {
+        str.push(openingParObj)
+        ptc.push(6)
+      }
     } else if (cType === 13) {
       allowed = type1
       asterick = type3Asterick

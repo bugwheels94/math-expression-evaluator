@@ -320,6 +320,10 @@ describe('Ading Token', function () {
     // console.log("PAGAL", a.eval("min(4,ceil(0.1*10))"))
     assert.equal(a.eval("min(4,ceil(0.011*100))"), 2)
   })
+  it('should also evaluate to correct two functions', function () {
+    // console.log("PAGAL", a.eval("min(4,ceil(0.1*10))"))
+    assert.equal(a.eval("ceil(min(4, 0.0801*100))"), 4)
+  })
 
   it('should tell to compllete expression', function () {
     a.addToken([
