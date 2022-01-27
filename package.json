@@ -1,12 +1,12 @@
 {
   "name": "math-expression-evaluator",
-  "version": "1.3.8",
+  "version": "0.0.0-development",
   "description": "A flexible math expression evaluator",
   "main": "src/formula_evaluator.js",
   "scripts": {
     "test": "mocha",
     "prepare": "husky install",
-    "build": "grunt uglify"
+    "build": "webpack && NODE_ENV=production webpack"
   },
   "repository": {
     "type": "git",
@@ -32,18 +32,17 @@
     "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "grunt": "^1.3.0",
-    "grunt-browserify": "^3.8.0",
-    "grunt-contrib-uglify": "^0.9.1",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-eslint": "^19.0.0",
     "husky": "^7.0.4",
     "mocha": "^2.2.5",
-    "semantic-release": "^19.0.2"
+    "semantic-release": "^19.0.2",
+    "webpack-cli": "^4.9.2"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "webpack": "^5.67.0"
   }
 }

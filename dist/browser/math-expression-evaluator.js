@@ -1,8 +1,10 @@
-/** math-expression-evaluator version 1.3.8
- Dated:2021-07-03 */
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
 
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mexp = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var Mexp=require('./postfix_evaluator.js');
+/***/ 28:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var Mexp=__webpack_require__(733);
 Mexp.prototype.formulaEval = function () {
 	"use strict";
 	var stack=[],pop1,pop2,pop3;
@@ -43,9 +45,15 @@ Mexp.prototype.formulaEval = function () {
 	return disp[0].value;
 };
 module.exports=Mexp;
-},{"./postfix_evaluator.js":5}],2:[function(require,module,exports){
-'use strict'
-var Mexp = require('./math_function.js')
+
+/***/ }),
+
+/***/ 618:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var Mexp = __webpack_require__(178)
 function inc (arr, val) {
   for (var i = 0; i < arr.length; i++) {
     arr[i] += val
@@ -98,7 +106,8 @@ var token = [
   'Sigma',
   'n',
   'Pi',
-  'pow'
+  'pow',
+  '&'
 ]
 var show = [
   'sin',
@@ -146,7 +155,8 @@ var show = [
   '&Sigma;',
   'n',
   '&Pi;',
-  'pow'
+  'pow',
+  '&'
 ]
 var eva = [
   Mexp.math.sin,
@@ -194,7 +204,8 @@ var eva = [
   Mexp.math.sigma,
   'n',
   Mexp.math.Pi,
-  Math.pow
+  Math.pow,
+  Mexp.math.and
 ]
 var preced = {
   0: 11,
@@ -215,7 +226,7 @@ var preced = {
 } // stores precedence by types
 var type = [
   0, 0, 0, 3, 4, 5, 10, 10, 14, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 10, 0, 1, 1, 1, 2, 7, 0, 0, 2, 1, 1,
-  1, 2, 0, 0, 3, 0, 1, 6, 9, 9, 11, 12, 13, 12, 8
+  1, 2, 0, 0, 3, 0, 1, 6, 9, 9, 11, 12, 13, 12, 8, 9
 ]
 /*
 0 : function with syntax function_name(Maths_exp)
@@ -310,7 +321,8 @@ var newAr = [
     '.',
     ',',
     'n',
-    ' '
+    ' ',
+    '&'
   ],
   ['pi', 'ln', 'Pi'],
   ['sin', 'cos', 'tan', 'Del', 'int', 'Mod', 'log', 'pow'],
@@ -461,7 +473,7 @@ Mexp.lex = function (inp, tokens) {
           str.push(closingParObj)
           allowed = type1
           asterick = type3Asterick
-          inc(ptc, -1).pop()
+          ptc.pop()
         }
       } else break
     }
@@ -484,9 +496,13 @@ Mexp.lex = function (inp, tokens) {
     if (cType === 0) {
       allowed = type0
       asterick = empty
-      inc(ptc, 2).push(2)
+      inc(ptc, 2)
       str.push(obj)
-      str.push(openingParObj)
+      if (nodes[i + 1].type !== 4) {
+        str.push(openingParObj)
+        ptc.push(2)
+      }
+      // bracToClose++
     } else if (cType === 1) {
       if (pre.type === 1) {
         pre.value += cEv
@@ -532,7 +548,7 @@ Mexp.lex = function (inp, tokens) {
           pre: 0
         } // pre needs to be changed as it will the last value now to be safe in later code
         str.push(pre)
-        inc(ptc, -1)
+        // inc(ptc, 1)
       }
       allowed = type6
       inc(ptc, 1)
@@ -548,9 +564,13 @@ Mexp.lex = function (inp, tokens) {
     if (cType === 8) {
       allowed = type0
       asterick = empty
-      inc(ptc, 4).push(4)
+      inc(ptc, 4)
       str.push(obj)
-      str.push(openingParObj)
+      // str.push(openingParObj)
+      if (nodes[i + 1].type !== 4) {
+        str.push(openingParObj)
+        ptc.push(4)
+      }
     } else if (cType === 9) {
       if (pre.type === 9) {
         if (pre.value === Mexp.math.add) {
@@ -597,9 +617,12 @@ Mexp.lex = function (inp, tokens) {
     } else if (cType === 12) {
       allowed = type0
       asterick = empty
-      inc(ptc, 6).push(6)
+      inc(ptc, 6)
       str.push(obj)
-      str.push(openingParObj)
+      if (nodes[i + 1].type !== 4) {
+        str.push(openingParObj)
+        ptc.push(6)
+      }
     } else if (cType === 13) {
       allowed = type1
       asterick = type3Asterick
@@ -607,13 +630,11 @@ Mexp.lex = function (inp, tokens) {
     }
     inc(ptc, -1)
     prevKey = cToken
+
   }
   for (j = ptc.length; j--;) {
     // loop over ptc
-    if (ptc[j] === 0) {
-      str.push(closingParObj)
-      inc(ptc, -1).pop()
-    } else break // if it is not zero so before ptc also cant be zero
+    str.push(closingParObj)
   }
   if (allowed[5] !== true) {
     throw new Mexp.Exception('complete the expression')
@@ -628,8 +649,14 @@ Mexp.lex = function (inp, tokens) {
 }
 module.exports = Mexp
 
-},{"./math_function.js":3}],3:[function(require,module,exports){
+
+/***/ }),
+
+/***/ 178:
+/***/ ((module) => {
+
 "use strict";
+
 var Mexp = function (parsed) {
   this.value = parsed
 }
@@ -754,6 +781,9 @@ Mexp.math = {
   },
   toRadian: function (x) {
     return x * Math.PI / 180
+  },
+  and: function (a, b) {
+    return a & b
   }
 }
 Mexp.Exception = function (message) {
@@ -761,9 +791,14 @@ Mexp.Exception = function (message) {
 }
 module.exports = Mexp
 
-},{}],4:[function(require,module,exports){
 
-var Mexp = require('./lexer.js');
+/***/ }),
+
+/***/ 477:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+
+var Mexp = __webpack_require__(618);
 
 Mexp.prototype.toPostfix = function () {
 	'use strict';
@@ -812,8 +847,13 @@ Mexp.prototype.toPostfix = function () {
 	return new Mexp(post);
 };
 module.exports = Mexp;
-},{"./lexer.js":2}],5:[function(require,module,exports){
-var Mexp=require('./postfix.js');
+
+/***/ }),
+
+/***/ 733:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var Mexp=__webpack_require__(477);
 Mexp.prototype.postfixEval = function (UserDefined) {
 	'use strict';
 	UserDefined=UserDefined||{};
@@ -917,5 +957,41 @@ Mexp.eval=function(str,tokens,obj){
 		return this.lex(str,tokens).toPostfix().postfixEval(obj);
 };
 module.exports=Mexp;
-},{"./postfix.js":4}]},{},[1])(1)
-});
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __webpack_require__(28);
+/******/ 	
+/******/ })()
+;
