@@ -35,14 +35,12 @@
     "husky": "^7.0.4",
     "mocha": "^2.2.5",
     "semantic-release": "^19.0.2",
-    "webpack-cli": "^4.9.2"
+    "webpack-cli": "^4.9.2",
+    "webpack": "^5.67.0"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "dependencies": {
-    "webpack": "^5.67.0"
   }
 }
