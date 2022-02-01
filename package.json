@@ -2,7 +2,7 @@
   "name": "math-expression-evaluator",
   "version": "0.0.0-development",
   "description": "A flexible math expression evaluator",
-  "main": "src/formula_evaluator.js",
+  "main": "src/index.mjs",
   "scripts": {
     "test": "mocha",
     "prepare": "husky install",
@@ -25,7 +25,6 @@
   },
   "homepage": "https://github.com/redhivesoftware/math-expression-evaluator#readme",
   "devDependencies": {
-    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^6.6.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.2.0",
