@@ -1,8 +1,54 @@
-export default class Mexp {
+"use strict";
+class Mexp {
     constructor(parsed) {
         this.value = parsed;
     }
+    formulaEval() {
+        "use strict";
+        let pop1, pop2, pop3;
+        let disp = [];
+        let arr = this.value;
+        for (let i = 0; i < arr.length; i++) {
+            switch (arr[i].type) {
+                case 1:
+                case 3: formula_evaluator
+                    disp.push({ value: arr[i].type === 3 ? arr[i].show : arr[i].value, type: 1 });
+                    break;
+                case 13:
+                    disp.push({ value: arr[i].show, type: 1 });
+                    break;
+                case 0:
+                    disp[disp.length - 1] = { value: arr[i].show + (arr[i].show != "-" ? "(" : "") + disp[disp.length - 1].value + (arr[i].show != "-" ? ")" : ""), type: 0 };
+                    break;
+                case 7:
+                    disp[disp.length - 1] = { value: (disp[disp.length - 1].type != 1 ? "(" : "") + disp[disp.length - 1].value + (disp[disp.length - 1].type != 1 ? ")" : "") + arr[i].show, type: 7 };
+                    break;
+                case 10:
+                    pop1 = disp.pop();
+                    pop2 = disp.pop();
+                    if (arr[i].show === 'P' || arr[i].show === 'C')
+                        disp.push({ value: "<sup>" + pop2.value + "</sup>" + arr[i].show + "<sub>" + pop1.value + "</sub>", type: 10 });
+                    else
+                        disp.push({ value: (pop2.type != 1 ? "(" : "") + pop2.value + (pop2.type != 1 ? ")" : "") + "<sup>" + pop1.value + "</sup>", type: 1 });
+                    break;
+                case 2:
+                case 9:
+                    pop1 = disp.pop();
+                    pop2 = disp.pop();
+                    disp.push({ value: (pop2.type != 1 ? "(" : "") + pop2.value + (pop2.type != 1 ? ")" : "") + arr[i].show + (pop1.type != 1 ? "(" : "") + pop1.value + (pop1.type != 1 ? ")" : ""), type: arr[i].type });
+                    break;
+                case 12:
+                    pop1 = disp.pop();
+                    pop2 = disp.pop();
+                    pop3 = disp.pop();
+                    disp.push({ value: arr[i].show + "(" + pop3.value + "," + pop2.value + "," + pop1.value + ")", type: 12 });
+                    break;
+            }
+        }
+        return disp[0].value;
+    }
     postfixEval(UserDefined) {
+        'use strict';
         UserDefined = UserDefined || {};
         UserDefined.PI = Math.PI;
         UserDefined.E = Math.E;
@@ -79,6 +125,7 @@ export default class Mexp {
         return stack[0].value > 1000000000000000 ? "Infinity" : parseFloat(stack[0].value.toFixed(15));
     }
     toPostfix() {
+        'use strict';
         let post = [], elem, popped, prep, pre, ele;
         let stack = [{ value: "(", type: 4, pre: 0 }];
         let arr = this.value;
@@ -163,6 +210,7 @@ export default class Mexp {
         }
     }
     static lex(inp, tokens) {
+        'use strict';
         let changeSignObj = {
             value: mexpMath.changeSign,
             type: 0,
@@ -409,17 +457,12 @@ export default class Mexp {
         return new Mexp(str);
     }
     static eval(str, tokens, obj) {
-        if (/^[a-zA-Z]+$/g.test(str)) return;
-        try {
-            if (typeof tokens === "undefined") return this.lex(str).toPostfix().postfixEval();
-            if (typeof obj === "undefined") {
-                if (typeof tokens.length !== "undefined") return this.lex(str, tokens).toPostfix().postfixEval();
-                return this.lex(str).toPostfix().postfixEval(tokens);
-            }
-            return this.lex(str, tokens).toPostfix().postfixEval(obj);
-        }catch (err) {
-            return str
+        if (typeof tokens === "undefined") return this.lex(str).toPostfix().postfixEval();
+        if (typeof obj === "undefined") {
+            if (typeof tokens.length !== "undefined") return this.lex(str, tokens).toPostfix().postfixEval();
+            return this.lex(str).toPostfix().postfixEval(tokens);
         }
+        return this.lex(str, tokens).toPostfix().postfixEval(obj);
     }
 }
 
@@ -705,7 +748,7 @@ let type0 = {
     12: true,
     13: true,
     14: true
-}
+} // type2:true,type4:true,type9:true,type11:true,type21:true,type22
 
 let type1 = {
     0: true,
@@ -722,7 +765,7 @@ let type1 = {
     11: true,
     12: true,
     13: true
-}
+} // type3:true,type5:true,type7:true,type23
 
 let type3Asterick = {
     0: true,
@@ -733,7 +776,7 @@ let type3Asterick = {
     8: true,
     12: true,
     13: true
-}
+} // type_5:true,type_7:true,type_23
 
 let newAr = [
     [],
@@ -818,3 +861,5 @@ function tokenize(string) {
     }
     return nodes
 }
+
+export default Mexp
