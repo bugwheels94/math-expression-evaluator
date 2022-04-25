@@ -1,10 +1,8 @@
-"use strict";
 class Mexp {
     constructor(parsed) {
         this.value = parsed;
     }
     formulaEval() {
-        "use strict";
         let pop1, pop2, pop3;
         let disp = [];
         let arr = this.value;
@@ -48,7 +46,6 @@ class Mexp {
         return disp[0].value;
     }
     postfixEval(UserDefined) {
-        'use strict';
         UserDefined = UserDefined || {};
         UserDefined.PI = Math.PI;
         UserDefined.E = Math.E;
@@ -125,7 +122,6 @@ class Mexp {
         return stack[0].value > 1000000000000000 ? "Infinity" : parseFloat(stack[0].value.toFixed(15));
     }
     toPostfix() {
-        'use strict';
         let post = [], elem, popped, prep, pre, ele;
         let stack = [{ value: "(", type: 4, pre: 0 }];
         let arr = this.value;
@@ -210,7 +206,6 @@ class Mexp {
         }
     }
     static lex(inp, tokens) {
-        'use strict';
         let changeSignObj = {
             value: mexpMath.changeSign,
             type: 0,
@@ -457,6 +452,7 @@ class Mexp {
         return new Mexp(str);
     }
     static eval(str, tokens, obj) {
+        if (str === "e") return str;
         if (typeof tokens === "undefined") return this.lex(str).toPostfix().postfixEval();
         if (typeof obj === "undefined") {
             if (typeof tokens.length !== "undefined") return this.lex(str, tokens).toPostfix().postfixEval();
