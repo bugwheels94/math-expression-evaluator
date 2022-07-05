@@ -386,4 +386,17 @@ describe('Ading Token', function () {
 		])
 		assert.equal(Mexp.eval('maxof5(7, 12, 23, 33, 2)'), 33)
 	})
+	it('token with absolute', function () {
+		Mexp.addToken([
+			{
+				type: 0,
+				token: 'positive',
+				show: 'positive',
+				value: function (a) {
+					return Math.abs(a)
+				},
+			},
+		])
+		assert.equal(Mexp.eval('root(positive(2-6))'), 2)
+	})
 })
