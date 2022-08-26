@@ -114,6 +114,15 @@ describe('Testing Unit', function () {
 	it('check eval method with single argument', function () {
 		assert.equal(Mexp.eval('5*3'), '15')
 	})
+	it('handles simple division', function () {
+		assert.equal(Mexp.eval('55/(.01)'), '5500')
+	})
+	it('handles brackets and division', function () {
+		assert.equal(Mexp.eval('55/(.07-.06)'), '5500')
+	})
+	it('handles brackets and division', function () {
+		assert.equal(Mexp.eval('55/(.07-.03)'), '1375')
+	})
 	it('check eval method with three argument', function () {
 		assert.equal(
 			Mexp.eval('mexp*3', [{ type: 3, show: 'mexp', token: 'mexp', value: 'mexp', preced: 0 }], {
