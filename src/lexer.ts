@@ -1,82 +1,16 @@
 'use strict'
-var Mexp = require('./math_function.js')
-function inc(arr, val) {
+
+import { tokenTypes, Token, ParsedToken, preced } from './token'
+import Mexp from './index'
+function inc(arr: number[], val: number) {
 	for (var i = 0; i < arr.length; i++) {
 		arr[i] += val
 	}
 	return arr
 }
-var tokens = [
-	{ token: 'sin', show: 'sin', type: 0, value: Mexp.math.sin },
-	{ token: 'cos', show: 'cos', type: 0, value: Mexp.math.cos },
-	{ token: 'tan', show: 'tan', type: 0, value: Mexp.math.tan },
-	{ token: 'pi', show: '&pi;', type: 3, value: 'PI' },
-	{ token: '(', show: '(', type: 4, value: '(' },
-	{ token: ')', show: ')', type: 5, value: ')' },
-	{ token: 'P', show: 'P', type: 10, value: Mexp.math.P },
-	{ token: 'C', show: 'C', type: 10, value: Mexp.math.C },
-	{ token: ' ', show: ' ', type: 14, value: ' '.anchor },
-	{ token: 'asin', show: 'asin', type: 0, value: Mexp.math.asin },
-	{ token: 'acos', show: 'acos', type: 0, value: Mexp.math.acos },
-	{ token: 'atan', show: 'atan', type: 0, value: Mexp.math.atan },
-	{ token: '7', show: '7', type: 1, value: '7' },
-	{ token: '8', show: '8', type: 1, value: '8' },
-	{ token: '9', show: '9', type: 1, value: '9' },
-	{ token: 'int', show: 'Int', type: 0, value: Math.floor },
-	{ token: 'cosh', show: 'cosh', type: 0, value: Mexp.math.cosh },
-	{ token: 'acosh', show: 'acosh', type: 0, value: Mexp.math.acosh },
-	{ token: 'ln', show: ' ln', type: 0, value: Math.log },
-	{ token: '^', show: '^', type: 10, value: Math.pow },
-	{ token: 'root', show: 'root', type: 0, value: Math.sqrt },
-	{ token: '4', show: '4', type: 1, value: '4' },
-	{ token: '5', show: '5', type: 1, value: '5' },
-	{ token: '6', show: '6', type: 1, value: '6' },
-	{ token: '/', show: '&divide;', type: 2, value: Mexp.math.div },
-	{ token: '!', show: '!', type: 7, value: Mexp.math.fact },
-	{ token: 'tanh', show: 'tanh', type: 0, value: Mexp.math.tanh },
-	{ token: 'atanh', show: 'atanh', type: 0, value: Mexp.math.atanh },
-	{ token: 'Mod', show: ' Mod ', type: 2, value: Mexp.math.mod },
-	{ token: '1', show: '1', type: 1, value: '1' },
-	{ token: '2', show: '2', type: 1, value: '2' },
-	{ token: '3', show: '3', type: 1, value: '3' },
-	{ token: '*', show: '&times;', type: 2, value: Mexp.math.mul },
-	{ token: 'sinh', show: 'sinh', type: 0, value: Mexp.math.sinh },
-	{ token: 'asinh', show: 'asinh', type: 0, value: Mexp.math.asinh },
-	{ token: 'e', show: 'e', type: 3, value: 'E' },
-	{ token: 'log', show: ' log', type: 0, value: Mexp.math.log },
-	{ token: '0', show: '0', type: 1, value: '0' },
-	{ token: '.', show: '.', type: 6, value: '.' },
-	{ token: '+', show: '+', type: 9, value: Mexp.math.add },
-	{ token: '-', show: '-', type: 9, value: Mexp.math.sub },
-	{ token: ',', show: ',', type: 11, value: ',' },
-	{ token: 'Sigma', show: '&Sigma;', type: 12, value: Mexp.math.sigma },
-	{ token: 'n', show: 'n', type: 13, value: 'n' },
-	{ token: 'Pi', show: '&Pi;', type: 12, value: Mexp.math.Pi },
-	{ token: 'pow', show: 'pow', type: 8, value: Math.pow, numberOfArguments: 2 },
-	{ token: '&', show: '&', type: 9, value: Mexp.math.and },
-]
-var preced = {
-	0: 11,
-	1: 0,
-	2: 3,
-	3: 0,
-	4: 0,
-	5: 0,
-	6: 0,
-	7: 11,
-	8: 11,
-	9: 1,
-	10: 10,
-	11: 0,
-	12: 11,
-	13: 0,
-	14: -1,
-	15: 11, // will be filtered after lexer
-} // stores precedence by types
-for (var i = 0; i < tokens.length; i++) {
-	tokens[i].precedence = preced[tokens[i].type]
-}
-var type0 = {
+
+type Allowed = { [key in tokenTypes]?: true }
+var type0: Allowed = {
 	0: true,
 	1: true,
 	3: true,
@@ -87,9 +21,8 @@ var type0 = {
 	12: true,
 	13: true,
 	14: true,
-	15: true,
 } // type2:true,type4:true,type9:true,type11:true,type21:true,type22
-var type1 = {
+var type1: Allowed = {
 	0: true,
 	1: true,
 	2: true,
@@ -104,19 +37,17 @@ var type1 = {
 	11: true,
 	12: true,
 	13: true,
-	15: true,
 } // type3:true,type5:true,type7:true,type23
-var type1Asterick = {
+var type1Asterick: Allowed = {
 	0: true,
 	3: true,
 	4: true,
 	8: true,
 	12: true,
 	13: true,
-	15: true,
 }
-var empty = {}
-var type3Asterick = {
+var empty: Allowed = {}
+var type3Asterick: Allowed = {
 	0: true,
 	1: true,
 	3: true,
@@ -125,9 +56,8 @@ var type3Asterick = {
 	8: true,
 	12: true,
 	13: true,
-	15: true,
 } // type_5:true,type_7:true,type_23
-var type6 = {
+var type6: Allowed = {
 	1: true,
 }
 var newAr = [
@@ -166,30 +96,13 @@ var newAr = [
 	['acosh', 'atanh', 'asinh', 'Sigma'],
 ]
 
-function match(str1, str2, i, x) {
+function match(str1: string, str2: string, i: number, x: number) {
 	for (var f = 0; f < x; f++) {
 		if (str1[i + f] !== str2[f]) {
 			return false
 		}
 	}
 	return true
-}
-Mexp.tokenTypes = {
-	FUNCTION_WITH_ONE_ARG: 0,
-	NUMBER: 1,
-	BINARY_OPERATOR_HIGH_PRECENDENCE: 2,
-	CONSTANT: 3,
-	OPENING_PARENTHESIS: 4,
-	CLOSING_PARENTHESIS: 5,
-	DECIMAL: 6,
-	POSTFIX_FUNCTION_WITH_ONE_ARG: 7,
-	FUNCTION_WITH_N_ARGS: 8,
-	BINARY_OPERATOR_LOW_PRECENDENCE: 9,
-	BINARY_OPERATOR_PERMUTATION: 10,
-	COMMA: 11,
-	EVALUATED_FUNCTION: 12,
-	EVALUATED_FUNCTION_PARAMETER: 13,
-	SPACE: 14,
 }
 /**
   
@@ -208,11 +121,12 @@ Mexp.tokenTypes = {
   12: function with , seperated three parameters and third parameter is a string that will be mexp string
   13: variable of Sigma function
  */
-Mexp.addToken = function (newTokens) {
+
+export function addToken(this: Mexp, newTokens: Token[]) {
 	for (var i = 0; i < newTokens.length; i++) {
 		var x = newTokens[i].token.length
 		var temp = -1
-		if (newTokens[i].type === Mexp.tokenTypes.FUNCTION_WITH_N_ARGS && newTokens[i].numberOfArguments === undefined) {
+		if (newTokens[i].type === tokenTypes.FUNCTION_WITH_N_ARGS && newTokens[i].numberOfArguments === undefined) {
 			newTokens[i].numberOfArguments = 2
 		}
 
@@ -220,12 +134,12 @@ Mexp.addToken = function (newTokens) {
 		newAr[x] = newAr[x] || []
 		for (var y = 0; y < newAr[x].length; y++) {
 			if (newTokens[i].token === newAr[x][y]) {
-				temp = indexOfToken(newAr[x][y], tokens)
+				temp = indexOfToken(newAr[x][y], this.tokens)
 				break
 			}
 		}
 		if (temp === -1) {
-			tokens.push(newTokens[i])
+			this.tokens.push(newTokens[i])
 			newTokens[i].precedence = preced[newTokens[i].type]
 			if (newAr.length <= newTokens[i].token.length) {
 				newAr[newTokens[i].token.length] = []
@@ -233,19 +147,18 @@ Mexp.addToken = function (newTokens) {
 			newAr[newTokens[i].token.length].push(newTokens[i].token)
 		} else {
 			// overwrite
-			tokens[temp] = newTokens[i]
+			this.tokens[temp] = newTokens[i]
 			newTokens[i].precedence = preced[newTokens[i].type]
 		}
 	}
 }
-
-function indexOfToken(key, tokens) {
+function indexOfToken(key: string, tokens: Token[]) {
 	for (var search = 0; search < tokens.length; search++) {
 		if (tokens[search].token === key) return search
 	}
 	return -1
 }
-function tokenize(string) {
+function tokenize(mexp: Mexp, string: string) {
 	var nodes = []
 	var length = string.length
 	var key, x, y
@@ -266,33 +179,32 @@ function tokenize(string) {
 		}
 		i += key.length - 1
 		if (key === '') {
-			throw new Mexp.Exception("Can't understand after " + string.slice(i))
+			throw new Error("Can't understand after " + string.slice(i))
 		}
-		nodes.push(tokens[indexOfToken(key, tokens)])
+		nodes.push(mexp.tokens[indexOfToken(key, mexp.tokens)])
 	}
 	return nodes
 }
-
-var changeSignObj = {
-	value: Mexp.math.changeSign,
-	type: 0,
-	pre: 21,
-	show: '-',
-}
-var closingParObj = {
-	value: ')',
-	show: ')',
-	type: 5,
-	pre: 0,
-}
-var openingParObj = {
-	value: '(',
-	type: 4,
-	pre: 0,
-	show: '(',
-}
-Mexp.lex = function (inp, tokens) {
+export const lex = function (this: Mexp, inp: string, tokens: Token[]) {
 	'use strict'
+	var changeSignObj: ParsedToken = {
+		value: this.math.changeSign,
+		type: 0,
+		precedence: 21,
+		show: '-',
+	}
+	var closingParObj: ParsedToken = {
+		value: ')',
+		show: ')',
+		type: 5,
+		precedence: 0,
+	}
+	var openingParObj: ParsedToken = {
+		value: '(',
+		type: 4,
+		precedence: 0,
+		show: '(',
+	}
 
 	var str = [openingParObj]
 
@@ -304,10 +216,9 @@ Mexp.lex = function (inp, tokens) {
 	var prevKey = ''
 	var i
 	if (typeof tokens !== 'undefined') {
-		Mexp.addToken(tokens)
+		this.addToken(tokens)
 	}
-	var obj = {}
-	var nodes = tokenize(inpStr)
+	var nodes = tokenize(this, inpStr)
 	for (i = 0; i < nodes.length; i++) {
 		var node = nodes[i]
 		if (node.type === 14) {
@@ -317,7 +228,7 @@ Mexp.lex = function (inp, tokens) {
 				nodes[i + 1].type === 1 &&
 				(nodes[i - 1].type === 1 || nodes[i - 1].type === 6)
 			) {
-				throw new Mexp.Exception('Unexpected Space')
+				throw new Error('Unexpected Space')
 			}
 			continue
 		}
@@ -333,7 +244,7 @@ Mexp.lex = function (inp, tokens) {
 			if (ptc[j] === 0) {
 				if ([0, 2, 3, 4, 5, 9, 11, 12, 13].indexOf(cType) !== -1) {
 					if (allowed[cType] !== true) {
-						throw new Mexp.Exception(cToken + ' is not allowed after ' + prevKey)
+						throw new Error(cToken + ' is not allowed after ' + prevKey)
 					}
 					str.push(closingParObj)
 					allowed = type1
@@ -343,19 +254,19 @@ Mexp.lex = function (inp, tokens) {
 			} else break
 		}
 		if (allowed[cType] !== true) {
-			throw new Mexp.Exception(cToken + ' is not allowed after ' + prevKey)
+			throw new Error(cToken + ' is not allowed after ' + prevKey)
 		}
 		if (asterick[cType] === true) {
 			cType = 2
-			cEv = Mexp.math.mul
+			cEv = this.math.mul
 			cShow = '&times;'
 			cPre = 3
 			i = i - 1
 		}
-		obj = {
+		const obj = {
 			value: cEv,
 			type: cType,
-			pre: cPre,
+			precedence: cPre,
 			show: cShow,
 			numberOfArguments: node.numberOfArguments,
 		}
@@ -396,7 +307,7 @@ Mexp.lex = function (inp, tokens) {
 			str.push(obj)
 		} else if (cType === 5) {
 			if (!bracToClose) {
-				throw new Mexp.Exception('Closing parenthesis are more than opening one, wait What!!!')
+				throw new Error('Closing parenthesis are more than opening one, wait What!!!')
 			}
 			bracToClose--
 			allowed = type1
@@ -405,13 +316,14 @@ Mexp.lex = function (inp, tokens) {
 			inc(ptc, 1)
 		} else if (cType === 6) {
 			if (pre.hasDec) {
-				throw new Mexp.Exception('Two decimals are not allowed in one number')
+				throw new Error('Two decimals are not allowed in one number')
 			}
 			if (pre.type !== 1) {
 				pre = {
+					show: '0',
 					value: 0,
 					type: 1,
-					pre: 0,
+					precedence: 0,
 				} // pre needs to be changed as it will the last value now to be safe in later code
 				str.push(pre)
 				// inc(ptc, 1)
@@ -430,21 +342,22 @@ Mexp.lex = function (inp, tokens) {
 		if (cType === 8) {
 			allowed = type0
 			asterick = empty
+			// @ts-ignore
 			inc(ptc, node.numberOfArguments + 2)
 			str.push(obj)
-			// str.push(openingParObj)
 			if (nodes[i + 1].type !== 4) {
 				str.push(openingParObj)
+				// @ts-ignore
 				ptc.push(node.numberOfArguments + 2)
 			}
 		} else if (cType === 9) {
 			if (pre.type === 9) {
-				if (pre.value === Mexp.math.add) {
+				if (pre.value === this.math.add) {
 					pre.value = cEv
 					pre.show = cShow
 					inc(ptc, 1)
-				} else if (pre.value === Mexp.math.sub && cShow === '-') {
-					pre.value = Mexp.math.add
+				} else if (pre.value === this.math.sub && cShow === '-') {
+					pre.value = this.math.add
 					pre.show = '+'
 					inc(ptc, 1)
 				}
@@ -497,7 +410,7 @@ Mexp.lex = function (inp, tokens) {
 		str.push(closingParObj)
 	}
 	if (allowed[5] !== true) {
-		throw new Mexp.Exception('complete the expression')
+		throw new Error('complete the expression')
 	}
 	while (bracToClose--) {
 		str.push(closingParObj)
@@ -505,6 +418,5 @@ Mexp.lex = function (inp, tokens) {
 
 	str.push(closingParObj)
 	//        console.log(str);
-	return new Mexp(str)
+	return str
 }
-module.exports = Mexp

@@ -1,5 +1,5 @@
 # math-expression-evaluator
-An extremely efficient, flexible and amazing evaluator for Math expression in Javascript.([Documentation](http://bugwheels94.github.io/math-expression-evaluator/))
+An extremely efficient, flexible and amazing evaluator for Math expression in Javascript.
 
 ## Use cases
 |Input|Result|Explanation|
@@ -27,7 +27,58 @@ An extremely efficient, flexible and amazing evaluator for Math expression in Ja
 
     bower install math-expression-evaluator
 
-### How to run test
+## Usage
+
+### Using eval method of mexp object
+
+const mexp = new Mexp()
+var value = mexp.eval(exp);  // 2 + 2
+
+### Using constituents of eval methods of mexp object
+
+1. Create mexp object
+
+        const mexp = new Mexp
+   
+2. Parse an expression and then add additional detail to the tokens using
+
+        var lexed = mexp.lex("expression");
+    which returns an array of token which will be further processed by methods toPostfix and postfixEval
+
+3. Now, that array is needed to be converted to postfix notation using
+
+        var postfixed = mexp.toPostfix(lexed);  
+    which converts the array to postfix notation and return new array
+
+4. Now to get the value of expression use postfixEval
+
+        var result = mexp.postfixEval(postfixed);  
+    where result contains the result.
+
+
+### Extending tokens
+
+1. Defining a token
+
+    A token is defined similar way as 1.x version. You may refer to test file on examples on how to add tokens. Since this package is TS compatible, you will get autocomplete on `mexp.addToken`
+
+
+2. Adding tokens using addToken method of mexp object
+
+        const mexp = new Mexp()
+        mexp.addToken([token1, token2]) // tokens once added will be preserved in later evaluations
+
+3. Adding tokens using eval method of mexp object
+
+        const mexp = new Mexp()
+        mexp.eval("expression", [token1, token2]) // tokens once added will be preserved in later evaluations
+
+4. Adding token using constituents of eval method of mexp object
+
+        const mexp = new Mexp()
+        const answer = mexp.postfixEval(mexp.toPostfix(mexp.lexed("expression", [token1, token2]))) // tokens once added will be preserved in later evaluations
+        console.log(answer)
+## How to run test
 
     npm test
 
