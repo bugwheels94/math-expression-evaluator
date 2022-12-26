@@ -19,8 +19,8 @@ jobs:
           cache: npm
           node-version: 16
       - run: npm ci
-      - run: npm test
       - run: npm run build
+      - run: npm test
       - run: zip -r dist.zip dist
       - run: npx semantic-release
         env:
