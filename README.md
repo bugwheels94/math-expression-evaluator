@@ -60,7 +60,7 @@ var value = mexp.eval(exp);  // 2 + 2
 
 1. Defining a token
 
-    A token is defined similar way as 1.x version. You may refer to test file on examples on how to add tokens. Since this package is TS compatible, you will get autocomplete on `mexp.addToken`
+    A token is defined similar way as [1.x version](http://bugwheels94.github.io/math-expression-evaluator/). You may refer to test file on examples on how to add tokens. Since this package is TS compatible, you will get autocomplete on `mexp.addToken`
 
 
 2. Adding tokens using addToken method of mexp object
