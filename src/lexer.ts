@@ -242,7 +242,7 @@ export const lex = function (this: Mexp, inp: string, tokens: Token[]) {
 		for (j = ptc.length; j--; ) {
 			// loop over ptc
 			if (ptc[j] === 0) {
-				if ([0, 2, 3, 4, 5, 9, 11, 12, 13].indexOf(cType) !== -1) {
+				if ([0, 2, 3, 4, 5, 9, 10, 11, 12, 13].indexOf(cType) !== -1) {
 					if (allowed[cType] !== true) {
 						throw new Error(cToken + ' is not allowed after ' + prevKey)
 					}

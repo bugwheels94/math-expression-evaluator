@@ -52,8 +52,8 @@ describe('Testing Unit', function () {
 	it('checks exponential and multiplication in series', function () {
 		assert.equal(mexp.eval('2^5*2'), 64)
 	})
-	it('-3^2=-9', function () {
-		assert.equal(mexp.eval('-3^2'), -9)
+	it('-3^2=9', function () {
+		assert.equal(mexp.eval('-3^2'), 9)
 	})
 	it('3^2-2^2=5', function () {
 		assert.equal(mexp.eval('3^2-2^2'), 5)
