@@ -53,7 +53,7 @@ describe('Testing Unit', function () {
 		assert.equal(mexp.eval('2^5*2'), 64)
 	})
 	it('-3^2=9', function () {
-		assert.equal(mexp.eval('-3^2'), 9)
+		assert.equal(mexp.eval('-3^2'), -9)
 	})
 	it('3^2-2^2=5', function () {
 		assert.equal(mexp.eval('3^2-2^2'), 5)
