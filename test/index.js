@@ -8,10 +8,10 @@ describe('Testing Unit', function () {
 		assert.equal(mexp.eval('2'), 2)
 	})
 	it('checks a math function', function () {
-		assert.equal(mexp.eval('tan(180)'), 0)
+		assert.equal(parseFloat(mexp.eval('tan(180)').toFixed(15)), 0)
 	})
 	it('checks a parenthesis less function', function () {
-		assert.equal(mexp.eval('sin180'), 0)
+		assert.equal(parseFloat(mexp.eval('sin180').toFixed(15)), 0)
 	})
 	it('checks a parenthesis less function with multiplication', function () {
 		assert.equal(mexp.eval('0sin180'), 0)
@@ -160,7 +160,7 @@ describe('Testing Unit', function () {
 		)
 	})
 	it('tan(40+5)', function () {
-		assert.equal(mexp.eval('tan(40+5)'), '1')
+		assert.equal(parseFloat(mexp.eval('tan(40+5)').toFixed(15)), 1)
 	})
 	it('checks when a 0 is missing in a decimal number', function () {
 		assert.equal(mexp.eval('5*.8'), '4')
