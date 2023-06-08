@@ -179,6 +179,12 @@ describe('Testing Unit', function () {
 	it('checks + precedence before number insise parenthesis ', function () {
 		assert.equal(mexp.eval('(-2)'), '-2')
 	})
+	it('dividing by negative number ', function () {
+		assert.equal(mexp.eval('2/-2'), '-1')
+	})
+	it('multiplying by negative number ', function () {
+		assert.equal(mexp.eval('2*-2'), '-4')
+	})
 	it('checks multiple allowable operator', function () {
 		assert.equal(mexp.eval('2+++-++-+-+3'), '-1')
 		assert.equal(mexp.eval('2*+3'), '6')
