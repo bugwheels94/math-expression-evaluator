@@ -190,7 +190,7 @@ export const lex = function (this: Mexp, inp: string, tokens: Token[]) {
 	var changeSignObj: ParsedToken = {
 		value: this.math.changeSign,
 		type: 0,
-		precedence: 1,
+		precedence: 4,
 		show: '-',
 	}
 	var closingParObj: ParsedToken = {
