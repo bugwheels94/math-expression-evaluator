@@ -189,6 +189,12 @@ describe('Testing Unit', function () {
 		assert.equal(mexp.eval('2+++-++-+-+3'), '-1')
 		assert.equal(mexp.eval('2*+3'), '6')
 	})
+	it("checks sign after function", function() {
+		assert.equal(mexp.eval('cos-0-cos0'), '0')
+
+		
+
+	})
 })
 describe('These expression will check for types of returned result', function () {
 	it('should tell to compllete expression', function () {
