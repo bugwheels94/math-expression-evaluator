@@ -195,7 +195,7 @@ function tokenize(mexp: Mexp, string: string) {
   }
   return nodes;
 }
-export const lex = function (this: Mexp, inp: string, tokens: Token[]) {
+export const lex = function (this: Mexp, inp: string, tokens?: Token[]) {
   "use strict";
   var changeSignObj: ParsedToken = {
     value: this.math.changeSign,

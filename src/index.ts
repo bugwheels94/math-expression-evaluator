@@ -7,7 +7,6 @@ import { createMathFunctions } from './functions'
 // var Mexp = function (parsed) {
 //   this.value = parsed
 // }
-
 class Mexp {
 	static TOKEN_TYPES = tokenTypes
 	static tokenTypes = tokenTypes
@@ -16,7 +15,7 @@ class Mexp {
 	addToken = addToken
 	lex = lex
 	postfixEval = postfixEval
-	eval(string: string, tokens: Token[], Constants: Constants) {
+	eval(string: string, tokens?: Token[], Constants?: Constants) {
 		return this.postfixEval(this.toPostfix(this.lex(string, tokens)), Constants)
 	}
 	math!: ReturnType<typeof createMathFunctions>
