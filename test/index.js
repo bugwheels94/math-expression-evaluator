@@ -64,6 +64,14 @@ describe('Testing Unit', function () {
 		)
 	})
 
+	it('checks x as multiplication token', function () {
+		assert.equal(mexp.eval('3x5'), 15)
+	})
+
+	it('checks x as multiplication token even if in between other operators', function () {
+		assert.equal(mexp.eval('Sigma1,2,(nxn)'), 5)
+	})
+
 	// it('formula test', function () {
 	// 	assert.equal(mexp.eval('2').toPostfix().formulaEval(), 2)
 	// })
@@ -189,20 +197,17 @@ describe('Testing Unit', function () {
 		assert.equal(mexp.eval('2+++-++-+-+3'), '-1')
 		assert.equal(mexp.eval('2*+3'), '6')
 	})
-	it("checks sign after function", function() {
+	it("checks sign after function", function () {
 		assert.equal(mexp.eval('cos-0-cos0'), '0')
-
-		
-
 	})
 })
 describe('These expression will check for types of returned result', function () {
-	it('should tell to compllete expression', function () {
+	it('should tell to complete expression', function () {
 		assert.equal(typeof mexp.eval('0'), 'number')
 	})
 })
 describe('These expression will raise error', function () {
-	it('should tell to compllete expression', function () {
+	it('should tell to complete expression', function () {
 		try {
 			mexp.eval('2*')
 			assert.equal(1, 2)
@@ -260,12 +265,12 @@ describe('These expression will raise error', function () {
 	})
 })
 describe('Check autoclose of parenthesis of parser', function () {
-	it('should tell to compllete expression', function () {
+	it('should tell to complete expression', function () {
 		assert.equal(mexp.eval('((2+3*4'), '14')
 	})
 })
 describe('Ading Token', function () {
-	it('should tell to compllete expression', function () {
+	it('should tell to complete expression', function () {
 		assert.equal(
 			mexp.eval('27nroot3', [
 				{
