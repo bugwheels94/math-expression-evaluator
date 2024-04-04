@@ -412,6 +412,15 @@ describe('Ading Token', function () {
 			33
 		)
 	})
+	it ('should test simple X token', function () {
+		mexp.addToken([{
+			type: 2,
+			token: "X",
+			show: "X",
+			value: mexp.math.mul,
+		}])
+		assert.equal(mexp.eval("2X3"), 6)		
+	})
 	it('token with absolute', function () {
 		assert.equal(
 			mexp.eval('root(positive(2-6))', [
