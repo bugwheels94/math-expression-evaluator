@@ -296,7 +296,7 @@ export const lex = function (this: Mexp, inp: string, tokens?: Token[]) {
     if (cType === tokenTypes.FUNCTION_WITH_ONE_ARG) {
       allowed = type0;
       asterick = empty;
-      inc(ptc, 2);
+      inc(ptc, 1);
       str.push(obj);
       if (nodes[i + 1].type !== tokenTypes.OPENING_PARENTHESIS) {
         str.push(openingParObj);
