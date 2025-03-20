@@ -1,3 +1,7 @@
+📬 **Available for contract or other opportunities(full time):**  
+[📧 Email Me](mailto:bugwheels94@gmail.com)
+
+
 # math-expression-evaluator
 An extremely efficient, flexible and amazing evaluator for Math expression in Javascript.
 
