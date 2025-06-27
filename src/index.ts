@@ -3,7 +3,7 @@ import { tokenTypes, Token, createTokens } from './token'
 import { toPostfix } from './postfix'
 import { postfixEval, Constants } from './postfix_evaluator'
 import { createMathFunctions } from './functions'
-;('use strict')
+'use strict'
 // var Mexp = function (parsed) {
 //   this.value = parsed
 // }
