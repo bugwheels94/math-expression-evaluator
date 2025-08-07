@@ -94,5 +94,5 @@ export function postfixEval(arr: ReturnType<typeof toPostfix>, Constants?: Const
 		throw new Error('Uncaught Syntax error')
 	}
 	// @ts-ignore
-	return parseFloat(stack[0].value.toFixed(15))
+	return stack[0].value
 }
