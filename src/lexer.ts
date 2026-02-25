@@ -59,6 +59,7 @@ var type3Asterick: Allowed = {
 }; // type_5:true,type_7:true,type_23
 var type6: Allowed = {
   1: true,
+  3: true,
 };
 var newAr = [
   [],
@@ -83,6 +84,7 @@ var newAr = [
     "P",
     "C",
     "e",
+    "E",
     "0",
     ".",
     ",",
@@ -278,6 +280,33 @@ export const lex = function (this: Mexp, inp: string, tokens?: Token[]) {
     }
     if (allowed[cType] !== true) {
       throw new Error(cToken + " is not allowed after " + prevKey);
+    }
+    if (
+      (cToken === "e" || cToken === "E") &&
+      pre.type === tokenTypes.NUMBER &&
+      i < nodes.length - 1
+    ) {
+      var next = nodes[i + 1];
+      var isScientific = false;
+      if (next.type === tokenTypes.NUMBER) {
+        isScientific = true;
+      } else if (
+        (next.token === "+" || next.token === "-") &&
+        i < nodes.length - 2 &&
+        nodes[i + 2].type === tokenTypes.NUMBER
+      ) {
+        isScientific = true;
+      }
+      if (isScientific) {
+        pre.value += "e";
+        if (next.type !== tokenTypes.NUMBER) {
+          pre.value += next.token;
+          i++;
+        }
+        allowed = type6;
+        asterick = empty;
+        continue;
+      }
     }
     if (asterick[cType] === true) {
       cType = tokenTypes.BINARY_OPERATOR_HIGH_PRECENDENCE;

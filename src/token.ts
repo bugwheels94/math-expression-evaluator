@@ -67,6 +67,7 @@ export const createTokens = (mexp: Mexp) => {
 		{ token: 'sinh', show: 'sinh', type: 0, value: mexp.math.sinh },
 		{ token: 'asinh', show: 'asinh', type: 0, value: mexp.math.asinh },
 		{ token: 'e', show: 'e', type: 3, value: 'E' },
+		{ token: 'E', show: 'E', type: 3, value: 'E' },
 		{ token: 'log', show: ' log', type: 0, value: mexp.math.log },
 		{ token: '0', show: '0', type: 1, value: '0' },
 		{ token: '.', show: '.', type: 6, value: '.' },
